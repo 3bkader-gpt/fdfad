@@ -226,7 +226,7 @@ export function ProductForm({ initialData }: { initialData?: any }) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold uppercase tracking-[0.3em] text-white shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50 md:col-span-2"
+          className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold tracking-[0.3em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50 md:col-span-2"
         >
           {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Commit to Collection'}
         </button>
