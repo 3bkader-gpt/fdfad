@@ -12,17 +12,17 @@ export async function createOrder(orderData: {
   total_amount: number;
   items: { product_id: string; quantity: number; price_at_purchase: number }[];
 }) {
-  const supabase = (await createClient()) as any;
+  const supabase = await createClient();
 
   // 1. Insert Order
-  const { data: order, error: orderError } = await supabase
+  const { data: order, error: orderError } = await (supabase as any)
     .from('orders')
     .insert({
       customer_name: orderData.customer_name,
       phone_number: orderData.phone_number,
       governorate: orderData.governorate,
       address: orderData.address,
-      notes: orderData.notes,
+      notes: orderData.notes || null,
       total_amount: orderData.total_amount,
     })
     .select()
@@ -40,12 +40,12 @@ export async function createOrder(orderData: {
     price_at_purchase: item.price_at_purchase,
   }));
 
-  const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
+  const { error: itemsError } = await (supabase as any).from('order_items').insert(orderItems);
 
   if (itemsError) {
     return { success: false, error: 'Order created but items failed to save.' };
   }
 
-  revalidatePath('/admin'); 
+  revalidatePath('/admin');
   return { success: true, orderNo: order.order_no };
 }
