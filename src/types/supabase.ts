@@ -3,15 +3,71 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
-      [_ in string]: {
+      products: {
         Row: {
-          [_ in string]: Json | undefined;
+          id: string;
+          title: string;
+          slug: string;
+          description: string | null;
+          price: number;
+          opacity_scale: number;
+          fabric_type: string;
+          made_in_egypt: boolean;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
         };
         Insert: {
-          [_ in string]: Json | undefined;
+          id?: string;
+          title: string;
+          slug: string;
+          description?: string | null;
+          price: number;
+          opacity_scale: number;
+          fabric_type: string;
+          made_in_egypt?: boolean;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
         };
         Update: {
-          [_ in string]: Json | undefined;
+          id?: string;
+          title?: string;
+          slug?: string;
+          description?: string | null;
+          price?: number;
+          opacity_scale?: number;
+          fabric_type?: string;
+          made_in_egypt?: boolean;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      product_images: {
+        Row: {
+          id: string;
+          product_id: string;
+          url: string;
+          alt_text: string | null;
+          display_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          product_id: string;
+          url: string;
+          alt_text?: string | null;
+          display_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          product_id?: string;
+          url?: string;
+          alt_text?: string | null;
+          display_order?: number;
+          created_at?: string;
         };
       };
     };
@@ -35,3 +91,7 @@ export interface Database {
     };
   };
 }
+
+export type Product = Database['public']['Tables']['products']['Row'] & {
+  product_images: Database['public']['Tables']['product_images']['Row'][];
+};
