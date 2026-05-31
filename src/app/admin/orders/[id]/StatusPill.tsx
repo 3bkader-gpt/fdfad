@@ -32,7 +32,7 @@ export function StatusPill({ orderId, currentStatus }: { orderId: string; curren
   };
 
   return (
-    <div className="relative group inline-block">
+    <div className="group relative inline-block">
       <div
         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-inset ${
           STATUS_COLORS[status] || 'bg-gray-50 text-gray-600 ring-gray-500/10'
@@ -42,12 +42,12 @@ export function StatusPill({ orderId, currentStatus }: { orderId: string; curren
         <ChevronRight className="h-3 w-3 opacity-40 transition-transform group-hover:rotate-90" />
       </div>
 
-      <div className="absolute left-0 top-full z-[100] mt-1 hidden w-32 origin-top-left animate-in fade-in slide-in-from-top-1 rounded-xl bg-white p-1 shadow-2xl ring-1 ring-black/5 duration-200 group-hover:block">
+      <div className="animate-in fade-in slide-in-from-top-1 absolute top-full left-0 z-[100] mt-1 hidden w-32 origin-top-left rounded-xl bg-white p-1 shadow-2xl ring-1 ring-black/5 duration-200 group-hover:block">
         {STATUSES.map((s) => (
           <button
             key={s}
             onClick={() => handleUpdate(s)}
-            className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#FAFAFA] ${
+            className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-[10px] font-bold tracking-wider uppercase transition-colors hover:bg-[#FAFAFA] ${
               s === status ? 'text-[#C89B7E]' : 'text-[#2C3E35]/60'
             }`}
           >

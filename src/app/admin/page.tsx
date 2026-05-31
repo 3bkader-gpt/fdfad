@@ -32,7 +32,7 @@ export default async function AdminDashboard() {
     <div className="flex flex-col gap-10 text-left">
       <header>
         <h2 className="font-serif text-4xl font-bold tracking-tight text-[#2C3E35]">Overview</h2>
-        <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-[#2C3E35]/60">
+        <p className="mt-2 text-[10px] font-bold tracking-widest text-[#2C3E35]/60 uppercase">
           Your business at a glance
         </p>
       </header>
@@ -74,12 +74,12 @@ export default async function AdminDashboard() {
       {/* Orders Table */}
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-[0.2em] opacity-40">
+          <h3 className="text-xs font-bold tracking-[0.2em] uppercase opacity-40">
             Recent Curations
           </h3>
           <Link
             href="/admin/orders"
-            className="text-[10px] font-bold uppercase tracking-widest text-[#C89B7E] underline underline-offset-4"
+            className="text-[10px] font-bold tracking-widest text-[#C89B7E] uppercase underline underline-offset-4"
           >
             View All
           </Link>
@@ -87,21 +87,21 @@ export default async function AdminDashboard() {
 
         <div className="overflow-x-auto rounded-2xl border border-[#2C3E35]/5 bg-white shadow-sm">
           <table className="w-full text-left">
-            <thead className="bg-[#FAFAFA] border-b border-[#2C3E35]/5">
+            <thead className="border-b border-[#2C3E35]/5 bg-[#FAFAFA]">
               <tr>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40">
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Order
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40">
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Customer
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40">
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Location
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40">
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Total
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40 text-left">
+                <th className="px-6 py-4 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Status
                 </th>
               </tr>
@@ -160,7 +160,7 @@ function MetricCard({
   return (
     <div className="rounded-2xl border border-[#2C3E35]/5 bg-white p-5 shadow-sm">
       <div className={`mb-3 inline-flex rounded-lg p-2 ${color.split(' ')[0]}`}>{icon}</div>
-      <p className="text-[9px] font-bold uppercase tracking-widest opacity-40">{label}</p>
+      <p className="text-[9px] font-bold tracking-widest uppercase opacity-40">{label}</p>
       <p className="mt-1 text-2xl font-bold text-[#2C3E35]">{value}</p>
     </div>
   );

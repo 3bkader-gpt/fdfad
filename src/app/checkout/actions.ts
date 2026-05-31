@@ -14,25 +14,27 @@ export async function createOrder(orderData: {
 }) {
   const supabase = await createClient();
 
-  // 1. Insert Order
-  const { data: order, error: orderError } = await (supabase as any)
-    .from('orders')
-    .insert({
-      customer_name: orderData.customer_name,
-      phone_number: orderData.phone_number,
-      governorate: orderData.governorate,
-      address: orderData.address,
-      notes: orderData.notes || null,
-      total_amount: orderData.total_amount,
-    })
-    .select()
-    .single();
+  // 1. Insert Order via RPC
+  const { data: orderDataRes, error: orderError } = await (supabase as any).rpc(
+    'create_order_rpc',
+    {
+      p_customer_name: orderData.customer_name,
+      p_phone_number: orderData.phone_number,
+      p_governorate: orderData.governorate,
+      p_address: orderData.address,
+      p_notes: orderData.notes || null,
+      p_total_amount: orderData.total_amount,
+    },
+  );
 
-  if (orderError || !order) {
+  if (orderError || !orderDataRes) {
     return { success: false, error: orderError?.message || 'Failed to create order.' };
   }
 
+  const order = orderDataRes as { id: string; order_no: string };
+
   // 2. Insert Order Items
+
   const orderItems = orderData.items.map((item) => ({
     order_id: order.id,
     product_id: item.product_id,
