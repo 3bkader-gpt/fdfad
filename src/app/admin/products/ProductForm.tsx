@@ -7,7 +7,7 @@ import { upsertProduct } from './ProductActions';
 import { Loader2, ArrowLeft, Globe } from 'lucide-react';
 import { ImageUpload } from '@/components/ui/ImageUpload';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const productSchema = z.object({
   title: z.string().min(3, 'Title is required'),
@@ -26,8 +26,19 @@ const productSchema = z.object({
 
 type ProductFormValues = z.infer<typeof productSchema>;
 
+const slugify = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-');
+};
+
 export function ProductForm({ initialData }: { initialData?: any }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEditing = !!initialData;
 
   const {
     register,
@@ -51,10 +62,19 @@ export function ProductForm({ initialData }: { initialData?: any }) {
           is_active: 'true',
           opacity_scale: '5',
           image_url: '',
+          slug: '',
         },
   });
 
+  const title = watch('title');
   const imageUrl = watch('image_url');
+
+  // Auto-generate slug for new products
+  useEffect(() => {
+    if (!isEditing && title) {
+      setValue('slug', slugify(title), { shouldValidate: true });
+    }
+  }, [title, isEditing, setValue]);
 
   const onSubmit = async (values: ProductFormValues) => {
     setIsSubmitting(true);
@@ -112,19 +132,8 @@ export function ProductForm({ initialData }: { initialData?: any }) {
             )}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-              URL Slug
-            </label>
-            <input
-              {...register('slug')}
-              className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.slug ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
-              placeholder="silk-chiffon-khimar"
-            />
-            {errors.slug && (
-              <p className="text-[10px] font-medium text-red-500">{errors.slug.message}</p>
-            )}
-          </div>
+          {/* Hidden Slug Input (Maintained for DB/Schema compatibility) */}
+          <input type="hidden" {...register('slug')} />
         </div>
 
         {/* Pricing & Fabric */}
@@ -217,7 +226,7 @@ export function ProductForm({ initialData }: { initialData?: any }) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold tracking-[0.3em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50 md:col-span-2"
+          className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold uppercase tracking-[0.3em] text-white shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50 md:col-span-2"
         >
           {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Commit to Collection'}
         </button>
