@@ -39,7 +39,8 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
       } = supabase.storage.from('product-images').getPublicUrl(filePath);
 
       onChange(publicUrl);
-    } catch (error: any) {
+    } catch (e: unknown) {
+      const error = e as Error;
       alert('Upload failed: ' + error.message);
     } finally {
       setIsUpdating(false);
@@ -52,12 +53,12 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 text-left">
       <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
         Product Photography
       </label>
 
-      <div className="group relative flex aspect-[3/4] w-full max-w-[240px] flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-[#2C3E35]/10 bg-[#F5F5F5] transition-all hover:border-[#C89B7E]/30">
+      <div className="group relative flex aspect-[3/4] w-full max-w-[240px] flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-[#2C3E35]/10 bg-[#F5F5F5] text-left transition-all hover:border-[#C89B7E]/30">
         {value ? (
           <>
             <Image src={value} alt="Preview" fill className="object-cover" />
@@ -92,7 +93,7 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
                 <div className="rounded-full bg-white p-4 shadow-sm ring-1 ring-black/5">
                   <Camera className="h-6 w-6 text-[#2C3E35]/40" />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 text-center">
                   <span className="text-[10px] font-bold tracking-wider text-[#2C3E35] uppercase">
                     Tap to select
                   </span>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCart } from '@/lib/store';
+import { useCart, CartItem } from '@/lib/store';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -52,13 +52,17 @@ const GOVERNORATES = [
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mountedItems, setMountedItems] = useState<CartItem[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
+    // Sync localStorage cart state with React state after hydration
+    setMountedItems(items);
     setIsMounted(true);
-  }, []);
+  }, [items]);
 
   const {
     register,
@@ -80,7 +84,7 @@ export default function CheckoutPage() {
         address: values.address,
         notes: values.notes,
         total_amount: cartTotal,
-        items: items.map((item) => ({
+        items: mountedItems.map((item) => ({
           product_id: item.product.id,
           quantity: item.quantity,
           price_at_purchase: item.product.price,
@@ -94,8 +98,9 @@ export default function CheckoutPage() {
         alert(result.error);
         setIsSubmitting(false);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: unknown) {
+      const error = e as Error;
+      console.error(error.message);
       setIsSubmitting(false);
     }
   };
@@ -104,14 +109,14 @@ export default function CheckoutPage() {
     return <div className="min-h-screen bg-[#FAFAFA]" />;
   }
 
-  if (items.length === 0) {
+  if (mountedItems.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFA] p-6 text-center">
         <h2 className="font-serif text-2xl font-bold text-[#2C3E35]">Your bag is empty</h2>
         <p className="mt-2 text-sm opacity-60">Add some curated items before checking out.</p>
         <Link
           href="/"
-          className="mt-8 rounded-full bg-[#2C3E35] px-8 py-3 text-[10px] font-bold tracking-widest text-white uppercase transition-all hover:bg-[#1E2B25]"
+          className="mt-8 rounded-full bg-[#2C3E35] px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-white transition-all hover:bg-[#1E2B25]"
         >
           Back to Collection
         </Link>
@@ -132,42 +137,40 @@ export default function CheckoutPage() {
         <div className="w-9" />
       </nav>
 
-      <div className="mx-auto max-w-md px-6 pt-8">
-        <div className="mb-8 rounded-2xl bg-white p-6 text-left shadow-sm ring-1 ring-black/5">
-          <h2 className="mb-4 text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
+      <div className="mx-auto max-w-md px-6 pt-8 text-left">
+        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+          <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">
             Order Summary
           </h2>
           <div className="flex flex-col gap-3">
-            {items.map((item) => (
+            {mountedItems.map((item) => (
               <div key={item.product.id} className="flex justify-between text-sm">
-                <span className="truncate pr-4 opacity-70">
-                  {item.quantity}x {item.product.title}
-                </span>
+                <span className="truncate pr-4 opacity-70">{item.quantity}x {item.product.title}</span>
                 <span className="font-medium whitespace-nowrap">
                   {item.product.price * item.quantity} EGP
                 </span>
               </div>
             ))}
-            <div className="mt-2 flex items-center justify-between border-t border-[#2C3E35]/5 pt-4 text-left">
-              <span className="text-xs font-bold tracking-widest uppercase">Total to Pay</span>
+            <div className="mt-2 flex items-center justify-between border-t border-[#2C3E35]/5 pt-4">
+              <span className="text-xs font-bold uppercase tracking-widest">Total to Pay</span>
               <span className="text-xl font-bold text-[#2C3E35]">{cartTotal} EGP</span>
             </div>
             <div className="mt-4 flex items-center gap-2 text-[#4A7C59]">
               <ShieldCheck className="h-4 w-4" />
-              <span className="text-[10px] font-bold tracking-wider uppercase">
+              <span className="text-[10px] font-bold uppercase tracking-wider">
                 Cash on Delivery
               </span>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(handleCheckout)} className="flex flex-col gap-6 text-left">
-          <h2 className="text-left text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
+        <form onSubmit={handleSubmit(handleCheckout)} className="flex flex-col gap-6">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">
             Delivery Details
           </h2>
 
-          <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-widest opacity-60">
               Full Name
             </label>
             <input
@@ -176,12 +179,14 @@ export default function CheckoutPage() {
               placeholder="Arwa Mahmoud"
             />
             {errors.fullName && (
-              <p className="text-[10px] font-medium text-red-500">{errors.fullName.message}</p>
+              <p className="text-[10px] font-medium text-red-500">
+                {errors.fullName.message}
+              </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-widest opacity-60">
               Mobile Number
             </label>
             <input
@@ -190,12 +195,14 @@ export default function CheckoutPage() {
               placeholder="01xxxxxxxxx"
             />
             {errors.phone && (
-              <p className="text-[10px] font-medium text-red-500">{errors.phone.message}</p>
+              <p className="text-[10px] font-medium text-red-500">
+                {errors.phone.message}
+              </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-widest opacity-60">
               Governorate
             </label>
             <select
@@ -210,12 +217,14 @@ export default function CheckoutPage() {
               ))}
             </select>
             {errors.governorate && (
-              <p className="text-[10px] font-medium text-red-500">{errors.governorate.message}</p>
+              <p className="text-[10px] font-medium text-red-500">
+                {errors.governorate.message}
+              </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-widest opacity-60">
               Detailed Address
             </label>
             <textarea
@@ -225,17 +234,19 @@ export default function CheckoutPage() {
               placeholder="Building #, Street name, District..."
             />
             {errors.address && (
-              <p className="text-[10px] font-medium text-red-500">{errors.address.message}</p>
+              <p className="text-[10px] font-medium text-red-500">
+                {errors.address.message}
+              </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-widest opacity-60">
               Notes (Optional)
             </label>
             <input
               {...register('notes')}
-              className="rounded-xl bg-white px-4 py-3.5 text-left text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+              className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
               placeholder="Special delivery instructions..."
             />
           </div>
@@ -243,7 +254,7 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold tracking-[0.25em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50"
+            className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-white shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50"
           >
             {isSubmitting ? (
               <>

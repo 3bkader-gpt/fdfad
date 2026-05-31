@@ -3,8 +3,16 @@
 import { useState } from 'react';
 import { updateOrderStatus } from '../actions';
 import { Check, Loader2, ChevronRight } from 'lucide-react';
+import { Database } from '@/types/supabase';
 
-const STATUSES = ['NEW', 'CONFIRMED', 'PREPARING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
+const STATUSES: Database['public']['Tables']['orders']['Row']['status'][] = [
+  'NEW',
+  'CONFIRMED',
+  'PREPARING',
+  'SHIPPED',
+  'DELIVERED',
+  'CANCELLED',
+];
 
 const STATUS_COLORS: Record<string, string> = {
   NEW: 'bg-blue-50 text-blue-700 ring-blue-600/20',
@@ -15,11 +23,19 @@ const STATUS_COLORS: Record<string, string> = {
   CANCELLED: 'bg-red-50 text-red-700 ring-red-600/20',
 };
 
-export function StatusPill({ orderId, currentStatus }: { orderId: string; currentStatus: string }) {
+export function StatusPill({
+  orderId,
+  currentStatus,
+}: {
+  orderId: string;
+  currentStatus: Database['public']['Tables']['orders']['Row']['status'];
+}) {
   const [status, setStatus] = useState(currentStatus);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleUpdate = async (newStatus: string) => {
+  const handleUpdate = async (
+    newStatus: Database['public']['Tables']['orders']['Row']['status'],
+  ) => {
     if (newStatus === status) return;
     setIsUpdating(true);
     const result = await updateOrderStatus(orderId, newStatus);
@@ -42,7 +58,7 @@ export function StatusPill({ orderId, currentStatus }: { orderId: string; curren
         <ChevronRight className="h-3 w-3 opacity-40 transition-transform group-hover:rotate-90" />
       </div>
 
-      <div className="animate-in fade-in slide-in-from-top-1 absolute top-full left-0 z-[100] mt-1 hidden w-32 origin-top-left rounded-xl bg-white p-1 shadow-2xl ring-1 ring-black/5 duration-200 group-hover:block">
+      <div className="animate-in fade-in slide-in-from-top-1 absolute top-full left-0 z-[100] mt-1 hidden w-32 origin-top-left rounded-xl bg-white p-1 text-left shadow-2xl ring-1 ring-black/5 duration-200 group-hover:block">
         {STATUSES.map((s) => (
           <button
             key={s}

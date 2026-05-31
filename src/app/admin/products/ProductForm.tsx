@@ -8,6 +8,7 @@ import { Loader2, ArrowLeft, Globe } from 'lucide-react';
 import { ImageUpload } from '@/components/ui/ImageUpload';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { Product } from '@/types/supabase';
 
 const productSchema = z.object({
   title: z.string().min(3, 'Title is required'),
@@ -36,7 +37,7 @@ const slugify = (text: string) => {
     .replace(/--+/g, '-');
 };
 
-export function ProductForm({ initialData }: { initialData?: any }) {
+export function ProductForm({ initialData }: { initialData?: Product }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditing = !!initialData;
 
@@ -50,7 +51,10 @@ export function ProductForm({ initialData }: { initialData?: any }) {
     resolver: zodResolver(productSchema),
     defaultValues: initialData
       ? {
-          ...initialData,
+          title: initialData.title,
+          slug: initialData.slug,
+          description: initialData.description || '',
+          fabric_type: initialData.fabric_type,
           price: initialData.price.toString(),
           opacity_scale: initialData.opacity_scale.toString(),
           made_in_egypt: initialData.made_in_egypt.toString(),
@@ -63,6 +67,10 @@ export function ProductForm({ initialData }: { initialData?: any }) {
           opacity_scale: '5',
           image_url: '',
           slug: '',
+          title: '',
+          description: '',
+          fabric_type: '',
+          price: '0',
         },
   });
 
@@ -83,8 +91,9 @@ export function ProductForm({ initialData }: { initialData?: any }) {
 
     try {
       await upsertProduct(formData, initialData?.id);
-    } catch (e: any) {
-      alert(e.message);
+    } catch (e: unknown) {
+      const error = e as Error;
+      alert(error.message);
       setIsSubmitting(false);
     }
   };
@@ -103,23 +112,25 @@ export function ProductForm({ initialData }: { initialData?: any }) {
         </h2>
       </header>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 text-left md:grid-cols-2">
         {/* Photo Management (Native Upload) */}
-        <div className="md:col-span-2">
+        <div className="text-left md:col-span-2">
           <ImageUpload
             value={imageUrl}
             onChange={(url) => setValue('image_url', url, { shouldValidate: true })}
           />
           <input type="hidden" {...register('image_url')} />
           {errors.image_url && (
-            <p className="mt-2 text-[10px] font-medium text-red-500">{errors.image_url.message}</p>
+            <p className="mt-2 text-left text-[10px] font-medium text-red-500">
+              {errors.image_url.message}
+            </p>
           )}
         </div>
 
         {/* Core Info */}
-        <div className="flex flex-col gap-6 md:col-span-2">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <div className="flex flex-col gap-6 text-left md:col-span-2">
+          <div className="flex flex-col gap-1.5 text-left">
+            <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
               Display Title
             </label>
             <input
@@ -128,17 +139,18 @@ export function ProductForm({ initialData }: { initialData?: any }) {
               placeholder="e.g. Silk Chiffon Khimar"
             />
             {errors.title && (
-              <p className="text-[10px] font-medium text-red-500">{errors.title.message}</p>
+              <p className="text-left text-[10px] font-medium text-red-500">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
-          {/* Hidden Slug Input (Maintained for DB/Schema compatibility) */}
           <input type="hidden" {...register('slug')} />
         </div>
 
         {/* Pricing & Fabric */}
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <div className="flex flex-col gap-1.5 text-left">
+          <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
             Price (EGP)
           </label>
           <input
@@ -149,8 +161,8 @@ export function ProductForm({ initialData }: { initialData?: any }) {
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <div className="flex flex-col gap-1.5 text-left">
+          <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
             Fabric Type
           </label>
           <input
@@ -161,13 +173,13 @@ export function ProductForm({ initialData }: { initialData?: any }) {
         </div>
 
         {/* Sensory Details */}
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <div className="flex flex-col gap-1.5 text-left">
+          <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
             Opacity Index (1-5)
           </label>
           <select
             {...register('opacity_scale')}
-            className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+            className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
           >
             {[1, 2, 3, 4, 5].map((v) => (
               <option key={v} value={v}>
@@ -177,13 +189,13 @@ export function ProductForm({ initialData }: { initialData?: any }) {
           </select>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <div className="flex flex-col gap-1.5 text-left">
+          <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
             Visibility
           </label>
           <select
             {...register('is_active')}
-            className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+            className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
           >
             <option value="true">Active in Catalog</option>
             <option value="false">Archived / Hidden</option>
@@ -191,12 +203,12 @@ export function ProductForm({ initialData }: { initialData?: any }) {
         </div>
 
         {/* Origin */}
-        <div className="flex flex-col gap-6 border-t border-[#2C3E35]/5 pt-8 md:col-span-2">
+        <div className="flex flex-col gap-6 border-t border-[#2C3E35]/5 pt-8 text-left md:col-span-2">
           <div className="flex flex-col gap-4 rounded-2xl bg-[#F5F5F5] p-6 text-left">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between text-left">
+              <div className="flex items-center gap-3 text-left">
                 <Globe className="h-4 w-4 opacity-30" />
-                <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+                <span className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
                   Made in Egypt
                 </span>
               </div>
@@ -211,14 +223,14 @@ export function ProductForm({ initialData }: { initialData?: any }) {
           </div>
         </div>
 
-        <div className="md:col-span-2">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <div className="text-left md:col-span-2">
+          <label className="text-left text-[10px] font-bold tracking-widest uppercase opacity-60">
             Detailed Description
           </label>
           <textarea
             {...register('description')}
             rows={4}
-            className="mt-1.5 w-full rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+            className="mt-1.5 w-full rounded-xl bg-white px-4 py-3.5 text-left text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
             placeholder="Describe the drape, feel, and fit..."
           />
         </div>

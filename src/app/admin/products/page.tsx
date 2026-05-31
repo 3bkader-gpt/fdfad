@@ -1,14 +1,15 @@
 import { createClient } from '@/lib/supabase/server';
-import { Package, Plus, Edit2, Trash2 } from 'lucide-react';
+import { Plus, Edit2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Product } from '@/types/supabase';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminProductsPage() {
   const supabase = await createClient();
 
-  const { data: products, error } = await (supabase as any)
+  const { data, error } = await supabase
     .from('products')
     .select('*, product_images(*)')
     .order('created_at', { ascending: false });
@@ -16,6 +17,8 @@ export default async function AdminProductsPage() {
   if (error) {
     return <div>Error loading products: {error.message}</div>;
   }
+
+  const products = (data as unknown as Product[]) || [];
 
   return (
     <div className="flex flex-col gap-10 text-left">
@@ -36,7 +39,7 @@ export default async function AdminProductsPage() {
       </header>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product: any) => (
+        {products.map((product) => (
           <div
             key={product.id}
             className="group relative flex flex-col rounded-2xl border border-[#2C3E35]/5 bg-white p-4 shadow-sm transition-all hover:shadow-md"
@@ -54,7 +57,7 @@ export default async function AdminProductsPage() {
                   No Image
                 </div>
               )}
-              <div className="absolute top-2 right-2">
+              <div className="absolute top-2 right-2 text-left">
                 <span
                   className={`rounded-full px-2 py-0.5 text-[8px] font-bold tracking-tighter uppercase ${product.is_active ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20' : 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20'}`}
                 >
@@ -63,12 +66,12 @@ export default async function AdminProductsPage() {
               </div>
             </div>
 
-            <div className="mt-4 flex flex-col gap-1">
+            <div className="mt-4 flex flex-col gap-1 text-left">
               <h3 className="line-clamp-1 text-sm font-medium tracking-tight uppercase">
                 {product.title}
               </h3>
               <p className="text-lg font-bold text-[#C89B7E]">{product.price} EGP</p>
-              <div className="mt-2 flex items-center gap-2">
+              <div className="mt-2 flex items-center gap-2 text-left">
                 <span className="text-[9px] font-bold tracking-widest uppercase opacity-30">
                   {product.fabric_type}
                 </span>
@@ -79,7 +82,7 @@ export default async function AdminProductsPage() {
               </div>
             </div>
 
-            <div className="mt-6 flex items-center gap-2 border-t border-[#2C3E35]/5 pt-4">
+            <div className="mt-6 flex items-center gap-2 border-t border-[#2C3E35]/5 pt-4 text-left">
               <Link
                 href={`/admin/products/${product.id}`}
                 className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#FAFAFA] py-2 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:bg-[#F0F0F0]"

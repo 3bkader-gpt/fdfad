@@ -163,11 +163,16 @@ export interface Database {
       };
     };
     Functions: {
-      [_ in string]: {
+      create_order_rpc: {
         Args: {
-          [_ in string]: Json | undefined;
+          p_customer_name: string;
+          p_phone_number: string;
+          p_governorate: string;
+          p_address: string;
+          p_notes: string | null;
+          p_total_amount: number;
         };
-        Returns: Json | undefined;
+        Returns: Json;
       };
     };
     Enums: {
@@ -178,4 +183,12 @@ export interface Database {
 
 export type Product = Database['public']['Tables']['products']['Row'] & {
   product_images: Database['public']['Tables']['product_images']['Row'][];
+};
+
+export type Order = Database['public']['Tables']['orders']['Row'];
+export type OrderItem = Database['public']['Tables']['order_items']['Row'];
+export type OrderWithItems = Order & {
+  order_items: (OrderItem & {
+    products: Database['public']['Tables']['products']['Row'] | null;
+  })[];
 };

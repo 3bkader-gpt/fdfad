@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { StatusPill } from './orders/[id]/StatusPill';
 import { ShoppingBag, Clock, Package, Truck, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import { Order } from '@/types/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +10,7 @@ export default async function AdminDashboard() {
   const supabase = await createClient();
 
   // Fetch metrics and recent orders
-  const { data: orders, error } = await (supabase as any)
+  const { data, error } = await supabase
     .from('orders')
     .select('*')
     .order('created_at', { ascending: false });
@@ -18,7 +19,7 @@ export default async function AdminDashboard() {
     return <div>Error loading orders: {error.message}</div>;
   }
 
-  const typedOrders = (orders as any[]) || [];
+  const typedOrders = (data as unknown as Order[]) || [];
 
   const metrics = {
     total: typedOrders.length,
@@ -89,16 +90,16 @@ export default async function AdminDashboard() {
           <table className="w-full text-left">
             <thead className="border-b border-[#2C3E35]/5 bg-[#FAFAFA]">
               <tr>
-                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
+                <th className="px-6 py-4 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Order
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
+                <th className="px-6 py-4 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Customer
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
+                <th className="px-6 py-4 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Location
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold tracking-widest uppercase opacity-40">
+                <th className="px-6 py-4 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Total
                 </th>
                 <th className="px-6 py-4 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
