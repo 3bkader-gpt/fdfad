@@ -1,0 +1,57 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { Product } from '@/types/supabase';
+
+interface ProductCardProps {
+  product: Product;
+}
+
+export function ProductCard({ product }: ProductCardProps) {
+  const mainImage = product.product_images?.[0]?.url;
+
+  return (
+    <Link href={`/products/${product.slug}`} className="group flex flex-col">
+      {/* 3:4 Image Container */}
+      <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-[#F5F5F5]">
+        {mainImage ? (
+          <Image
+            src={mainImage}
+            alt={product.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-[10px] tracking-widest uppercase italic opacity-20">
+            Awaiting Visuals
+          </div>
+        )}
+
+        {/* Badges */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
+          {product.made_in_egypt && (
+            <span className="rounded-sm bg-[#4A7C59] px-2 py-0.5 text-[7px] font-bold tracking-tighter text-white uppercase shadow-sm">
+              Made in Egypt
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Product Info */}
+      <div className="mt-3 flex flex-col gap-0.5">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="line-clamp-1 text-[11px] font-medium tracking-tight text-[#2C3E35] uppercase">
+            {product.title}
+          </h3>
+          <span className="shrink-0 font-mono text-[9px] opacity-40">
+            OPAC {product.opacity_scale}/5
+          </span>
+        </div>
+
+        <p className="mb-1 text-[10px] text-[#2C3E35]/60 italic">{product.fabric_type}</p>
+
+        <p className="text-sm font-semibold text-[#2C3E35]">{product.price} EGP</p>
+      </div>
+    </Link>
+  );
+}

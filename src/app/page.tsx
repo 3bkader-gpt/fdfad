@@ -1,6 +1,8 @@
 import { supabase } from '@/lib/supabase';
+import { ProductCard } from '@/components/ui/ProductCard';
+import { TrustBar } from '@/components/ui/TrustBar';
 import { Product } from '@/types/supabase';
-import Image from 'next/image';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,75 +10,81 @@ export default async function Home() {
   const { data: products, error } = await supabase
     .from('products')
     .select('*, product_images(*)')
+    .eq('is_active', true)
     .order('created_at', { ascending: false });
 
   if (error) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFA] p-8 text-[#2C3E35]">
-        <h1 className="text-center text-2xl font-semibold">Unable to load products</h1>
-        <p className="mt-2 text-center text-sm opacity-70">
-          Please check your Supabase connection strings in .env.local
+      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-[#FAFAFA] p-8 text-[#2C3E35]">
+        <h1 className="text-center font-serif text-2xl font-bold text-pretty">
+          Unexpected Encounter
+        </h1>
+        <p className="mt-2 text-center text-sm opacity-60">
+          We could not retrieve our curated collection at this moment.
         </p>
       </div>
     );
   }
 
+  const typedProducts = (products as unknown as Product[]) || [];
+
   return (
     <main className="min-h-screen bg-[#FAFAFA] text-[#2C3E35]">
-      {/* Brand Header */}
-      <header className="flex flex-col items-center px-6 py-12">
-        <h1 className="font-serif text-5xl font-bold tracking-tight">فضفاض</h1>
-        <p className="mt-4 text-center text-xs tracking-widest uppercase italic opacity-80">
-          Modesty without compromise.
-        </p>
-      </header>
+      {/* 1. Hero Section */}
+      <section className="relative flex min-h-[65vh] flex-col items-center justify-center overflow-hidden bg-[#E5D9D0] px-6 py-24 text-center">
+        {/* Subtle decorative background element */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10" />
 
-      {/* Product Grid */}
-      <section className="mx-auto max-w-2xl px-6 pb-24">
-        <div className="grid grid-cols-2 gap-x-4 gap-y-10">
-          {products?.map((product: Product) => (
-            <div key={product.id} className="group relative flex flex-col">
-              {/* Image Container (3:4 ratio per ADR) */}
-              <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100">
-                {product.product_images?.[0] ? (
-                  <Image
-                    src={product.product_images[0].url}
-                    alt={product.title}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center italic opacity-30">
-                    No Image
-                  </div>
-                )}
-                {product.made_in_egypt && (
-                  <span className="absolute top-2 left-2 rounded bg-[#4A7C59] px-2 py-1 text-[8px] font-bold text-white uppercase">
-                    Made in Egypt
-                  </span>
-                )}
-              </div>
-
-              {/* Product Info */}
-              <div className="mt-4 flex flex-col">
-                <h2 className="text-xs font-medium tracking-tight uppercase">{product.title}</h2>
-                <div className="mt-1 flex items-center justify-between">
-                  <p className="text-sm font-semibold">{product.price} EGP</p>
-                  <span className="font-mono text-[9px] opacity-40">
-                    OPAC {product.opacity_scale}/5
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="relative z-10 flex flex-col items-center">
+          <span className="mb-4 text-[9px] font-bold tracking-[0.4em] uppercase opacity-40">
+            Est. 2026
+          </span>
+          <h1 className="animate-fade-in font-serif text-6xl font-bold tracking-tighter sm:text-7xl">
+            فضفاض
+          </h1>
+          <p className="mx-auto mt-6 max-w-xs text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">
+            The Art of Modest Drapery
+          </p>
+          <div className="mt-12">
+            <Link
+              href="#collection"
+              className="rounded-full bg-[#2C3E35] px-10 py-4 text-[10px] font-bold tracking-widest text-white uppercase shadow-2xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95"
+            >
+              Explore Collection
+            </Link>
+          </div>
         </div>
+      </section>
 
-        {products?.length === 0 && (
-          <div className="py-20 text-center opacity-40">
-            <p className="font-serif italic">Your curated catalog is arriving soon.</p>
+      {/* 2. Trust Bar */}
+      <TrustBar />
+
+      {/* 3. Product Collection */}
+      <section id="collection" className="mx-auto max-w-2xl px-6 py-24">
+        <header className="mb-16 text-center">
+          <h2 className="font-serif text-3xl font-medium tracking-tight italic">Latest Arrivals</h2>
+          <div className="mx-auto mt-3 h-[1px] w-12 bg-[#C89B7E]" />
+        </header>
+
+        {typedProducts.length > 0 ? (
+          <div className="grid grid-cols-2 gap-x-5 gap-y-16">
+            {typedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="py-24 text-center opacity-40">
+            <p className="font-serif text-lg italic">Our next curation is arriving soon.</p>
           </div>
         )}
       </section>
+
+      {/* 4. Footer Placeholder */}
+      <footer className="border-t border-[#2C3E35]/5 bg-white px-6 py-16 text-center">
+        <p className="text-[9px] font-bold tracking-[0.3em] uppercase opacity-30">
+          © 2026 FADFAAD CAIRO
+        </p>
+      </footer>
     </main>
   );
 }

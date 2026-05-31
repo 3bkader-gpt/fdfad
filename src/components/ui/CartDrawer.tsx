@@ -1,0 +1,139 @@
+'use client';
+
+import { useCart } from '@/lib/store';
+import { X, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export function CartDrawer() {
+  const { items, isOpen, setIsOpen, updateQuantity, removeItem, total } = useCart();
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex justify-end">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+        onClick={() => setIsOpen(false)}
+      />
+
+      {/* Drawer */}
+      <div className="animate-slide-in-right relative flex h-full w-full max-w-md flex-col bg-white shadow-2xl">
+        {/* Header */}
+        <header className="flex items-center justify-between border-b border-[#2C3E35]/5 px-6 py-6">
+          <div className="flex items-center gap-3">
+            <ShoppingBag className="h-5 w-5" />
+            <h2 className="font-serif text-xl font-bold tracking-tight text-[#2C3E35]">Your Bag</h2>
+            <span className="rounded-full bg-[#2C3E35] px-2 py-0.5 text-[10px] font-bold text-white">
+              {items.reduce((acc, item) => acc + item.quantity, 0)}
+            </span>
+          </div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="rounded-full p-2 transition-colors hover:bg-[#FAFAFA]"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </header>
+
+        {/* Items List */}
+        <div className="no-scrollbar flex-1 overflow-y-auto px-6 py-4">
+          {items.length > 0 ? (
+            <div className="flex flex-col gap-6">
+              {items.map((item) => (
+                <div key={item.product.id} className="group flex gap-4">
+                  <div className="relative aspect-[3/4] h-24 w-18 shrink-0 overflow-hidden rounded bg-[#F5F5F5]">
+                    {item.product.product_images?.[0] && (
+                      <Image
+                        src={item.product.product_images[0].url}
+                        alt={item.product.title}
+                        fill
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between py-0.5">
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="line-clamp-1 text-xs font-medium tracking-tight uppercase">
+                          {item.product.title}
+                        </h3>
+                        <p className="text-sm font-semibold whitespace-nowrap">
+                          {item.product.price} EGP
+                        </p>
+                      </div>
+                      <p className="mt-0.5 text-[10px] text-[#2C3E35]/40 italic">
+                        {item.product.fabric_type}
+                      </p>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="flex items-center gap-3 rounded-full bg-[#FAFAFA] px-2 py-1 ring-1 ring-[#2C3E35]/5">
+                        <button
+                          onClick={() => updateQuantity(item.product.id, -1)}
+                          className="p-1 transition-colors hover:text-[#C89B7E]"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                        <span className="w-4 text-center text-xs font-bold">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.product.id, 1)}
+                          className="p-1 transition-colors hover:text-[#C89B7E]"
+                        >
+                          <Plus className="h-3 w-3" />
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => removeItem(item.product.id)}
+                        className="text-[10px] font-bold tracking-widest text-red-500/60 uppercase transition-colors hover:text-red-600"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex h-full flex-col items-center justify-center text-center opacity-30">
+              <ShoppingBag className="mb-4 h-12 w-12 stroke-1" />
+              <p className="font-serif text-lg italic">Your bag is currently empty.</p>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="mt-6 text-xs font-bold tracking-widest text-[#2C3E35] uppercase underline underline-offset-4"
+              >
+                Continue Browsing
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        {items.length > 0 && (
+          <footer className="border-t border-[#2C3E35]/5 bg-[#FAFAFA] px-6 py-8">
+            <div className="mb-6 flex items-center justify-between">
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
+                Subtotal
+              </span>
+              <span className="text-xl font-bold tracking-tight text-[#2C3E35]">{total()} EGP</span>
+            </div>
+
+            <p className="mb-6 text-center text-[10px] text-[#2C3E35]/50 italic">
+              Shipping calculated at checkout. Cash on Delivery supported.
+            </p>
+
+            <Link
+              href="/checkout"
+              onClick={() => setIsOpen(false)}
+              className="flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[10px] font-bold tracking-[0.3em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95"
+            >
+              Secure Checkout
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </footer>
+        )}
+      </div>
+    </div>
+  );
+}
