@@ -1,0 +1,42 @@
+uid=21_0 RootWebArea "Your Shopping Bag – Aab" url="https://aabcollection.com/cart"
+  uid=21_1 complementary
+    uid=21_2 StaticText "ORDER BY 1PM FOR "
+    uid=21_3 link "NEXT DAY DELIVERY" description="Delivery" url="https://aabcollection.com/pages/delivery"
+      uid=21_4 StaticText "NEXT DAY DELIVERY"
+    uid=21_5 link "ENJOY 10% OFF YOUR FIRST ORDER" description="Newsletter landing page" url="https://aabcollection.com/pages/newsletter-landing-page"
+      uid=21_6 StaticText "ENJOY "
+      uid=21_7 StaticText "10% OFF"
+      uid=21_8 StaticText " YOUR FIRST ORDER"
+    uid=21_9 link "FREE UK DELIVERY OVER £120" description="Delivery" url="https://aabcollection.com/pages/delivery"
+      uid=21_10 StaticText "FREE UK DELIVERY"
+      uid=21_11 StaticText " OVER £120"
+    uid=21_12 generic atomic live="assertive" relevant="additions text"
+  uid=21_13 banner
+    uid=21_14 link "Return to Homepage" description="Return to Homepage" url="https://aabcollection.com/"
+    uid=21_15 button "Open menu" description="Open menu" expandable
+    uid=21_16 button "Search" description="Search" expandable
+    uid=21_17 button "Account" description="Account" expandable
+    uid=21_18 link "Bag" description="Bag" url="https://aabcollection.com/cart"
+  uid=21_19 main
+    uid=21_20 navigation "breadcrumbs"
+      uid=21_21 button "BACK"
+    uid=21_22 heading "SHOPPING BAG" level="1"
+    uid=21_23 StaticText "Your bag is currently empty"
+    uid=21_24 link "CONTINUE SHOPPING" url="https://aabcollection.com/"
+      uid=21_25 StaticText "CONTINUE SHOPPING"
+    uid=21_26 button "Expand section" expandable
+    uid=21_27 button "Expand section" expandable
+    uid=21_28 button "Expand section" expandable
+    uid=21_29 button "Expand section" expandable
+    uid=21_30 generic live="polite" relevant="additions text"
+      uid=21_31 heading "JOIN OUR COMMUNITY" level="4"
+      uid=21_32 StaticText "Exclusive offers & sneak peeks are reserved for those on our mailing list, plus enjoy 10% OFF your first order."
+      uid=21_33 textbox "ENTER YOUR EMAIL" required
+      uid=21_34 button "SIGN UP"
+    uid=21_35 alert atomic live="assertive" relevant="additions text"
+    uid=21_36 heading "FOLLOW US" level="4"
+    uid=21_37 link "Aab on Facebook" description="Aab on Facebook" url="https://www.facebook.com/aabcollection"
+    uid=21_38 link "Aab on Instagram" description="Aab on Instagram" url="https://www.instagram.com/aabcollection/"
+    uid=21_39 link "Aab on YouTube" description="Aab on YouTube" url="https://www.youtube.com/user/aabcollection"
+    uid=21_40 link "Aab on Pinterest" description="Aab on Pinterest" url="https://www.pinterest.co.uk/aabcollection/"
+  uid=21_41 region "Notifications"
