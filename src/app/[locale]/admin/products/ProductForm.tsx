@@ -261,11 +261,11 @@ export function ProductForm({
       <header className="flex items-center gap-4">
         <Link
           href="/admin/products"
-          className="rounded-full bg-[#FAFAFA] p-2 transition-colors hover:bg-zinc-100"
+          className="bg-bg-elevated rounded-full p-2 transition-colors hover:bg-bg-main"
         >
           <ArrowLeft className="h-5 w-5 rtl:rotate-180" />
         </Link>
-        <h2 className="font-serif text-3xl font-bold tracking-tight text-[#2C3E35]">
+        <h2 className="font-serif text-3xl font-bold tracking-tight text-text-primary">
           {initialData ? t('editProduct') : t('newProduct')}
         </h2>
       </header>
@@ -274,7 +274,7 @@ export function ProductForm({
       <div className="flex flex-col gap-10">
         {/* Section 1: Basic Information */}
         <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color flex items-center gap-2 border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
+          <h3 className="border-border-color flex items-center gap-2 border-b pb-3 font-serif text-xl font-bold text-text-primary">
             <Sparkles className="text-brand-accent h-5 w-5" />
             {t('basicInfo')}
           </h3>
@@ -373,7 +373,7 @@ export function ProductForm({
 
         {/* Section 2: Media Management */}
         <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color flex items-center gap-2 border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
+          <h3 className="border-border-color flex items-center gap-2 border-b pb-3 font-serif text-xl font-bold text-text-primary">
             <ImageIcon className="text-brand-accent h-5 w-5" />
             {t('media')}
           </h3>
@@ -382,7 +382,7 @@ export function ProductForm({
 
         {/* Section 3: Sizes Selector */}
         <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
+          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-text-primary">
             {t('sizes')}
           </h3>
 
@@ -403,7 +403,7 @@ export function ProductForm({
             <button
               type="button"
               onClick={addSize}
-              className="rounded-xl bg-[#2C3E35] px-5 py-3 text-xs font-bold text-white uppercase transition-all hover:bg-zinc-800"
+              className="bg-brand-primary rounded-xl px-5 py-3 text-xs font-bold text-white uppercase transition-all hover:opacity-90"
             >
               {t('addSize')}
             </button>
@@ -416,7 +416,7 @@ export function ProductForm({
               sizes.map((size, index) => (
                 <div
                   key={size}
-                  className="border-border-color flex items-center gap-2 rounded-full border bg-[#FAFAFA] px-4 py-2 text-xs font-semibold"
+                  className="border-border-color bg-bg-elevated flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold"
                 >
                   <span>{size}</span>
                   <div className="border-border-color ml-1 flex items-center gap-0.5 border-l pl-2">
@@ -455,7 +455,7 @@ export function ProductForm({
 
         {/* Section 4: Colors Selector */}
         <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
+          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-text-primary">
             {t('colors')}
           </h3>
 
@@ -482,7 +482,7 @@ export function ProductForm({
             <button
               type="button"
               onClick={addColor}
-              className="rounded-xl bg-[#2C3E35] px-5 py-3 text-xs font-bold text-white uppercase transition-all hover:bg-zinc-800"
+              className="bg-brand-primary rounded-xl px-5 py-3 text-xs font-bold text-white uppercase transition-all hover:opacity-90"
             >
               {t('addColor')}
             </button>
@@ -498,7 +498,7 @@ export function ProductForm({
                 return (
                   <div
                     key={color}
-                    className="border-border-color flex items-center gap-2.5 rounded-full border bg-[#FAFAFA] px-4 py-2 text-xs font-semibold"
+                    className="border-border-color bg-bg-elevated flex items-center gap-2.5 rounded-full border px-4 py-2 text-xs font-semibold"
                   >
                     <span
                       className="h-3 w-3 rounded-full border border-black/10"
@@ -524,7 +524,7 @@ export function ProductForm({
 
         {/* Section 5: Specifications */}
         <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
+          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-text-primary">
             {t('specifications')}
           </h3>
 
@@ -600,7 +600,7 @@ export function ProductForm({
 
         {/* Section 6: Fit & Recommendations */}
         <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
+          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-text-primary">
             {t('fitGuideSec')}
           </h3>
 

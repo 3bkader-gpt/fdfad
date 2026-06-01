@@ -8,8 +8,9 @@ import { useRouter, Link } from '@/i18n/routing';
 import { createOrder } from './actions';
 import { ChevronLeft, ShieldCheck } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedOrderButton } from '@/components/ui/AnimatedOrderButton';
+import { Toast } from '@/components/ui/Toast';
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -21,7 +22,7 @@ const checkoutSchema = z.object({
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
-const GOVERNORATES = [
+const GOVERNORATES_EN = [
   'Cairo',
   'Giza',
   'Alexandria',
@@ -51,12 +52,46 @@ const GOVERNORATES = [
   'Sohag',
 ].sort();
 
+const GOVERNORATES_AR = [
+  'القاهرة',
+  'الجيزة',
+  'الإسكندرية',
+  'الدقهلية',
+  'البحر الأحمر',
+  'البحيرة',
+  'الفيوم',
+  'الغربية',
+  'الإسماعيلية',
+  'المنوفية',
+  'المنيا',
+  'القليوبية',
+  'الوادي الجديد',
+  'السويس',
+  'أسوان',
+  'أسيوط',
+  'بني سويف',
+  'بورسعيد',
+  'دمياط',
+  'الشرقية',
+  'جنوب سيناء',
+  'كفر الشيخ',
+  'مطروح',
+  'الأقصر',
+  'قنا',
+  'شمال سيناء',
+  'سوهاج',
+].sort((a, b) => a.localeCompare(b, 'ar'));
+
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
   const [mountedItems, setMountedItems] = useState<CartItem[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const t = useTranslations('Checkout');
   const tc = useTranslations('Common');
+  const locale = useLocale();
+  const isArabic = locale === 'ar';
+  const GOVERNORATES = isArabic ? GOVERNORATES_AR : GOVERNORATES_EN;
 
   const router = useRouter();
 
@@ -108,12 +143,13 @@ export default function CheckoutPage() {
               resolve();
             }, 2100); // Wait for truck animation to finish
           } else {
-            alert(result.error);
+            setSubmitError(result.error || t('errorGeneric'));
             reject(new Error(result.error));
           }
         } catch (e: unknown) {
           const error = e as Error;
           console.error(error.message);
+          setSubmitError(error.message);
           reject(error);
         }
       })();
@@ -141,6 +177,9 @@ export default function CheckoutPage() {
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-[calc(3rem+env(safe-area-inset-bottom))] transition-colors duration-300">
+      {submitError && (
+        <Toast message={submitError} type="error" onClose={() => setSubmitError(null)} />
+      )}
       <nav className="border-border-color bg-bg-elevated flex items-center justify-between border-b px-6 py-4">
         <Link href="/" className="bg-bg-main rounded-full p-2 transition-colors hover:bg-zinc-100">
           <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
@@ -213,6 +252,7 @@ export default function CheckoutPage() {
             </label>
             <input
               {...register('phone')}
+              inputMode="tel"
               className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.phone ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
               placeholder="01xxxxxxxxx"
             />
@@ -229,7 +269,7 @@ export default function CheckoutPage() {
               {...register('governorate')}
               className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.governorate ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
             >
-              <option value="">Select Region</option>
+              <option value="">{isArabic ? 'اختاري محافظتك' : 'Select Region'}</option>
               {GOVERNORATES.map((g) => (
                 <option key={g} value={g}>
                   {g}

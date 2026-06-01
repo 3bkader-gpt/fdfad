@@ -41,7 +41,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
       <header>
         <h2 className="font-serif text-4xl font-bold tracking-tight">{t('overview')}</h2>
         <p className="mt-2 text-[10px] font-bold tracking-widest uppercase opacity-60">
-          Your business at a glance
+          {t('overviewSub')}
         </p>
       </header>
 
@@ -49,32 +49,32 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
       <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-5">
         <div className="col-span-2 md:col-span-1">
           <MetricCard
-            label="Total"
+            label={t('metricTotal')}
             value={metrics.total}
             icon={<ShoppingBag className="h-4 w-4" />}
             color="bg-bg-elevated border border-border-color"
           />
         </div>
         <MetricCard
-          label="New"
+          label={t('metricNew')}
           value={metrics.new}
           icon={<Clock className="h-4 w-4" />}
           color="bg-status-new-bg text-status-new-text"
         />
         <MetricCard
-          label="Preparing"
+          label={t('metricPreparing')}
           value={metrics.preparing}
           icon={<Package className="h-4 w-4" />}
           color="bg-status-preparing-bg text-status-preparing-text"
         />
         <MetricCard
-          label="Shipped"
+          label={t('metricShipped')}
           value={metrics.shipped}
           icon={<Truck className="h-4 w-4" />}
           color="bg-status-shipped-bg text-status-shipped-text"
         />
         <MetricCard
-          label="Delivered"
+          label={t('metricDelivered')}
           value={metrics.delivered}
           icon={<CheckCircle2 className="h-4 w-4" />}
           color="bg-status-delivered-bg text-status-delivered-text"
@@ -118,7 +118,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
             </thead>
             <tbody className="divide-border-color divide-y whitespace-nowrap">
               {typedOrders.slice(0, 10).map((order) => (
-                <tr key={order.id} className="group hover:bg-bg-main transition-colors">
+                <tr key={order.id} className="group hover:bg-bg-main transition-colors cursor-pointer">
                   <td className="px-6 py-5">
                     <Link
                       href={`/admin/orders/${order.id}`}
@@ -127,7 +127,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
                       {order.order_no}
                     </Link>
                     <p className="mt-1 text-[9px] opacity-40">
-                      {new Date(order.created_at).toLocaleDateString()}
+                      {new Date(order.created_at).toLocaleDateString('ar-EG')}
                     </p>
                   </td>
                   <td className="px-6 py-5">
@@ -149,7 +149,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           </table>
           {typedOrders.length === 0 && (
             <div className="py-20 text-center text-sm italic opacity-30">
-              Awaiting first curation.
+              {t('noOrders')}
             </div>
           )}
         </div>

@@ -1,10 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
-import { Plus, Edit2 } from 'lucide-react';
 import { Link } from '@/i18n/routing';
-import Image from 'next/image';
 import { Product } from '@/types/supabase';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { DeleteProductButton } from './DeleteProductButton';
+import { AdminProductsClient } from './AdminProductsClient';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +14,7 @@ export default async function AdminProductsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations('Admin');
+  await getTranslations('Admin');
 
   const supabase = await createClient();
 
@@ -31,87 +29,6 @@ export default async function AdminProductsPage({
 
   const products = (data as Product[]) || [];
 
-  return (
-    <div className="text-text-primary flex flex-col gap-10 text-start">
-      <header className="flex items-center justify-between">
-        <div>
-          <h2 className="font-serif text-4xl font-bold tracking-tight">{t('products')}</h2>
-          <p className="mt-2 text-[10px] font-bold tracking-widest uppercase opacity-60">
-            Manage your curated collection
-          </p>
-        </div>
-        <Link
-          href="/admin/products/new"
-          className="bg-brand-primary flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:scale-105 active:scale-95"
-        >
-          <Plus className="h-4 w-4" />
-          {t('newProduct')}
-        </Link>
-      </header>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="group border-border-color bg-bg-elevated relative flex flex-col rounded-2xl border p-4 shadow-sm transition-all hover:shadow-md"
-          >
-            <div className="bg-bg-main relative aspect-[3/4] overflow-hidden rounded-xl">
-              {product.product_images?.[0] ? (
-                <Image
-                  src={product.product_images[0].url}
-                  alt={product.title}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-center text-[10px] tracking-widest uppercase italic opacity-20">
-                  No Image
-                </div>
-              )}
-              <div className="absolute top-2 right-2 text-start">
-                <span
-                  className={`rounded-full px-2 py-0.5 text-[8px] font-bold tracking-tighter uppercase ${product.is_active ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20 dark:bg-green-900/20 dark:text-green-400' : 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20 dark:bg-gray-800 dark:text-gray-400'}`}
-                >
-                  {product.is_active ? t('active') : t('archived')}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-1 text-start">
-              <h3 className="line-clamp-1 text-sm font-medium tracking-tight uppercase">
-                {product.title}
-              </h3>
-              <p className="text-brand-accent text-lg font-bold">{product.price} EGP</p>
-              <div className="mt-2 flex items-center gap-2 text-start">
-                <span className="text-[9px] font-bold tracking-widest uppercase opacity-30">
-                  {product.fabric_type}
-                </span>
-                <span className="bg-text-primary h-1 w-1 rounded-full opacity-10" />
-                <span className="text-[9px] font-bold tracking-widest uppercase opacity-30">
-                  OPAC {product.opacity_scale}/5
-                </span>
-              </div>
-            </div>
-
-            <div className="border-border-color mt-6 flex items-center gap-2 border-t pt-4 text-start">
-              <Link
-                href={`/admin/products/${product.id}`}
-                className="bg-bg-main hover:bg-bg-elevated flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:opacity-100"
-              >
-                <Edit2 className="h-3 w-3" />
-                {t('edit')}
-              </Link>
-              <DeleteProductButton id={product.id} />
-            </div>
-          </div>
-        ))}
-
-        {products.length === 0 && (
-          <div className="col-span-full py-24 text-center italic opacity-30">
-            The collection is currently empty.
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return <AdminProductsClient products={products} locale={locale} />;
 }
+

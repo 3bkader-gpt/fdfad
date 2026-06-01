@@ -30,6 +30,7 @@ const COLOR_MAP: Record<string, string> = {
 export function ProductDetailsClient({ product, relatedProducts }: ProductDetailsClientProps) {
   const t = useTranslations('Products');
   const tc = useTranslations('Common');
+  const tco = useTranslations('Checkout');
 
   const images = [...(product.product_images || [])].sort(
     (a, b) => a.display_order - b.display_order,
@@ -504,9 +505,9 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                 <Truck className="text-brand-accent h-4.5 w-4.5" />
               </div>
               <div>
-                <p className="text-xs font-bold tracking-tight uppercase">Cash on Delivery</p>
+                <p className="text-xs font-bold tracking-tight uppercase">{tco('cashOnDelivery')}</p>
                 <p className="text-[10px] text-pretty opacity-60">
-                  Pay securely upon arrival. Fast dispatch in 2-3 days.
+                  {tc('easyExchange')}
                 </p>
               </div>
             </div>
@@ -621,7 +622,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
           </div>
 
           <div className="absolute bottom-6 rounded-full bg-black/40 px-4 py-2 text-[10px] tracking-wider text-white uppercase backdrop-blur-sm">
-            {zoomScale === 1 ? 'Tap image to zoom 2x' : 'Tap to zoom out'}
+            {zoomScale === 1 ? tco('zoomIn') : tco('zoomOut')}
           </div>
         </div>
       )}
