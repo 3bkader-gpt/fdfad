@@ -105,5 +105,5 @@ export async function createOrder(orderData: {
   }
 
   revalidatePath('/admin');
-  return { success: true, orderNo: order.order_no };
+  return { success: true, orderNo: order.order_no, id: order.id };
 }
