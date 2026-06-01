@@ -109,6 +109,10 @@
     "descriptionArPlaceholder": "وصف مختصر للقسم بالعربية...",
     "descriptionEnPlaceholder": "وصف مختصر للقسم بالإنجليزية...",
     "hidden": "مخفي",
-    "saveCategory": "حفظ القسم"
+    "saveCategory": "حفظ القسم",
+    "deleteProductTitle": "حذف المنتج",
+    "deleteProductConfirm": "هل أنت متأكد من حذف هذا المنتج نهائياً؟ لا يمكن التراجع عن هذا الإجراء.",
+    "deleteCategoryTitle": "حذف القسم",
+    "deleteCategoryConfirm": "هل أنت متأكد من حذف هذا القسم نهائياً؟ سيتم إلغاء تعيينه من كافة المنتجات المرتبطة به ولا يمكن التراجع عن هذا الإجراء."
   }
 }

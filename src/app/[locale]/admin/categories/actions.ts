@@ -74,3 +74,13 @@ export async function archiveCategory(id: string) {
   revalidatePath('/admin/categories');
   revalidatePath('/admin/products');
 }
+
+export async function deleteCategory(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from('categories').delete().eq('id', id);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath('/admin/categories');
+  revalidatePath('/admin/products');
+}

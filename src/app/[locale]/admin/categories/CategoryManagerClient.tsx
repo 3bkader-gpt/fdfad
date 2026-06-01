@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Category } from '@/types/supabase';
-import { Plus, Edit2, Archive, Tag, X } from 'lucide-react';
+import { Plus, Edit2, Archive, Tag, X, Trash2 } from 'lucide-react';
 import { CategoryForm } from './CategoryForm';
-import { archiveCategory } from './actions';
+import { archiveCategory, deleteCategory } from './actions';
 import { useTranslations } from 'next-intl';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
 export function CategoryManagerClient({ initialCategories }: { initialCategories: Category[] }) {
   const t = useTranslations('Admin');
@@ -13,6 +14,11 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
   const [categories, setCategories] = useState(initialCategories);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | undefined>(undefined);
+
+  const [isPending, startTransition] = useTransition();
+  const [archiveId, setArchiveId] = useState<string | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleEdit = (cat: Category) => {
     setEditingCategory(cat);
@@ -24,20 +30,34 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
     setIsFormOpen(true);
   };
 
-  const handleArchive = async (id: string) => {
-    if (
-      confirm(
-        t('archiveConfirm'),
-      )
-    ) {
+  const executeArchive = () => {
+    if (!archiveId) return;
+    const id = archiveId;
+    setArchiveId(null);
+    startTransition(async () => {
       try {
         await archiveCategory(id);
         setCategories(categories.map((c) => (c.id === id ? { ...c, is_active: false } : c)));
       } catch (e: unknown) {
         const error = e as Error;
-        alert(error.message);
+        setErrorMsg(error.message);
       }
-    }
+    });
+  };
+
+  const executeDelete = () => {
+    if (!deleteId) return;
+    const id = deleteId;
+    setDeleteId(null);
+    startTransition(async () => {
+      try {
+        await deleteCategory(id);
+        setCategories(categories.filter((c) => c.id !== id));
+      } catch (e: unknown) {
+        const error = e as Error;
+        setErrorMsg(error.message);
+      }
+    });
   };
 
   return (
@@ -96,13 +116,20 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
               </button>
               {cat.is_active && (
                 <button
-                  onClick={() => handleArchive(cat.id)}
+                  onClick={() => setArchiveId(cat.id)}
                   className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/40"
                   title={t('archived')}
                 >
                   <Archive className="h-4 w-4" />
                 </button>
               )}
+              <button
+                onClick={() => setDeleteId(cat.id)}
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition-colors hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40"
+                title={tc('delete')}
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
             </div>
           </div>
         ))}
@@ -137,6 +164,44 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
           </div>
         </div>
       )}
+
+      {/* Confirm Archive Modal */}
+      <ConfirmModal
+        isOpen={!!archiveId}
+        onClose={() => setArchiveId(null)}
+        onConfirm={executeArchive}
+        title={t('archived')}
+        message={t('archiveConfirm')}
+        confirmText={tc('confirm')}
+        cancelText={tc('cancel')}
+        type="warning"
+        isPending={isPending}
+      />
+
+      {/* Confirm Delete Modal */}
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={executeDelete}
+        title={t('deleteCategoryTitle')}
+        message={t('deleteCategoryConfirm')}
+        confirmText={tc('delete')}
+        cancelText={tc('cancel')}
+        type="danger"
+        isPending={isPending}
+      />
+
+      {/* Error Alert Modal */}
+      <ConfirmModal
+        isOpen={!!errorMsg}
+        onClose={() => setErrorMsg(null)}
+        onConfirm={() => setErrorMsg(null)}
+        title={tc('error')}
+        message={errorMsg || ''}
+        confirmText={tc('confirm')}
+        cancelText=""
+        type="warning"
+      />
     </div>
   );
 }

@@ -109,6 +109,10 @@
     "descriptionArPlaceholder": "Brief description of the category in Arabic...",
     "descriptionEnPlaceholder": "Brief description of the category in English...",
     "hidden": "Hidden",
-    "saveCategory": "Save Category"
+    "saveCategory": "Save Category",
+    "deleteProductTitle": "Delete Product",
+    "deleteProductConfirm": "Are you sure you want to permanently delete this product? This action cannot be undone.",
+    "deleteCategoryTitle": "Delete Category",
+    "deleteCategoryConfirm": "Are you sure you want to permanently delete this category? All linked products will be unassigned and this action cannot be undone."
   }
 }
