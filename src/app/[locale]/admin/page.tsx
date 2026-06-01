@@ -97,7 +97,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
 
         <div className="border-border-color bg-bg-elevated overflow-x-auto rounded-2xl border shadow-sm">
           <table className="w-full min-w-[600px] text-start">
-            <thead className="bg-bg-main border-border-color border-b">
+            <thead className="bg-bg-main border-border-color border-b whitespace-nowrap">
               <tr>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Order
@@ -116,7 +116,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-border-color divide-y">
+            <tbody className="divide-border-color divide-y whitespace-nowrap">
               {typedOrders.slice(0, 10).map((order) => (
                 <tr key={order.id} className="group hover:bg-bg-main transition-colors">
                   <td className="px-6 py-5">
