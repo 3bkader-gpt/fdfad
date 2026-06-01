@@ -78,7 +78,7 @@ export function StatusPill({
         onClick={toggleOpen}
         disabled={isUpdating}
         className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-5 py-1.5 text-[10px] font-bold ring-1 transition-all ring-inset active:scale-95 ${
-          STATUS_COLORS[status] || 'bg-gray-50 text-gray-600 ring-gray-500/10'
+          statusStyles[status] || 'bg-gray-50 text-gray-600 ring-gray-500/10'
         }`}
       >
         {isUpdating ? <Loader2 className="h-3 w-3 animate-spin" /> : status}
