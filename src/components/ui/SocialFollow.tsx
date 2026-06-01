@@ -5,6 +5,9 @@ import { FACEBOOK_URL, INSTAGRAM_URL, WHATSAPP_URL, TIKTOK_URL } from '@/data/si
 import { useTranslations } from 'next-intl';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function SocialFollow() {
   const t = useTranslations('Nav');
@@ -38,30 +41,38 @@ export function SocialFollow() {
         </h2>
 
         <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-          <SocialButton
-            href={WHATSAPP_URL}
-            label="WhatsApp"
-            icon={<WhatsAppIcon className="social-expand-icon" />}
-            className="social-whatsapp"
-          />
-          <SocialButton
-            href={INSTAGRAM_URL}
-            label="Instagram"
-            icon={<InstagramIcon className="social-expand-icon" />}
-            className="social-instagram"
-          />
-          <SocialButton
-            href={FACEBOOK_URL}
-            label="Facebook"
-            icon={<FacebookIcon className="social-expand-icon" />}
-            className="social-facebook"
-          />
-          <SocialButton
-            href={TIKTOK_URL}
-            label="TikTok"
-            icon={<TikTokIcon className="social-expand-icon" />}
-            className="social-tiktok"
-          />
+          <div className="social-reveal">
+            <SocialButton
+              href={WHATSAPP_URL}
+              label="WhatsApp"
+              icon={<WhatsAppIcon className="social-expand-icon" />}
+              className="social-whatsapp"
+            />
+          </div>
+          <div className="social-reveal">
+            <SocialButton
+              href={INSTAGRAM_URL}
+              label="Instagram"
+              icon={<InstagramIcon className="social-expand-icon" />}
+              className="social-instagram"
+            />
+          </div>
+          <div className="social-reveal">
+            <SocialButton
+              href={FACEBOOK_URL}
+              label="Facebook"
+              icon={<FacebookIcon className="social-expand-icon" />}
+              className="social-facebook"
+            />
+          </div>
+          <div className="social-reveal">
+            <SocialButton
+              href={TIKTOK_URL}
+              label="TikTok"
+              icon={<TikTokIcon className="social-expand-icon" />}
+              className="social-tiktok"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -85,7 +96,7 @@ function SocialButton({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={`social-expand-btn social-reveal ${className}`}
+      className={`social-expand-btn ${className}`}
     >
       {icon}
       <span className="social-expand-text">{label}</span>

@@ -345,13 +345,12 @@
 .social-expand-btn {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: flex-start;
   height: 52px;
-  width: auto;
-  min-width: 160px;
-  padding: 0 24px;
-  border-radius: 50px;
-  color: var(--text-primary);
+  width: 52px; /* Start as a circle */
+  padding: 16px; /* equal padding on all sides to center the icon */
+  border-radius: 9999px;
+  color: var(--text-secondary);
   background: var(--bg-elevated);
   border: 1px solid var(--border-color);
   overflow: hidden;
@@ -361,62 +360,71 @@
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease, 
+              transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              color 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  cursor: pointer;
 }
 
 .social-expand-btn:hover, .social-expand-btn:active {
+  width: 170px; /* Expand to show text */
   color: #fff;
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
 }
 
 .social-expand-icon {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-  color: var(--text-primary);
+  z-index: 2;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: currentColor;
 }
 
 .social-expand-btn:hover .social-expand-icon, .social-expand-btn:active .social-expand-icon {
   transform: rotate(360deg);
-  color: #fff;
 }
 
 .social-expand-text {
-  opacity: 1;
-  transform: translateX(0);
-  transition: all 0.5s ease;
-  color: var(--text-primary);
+  margin-left: 12px;
+  opacity: 0;
+  transform: translateX(-15px);
+  transition: opacity 0.3s ease, transform 0.4s ease;
+  color: currentColor;
+  z-index: 2;
 }
 
 .social-expand-btn:hover .social-expand-text, .social-expand-btn:active .social-expand-text {
-  color: #fff;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .social-whatsapp:hover, .social-whatsapp:active {
   background: #25D366;
   border-color: #25D366;
-  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25);
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.35);
 }
 
 .social-instagram:hover, .social-instagram:active {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   border-color: transparent;
-  box-shadow: 0 10px 25px rgba(188, 24, 136, 0.25);
+  box-shadow: 0 10px 25px rgba(188, 24, 136, 0.3);
 }
 
 .social-facebook:hover, .social-facebook:active {
   background: #1877F2;
   border-color: #1877F2;
-  box-shadow: 0 10px 25px rgba(24, 119, 242, 0.25);
+  box-shadow: 0 10px 25px rgba(24, 119, 242, 0.35);
 }
 
 .social-tiktok:hover, .social-tiktok:active {
   background: #000000;
   border-color: #000000;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes slide-in-right {
