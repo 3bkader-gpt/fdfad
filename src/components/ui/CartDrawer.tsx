@@ -17,7 +17,7 @@ export function CartDrawer() {
     <div className="fixed inset-0 z-[100] flex justify-end">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 cursor-pointer bg-black/40 backdrop-blur-sm transition-opacity"
         onClick={() => setIsOpen(false)}
       />
 
@@ -41,7 +41,7 @@ export function CartDrawer() {
         </header>
 
         {/* Items List */}
-        <div className="no-scrollbar flex-1 overflow-y-auto px-6 py-4 text-start">
+        <div className="no-scrollbar text-text-primary flex-1 overflow-y-auto px-6 py-4 text-start">
           {items.length > 0 ? (
             <div className="flex flex-col gap-6">
               {items.map((item) => (
@@ -57,8 +57,8 @@ export function CartDrawer() {
                     )}
                   </div>
                   <div className="flex flex-1 flex-col justify-between py-0.5">
-                    <div className="text-text-primary">
-                      <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="text-text-primary flex items-start justify-between gap-2">
                         <h3 className="line-clamp-1 text-xs font-medium tracking-tight uppercase">
                           {item.product.title}
                         </h3>
@@ -66,7 +66,7 @@ export function CartDrawer() {
                           {item.product.price} {tc('egp')}
                         </p>
                       </div>
-                      <p className="mt-0.5 text-[10px] italic opacity-40">
+                      <p className="text-text-primary mt-0.5 text-[10px] italic opacity-40">
                         {item.product.fabric_type}
                       </p>
                     </div>

@@ -105,7 +105,7 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
       {isFormOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 cursor-pointer bg-black/40 backdrop-blur-sm"
             onClick={() => setIsFormOpen(false)}
           />
           <div className="bg-bg-elevated animate-in zoom-in-95 border-border-color relative w-full max-w-md rounded-3xl border p-8 shadow-2xl duration-200">

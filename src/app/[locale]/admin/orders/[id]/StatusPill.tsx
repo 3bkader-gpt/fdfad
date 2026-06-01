@@ -62,19 +62,22 @@ export function StatusPill({
     setIsOpen(false);
   };
 
-  const toggleOpen = () => setIsOpen(!isOpen);
+  const toggleOpen = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div
       ref={containerRef}
       className="relative inline-block"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      // Remove onMouseEnter/onMouseLeave to prevent jitter on touch devices.
+      // Click toggle is more robust for a hybrid experience.
     >
       <button
         onClick={toggleOpen}
         disabled={isUpdating}
-        className={`inline-flex min-h-[36px] items-center gap-1.5 rounded-full px-4 py-1.5 text-[10px] font-bold ring-1 transition-all ring-inset active:scale-95 ${
+        className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-5 py-1.5 text-[10px] font-bold ring-1 transition-all ring-inset active:scale-95 ${
           STATUS_COLORS[status] || 'bg-gray-50 text-gray-600 ring-gray-500/10'
         }`}
       >

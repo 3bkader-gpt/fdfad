@@ -55,11 +55,12 @@
   box-shadow: 0 4px 16px rgba(200, 155, 126, 0.25);
 }
 
-/* Theme Toggle Animations */
+/* Theme Toggle Animations - Hardened for Mobile (44px target) */
 .theme-toggle {
-  --tg-w: 64px; --tg-h: 30px; --tg-pad: 3px;
+  --tg-w: 64px; --tg-h: 44px; --tg-pad: 4px;
   position: relative; display: inline-flex; width: var(--tg-w); height: var(--tg-h); cursor: pointer;
   border-radius: 999px; background: rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+  align-items: center; justify-content: center;
 }
 .dark .theme-toggle {
   background: rgba(255,255,255,0.1);
@@ -70,12 +71,12 @@
 }
 .dark .theme-toggle__track { background: #2C3E35; }
 .theme-toggle__orb {
-  position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #FFFFFF;
+  position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 50%; background: #FFFFFF;
   transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .theme-toggle__input:checked ~ .theme-toggle__track .theme-toggle__orb {
-  transform: translateX(34px); background: var(--brand-accent);
+  transform: translateX(28px); background: var(--brand-accent);
 }
 
 @keyframes slide-in-right {
@@ -108,6 +109,8 @@ html, body {
   overflow-x: hidden;
   position: relative;
   width: 100%;
+  /* Optimize for touch interactions */
+  touch-action: manipulation;
 }
 
 body {
