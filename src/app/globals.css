@@ -74,7 +74,7 @@
   box-shadow: 0 4px 16px rgba(200, 155, 126, 0.25);
 }
 
-/* Luxury Theme Switch - Enhanced from Fez Academy */
+/* Theme Toggle Animations */
 .theme-switch {
   position: relative;
   display: inline-block;
@@ -202,7 +202,122 @@
   transform: translateY(0px);
 }
 
-/* Animations */
+/* Luxury Animated Order Button - Scraped from Fez Academy */
+.luxury-order-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 64px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: var(--brand-primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 20px rgba(44, 62, 53, 0.15);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.luxury-order-btn:hover:not(.is-driving):not(.is-success) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(44, 62, 53, 0.25);
+}
+
+.luxury-order-btn:active:not(.is-driving):not(.is-success) {
+  transform: scale(0.96);
+}
+
+.luxury-order-btn__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.luxury-order-btn.is-driving .luxury-order-btn__label,
+.luxury-order-btn.is-success .luxury-order-btn__label {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.luxury-order-btn__scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.luxury-order-btn.is-driving .luxury-order-btn__scene {
+  opacity: 1;
+}
+
+.luxury-truck {
+  position: absolute;
+  left: -100px;
+}
+
+.is-driving .luxury-truck {
+  animation: drive-luxury 2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.is-driving .luxury-wheel {
+  animation: spin-luxury 0.5s linear infinite;
+}
+
+.luxury-order-btn__success {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+  pointer-events: none;
+}
+
+.luxury-order-btn.is-success {
+  background: #4A7C59;
+  box-shadow: 0 4px 20px rgba(74, 124, 89, 0.25);
+}
+
+.luxury-order-btn.is-success .luxury-order-btn__success {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes drive-luxury {
+  0% { left: -100px; }
+  15% { left: 24px; }
+  85% { left: 24px; }
+  100% { left: 100%; }
+}
+
+@keyframes spin-luxury {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Existing Animations */
 @keyframes cloud-float { 
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-2px); }

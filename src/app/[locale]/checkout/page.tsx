@@ -6,9 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter, Link } from '@/i18n/routing';
 import { createOrder } from './actions';
-import { ChevronLeft, ShieldCheck, Loader2 } from 'lucide-react';
+import { ChevronLeft, ShieldCheck } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
+import { AnimatedOrderButton } from '@/components/ui/AnimatedOrderButton';
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -58,7 +59,6 @@ export default function CheckoutPage() {
   const tc = useTranslations('Common');
 
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -69,6 +69,7 @@ export default function CheckoutPage() {
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -76,35 +77,45 @@ export default function CheckoutPage() {
 
   const cartTotal = useMemo(() => total(), [total]);
 
-  const handleCheckout = async (values: CheckoutFormValues) => {
-    setIsSubmitting(true);
-    try {
-      const result = await createOrder({
-        customer_name: values.fullName,
-        phone_number: values.phone,
-        governorate: values.governorate,
-        address: values.address,
-        notes: values.notes,
-        total_amount: cartTotal,
-        items: mountedItems.map((item) => ({
-          product_id: item.product.id,
-          quantity: item.quantity,
-          price_at_purchase: item.product.price,
-        })),
-      });
+  const handleCheckout = async () => {
+    // Manually trigger validation before animation
+    const isValid = await trigger();
+    if (!isValid) return;
 
-      if (result.success) {
-        clearCart();
-        router.push(`/checkout/success?orderNo=${result.orderNo}`);
-      } else {
-        alert(result.error);
-        setIsSubmitting(false);
-      }
-    } catch (e: unknown) {
-      const error = e as Error;
-      console.error(error.message);
-      setIsSubmitting(false);
-    }
+    return new Promise<void>((resolve, reject) => {
+      handleSubmit(async (values) => {
+        try {
+          const result = await createOrder({
+            customer_name: values.fullName,
+            phone_number: values.phone,
+            governorate: values.governorate,
+            address: values.address,
+            notes: values.notes,
+            total_amount: cartTotal,
+            items: mountedItems.map((item) => ({
+              product_id: item.product.id,
+              quantity: item.quantity,
+              price_at_purchase: item.product.price,
+            })),
+          });
+
+          if (result.success) {
+            setTimeout(() => {
+              clearCart();
+              router.push(`/checkout/success?orderNo=${result.orderNo}`);
+              resolve();
+            }, 2100); // Wait for truck animation to finish
+          } else {
+            alert(result.error);
+            reject(new Error(result.error));
+          }
+        } catch (e: unknown) {
+          const error = e as Error;
+          console.error(error.message);
+          reject(error);
+        }
+      })();
+    });
   };
 
   if (!isMounted) {
@@ -167,7 +178,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(handleCheckout)} className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6">
           <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
             {t('details')}
           </h2>
@@ -246,20 +257,14 @@ export default function CheckoutPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-brand-primary shadow-brand-primary/20 mt-4 flex w-full items-center justify-center gap-3 rounded-full py-5 text-[11px] font-bold tracking-[0.25em] text-white uppercase shadow-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                {t('processing')}
-              </>
-            ) : (
-              t('confirmOrder', { total: cartTotal })
-            )}
-          </button>
+          <div className="mt-4">
+            <AnimatedOrderButton
+              onClick={handleCheckout}
+              idleLabel={t('confirmOrder', { total: cartTotal })}
+              successLabel={t('success')}
+              className="shadow-brand-primary/20 shadow-xl"
+            />
+          </div>
         </form>
       </div>
     </main>
