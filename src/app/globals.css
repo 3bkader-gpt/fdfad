@@ -86,7 +86,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-serif);
-  --font-cairo: var(--font-cairo);
+  --font-cairo: var(--font-alexandria);
 }
 
 /* Floating dock styles */
@@ -497,5 +497,5 @@ body {
 }
 
 .font-cairo {
-  font-family: var(--font-cairo), sans-serif;
+  font-family: var(--font-alexandria), sans-serif;
 }

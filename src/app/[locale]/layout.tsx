@@ -1,6 +1,6 @@
 import { GlobalHeader } from '@/components/ui/GlobalHeader';
 import { GlobalFooter } from '@/components/ui/GlobalFooter';
-import { Geist, Geist_Mono, Playfair_Display, Cairo } from 'next/font/google';
+import { Geist, Geist_Mono, Playfair_Display, Alexandria } from 'next/font/google';
 import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
@@ -22,9 +22,10 @@ const playfair = Playfair_Display({
   subsets: ['latin'],
 });
 
-const cairo = Cairo({
-  variable: '--font-cairo',
+const alexandria = Alexandria({
+  variable: '--font-alexandria',
   subsets: ['arabic'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 export const metadata = {
@@ -64,7 +65,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={direction}
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cairo.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${alexandria.variable}`}
     >
       <body
         className={`flex min-h-full flex-col antialiased ${locale === 'ar' ? 'font-cairo' : 'font-sans'}`}
