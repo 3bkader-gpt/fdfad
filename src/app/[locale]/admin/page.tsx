@@ -46,7 +46,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
       </header>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 gap-4 w-full md:grid-cols-5">
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-5">
         <div className="col-span-2 md:col-span-1">
           <MetricCard
             label="Total"

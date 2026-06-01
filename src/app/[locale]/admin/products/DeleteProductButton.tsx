@@ -10,7 +10,7 @@ export function DeleteProductButton({ id }: { id: string }) {
   const [isPending, startTransition] = useTransition();
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  
+
   const t = useTranslations('Admin');
   const tc = useTranslations('Common');
 
@@ -36,7 +36,7 @@ export function DeleteProductButton({ id }: { id: string }) {
         onClick={handleDelete}
         disabled={isPending}
         className={`flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition-colors hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 ${
-          isPending ? 'opacity-50 cursor-not-allowed' : ''
+          isPending ? 'cursor-not-allowed opacity-50' : ''
         }`}
       >
         <Trash2 className="h-4 w-4" />

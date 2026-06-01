@@ -14,13 +14,13 @@ const STATUSES: OrderStatus[] = [
   'CANCELLED',
 ];
 
-const STATUS_COLORS: Record<OrderStatus, string> = {
-  NEW: 'bg-blue-50 text-blue-700 ring-blue-600/20',
-  CONFIRMED: 'bg-purple-50 text-purple-700 ring-purple-600/20',
-  PREPARING: 'bg-yellow-50 text-yellow-700 ring-yellow-600/20',
-  SHIPPED: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20',
-  DELIVERED: 'bg-green-50 text-green-700 ring-green-600/20',
-  CANCELLED: 'bg-red-50 text-red-700 ring-red-600/20',
+const statusStyles: Record<OrderStatus, string> = {
+  NEW: 'bg-status-new-bg text-status-new-text ring-1 ring-inset ring-black/10',
+  CONFIRMED: 'bg-status-confirmed-bg text-status-confirmed-text ring-1 ring-inset ring-black/10',
+  PREPARING: 'bg-status-preparing-bg text-status-preparing-text ring-1 ring-inset ring-black/10',
+  SHIPPED: 'bg-status-shipped-bg text-status-shipped-text ring-1 ring-inset ring-black/10',
+  DELIVERED: 'bg-status-delivered-bg text-status-delivered-text ring-1 ring-inset ring-black/10',
+  CANCELLED: 'bg-status-cancelled-bg text-status-cancelled-text ring-1 ring-inset ring-black/10',
 };
 
 export function StatusPill({

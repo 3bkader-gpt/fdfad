@@ -118,7 +118,10 @@ export function ProductForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex max-w-2xl flex-col gap-10 text-start">
+    <form
+      onSubmit={handleSubmit(onSubmit, onInvalid)}
+      className="flex max-w-2xl flex-col gap-10 text-start"
+    >
       <header className="flex items-center gap-4">
         <Link
           href="/admin/products"
@@ -135,7 +138,7 @@ export function ProductForm({
         {/* Photo Management */}
         <div className="text-start md:col-span-2">
           <ImageUpload
-            value={imageUrl}
+            value={imageUrl || ''}
             onChange={(url) => setValue('image_url', url, { shouldValidate: true })}
           />
           <input type="hidden" {...register('image_url')} />
@@ -288,14 +291,18 @@ export function ProductForm({
 
         {/* Validation Error Summary */}
         {Object.keys(errors).length > 0 && (
-          <div className="md:col-span-2 rounded-xl bg-red-50 border border-red-200 px-4 py-3">
-            <p className="text-[11px] font-bold text-red-600 mb-1">في حاجة ناقصة:</p>
-            <ul className="list-disc list-inside space-y-0.5">
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 md:col-span-2">
+            <p className="mb-1 text-[11px] font-bold text-red-600">في حاجة ناقصة:</p>
+            <ul className="list-inside list-disc space-y-0.5">
               {errors.title && <li className="text-[10px] text-red-500">{errors.title.message}</li>}
-              {errors.fabric_type && <li className="text-[10px] text-red-500">{errors.fabric_type.message}</li>}
+              {errors.fabric_type && (
+                <li className="text-[10px] text-red-500">{errors.fabric_type.message}</li>
+              )}
               {errors.category_id && <li className="text-[10px] text-red-500">لازم تختار قسم</li>}
               {errors.price && <li className="text-[10px] text-red-500">{errors.price.message}</li>}
-              {errors.image_url && <li className="text-[10px] text-red-500">{errors.image_url.message}</li>}
+              {errors.image_url && (
+                <li className="text-[10px] text-red-500">{errors.image_url.message}</li>
+              )}
             </ul>
           </div>
         )}

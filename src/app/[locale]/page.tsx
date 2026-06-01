@@ -10,7 +10,7 @@ import { useEffect, useRef, useState, use } from 'react';
 import gsap from 'gsap';
 
 export default function Home({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: _locale } = use(params);
+  use(params);
   const [products, setProducts] = useState<Product[]>([]);
 
   const [loading, setLoading] = useState(true);

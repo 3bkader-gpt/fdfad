@@ -91,7 +91,9 @@ export function CategoryForm({
             dir="rtl"
           />
           {errors.name_ar && (
-            <p className="text-start text-[10px] font-medium text-red-500">{errors.name_ar.message}</p>
+            <p className="text-start text-[10px] font-medium text-red-500">
+              {errors.name_ar.message}
+            </p>
           )}
         </div>
 
@@ -107,7 +109,9 @@ export function CategoryForm({
             dir="ltr"
           />
           {errors.name_en && (
-            <p className="text-start text-[10px] font-medium text-red-500">{errors.name_en.message}</p>
+            <p className="text-start text-[10px] font-medium text-red-500">
+              {errors.name_en.message}
+            </p>
           )}
         </div>
       </div>

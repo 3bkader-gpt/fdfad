@@ -15,9 +15,40 @@ export async function createOrder(orderData: {
 }) {
   const supabase = await createClient();
 
-  // 1. Insert Order via RPC
-  // Using a double assertion here to satisfy the compiler in an SSR context where the
-  // auto-generated types for RPCs are sometimes inferred as 'never' or 'undefined'.
+  // 1. Validate items against DB
+  const productIds = orderData.items.map((item) => item.product_id);
+  const { data: products, error: productError } = (await supabase
+    .from('products')
+    .select('id, price, is_active')
+    .in('id', productIds)) as {
+    data: { id: string; price: number; is_active: boolean }[] | null;
+    error: unknown;
+  };
+
+  if (productError || !products) {
+    return { success: false, error: 'Failed to validate products.' };
+  }
+
+  let validatedTotal = 0;
+  for (const item of orderData.items) {
+    const dbProduct = products.find((p) => p.id === item.product_id);
+
+    if (!dbProduct || !dbProduct.is_active) {
+      return { success: false, error: `Product ${item.product_id} is unavailable.` };
+    }
+
+    if (Number(dbProduct.price) !== item.price_at_purchase) {
+      return { success: false, error: 'Price mismatch detected.' };
+    }
+
+    validatedTotal += Number(dbProduct.price) * item.quantity;
+  }
+
+  if (Math.abs(validatedTotal - orderData.total_amount) > 0.01) {
+    return { success: false, error: 'Total amount mismatch.' };
+  }
+
+  // 2. Insert Order via RPC
   const { data, error: orderError } = await (
     supabase as unknown as {
       rpc: (
@@ -43,7 +74,7 @@ export async function createOrder(orderData: {
 
   const order = data;
 
-  // 2. Insert Order Items
+  // 3. Insert Order Items
   const orderItems: Database['public']['Tables']['order_items']['Insert'][] = orderData.items.map(
     (item) => ({
       order_id: order.id,

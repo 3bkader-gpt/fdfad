@@ -101,8 +101,16 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
 
             {(cat.description_ar || cat.description_en) && (
               <div className="flex flex-col gap-1 text-[10px] leading-relaxed opacity-50">
-                {cat.description_ar && <p className="line-clamp-1" dir="rtl">{cat.description_ar}</p>}
-                {cat.description_en && <p className="line-clamp-1" dir="ltr">{cat.description_en}</p>}
+                {cat.description_ar && (
+                  <p className="line-clamp-1" dir="rtl">
+                    {cat.description_ar}
+                  </p>
+                )}
+                {cat.description_en && (
+                  <p className="line-clamp-1" dir="ltr">
+                    {cat.description_en}
+                  </p>
+                )}
               </div>
             )}
 

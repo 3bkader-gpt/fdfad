@@ -53,8 +53,10 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
         ) : (
           <div className="flex flex-col gap-4">
             {categories.map((category) => {
-              const categoryName = (locale === 'ar' ? category.name_ar : category.name_en) || category.name;
-              const categoryDescription = locale === 'ar' ? category.description_ar : category.description_en;
+              const categoryName =
+                (locale === 'ar' ? category.name_ar : category.name_en) || category.name;
+              const categoryDescription =
+                locale === 'ar' ? category.description_ar : category.description_en;
               return (
                 <Link
                   key={category.id}

@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="flex w-full items-center justify-between md:flex-col md:items-start md:gap-4">
           <Link
             href="/admin"
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors w-auto md:w-full ${
+            className={`flex w-auto items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors md:w-full ${
               isActive('/admin')
                 ? 'bg-brand-primary/10 text-brand-primary font-bold'
                 : 'text-text-secondary hover:text-text-primary hover:bg-bg-main'
@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           <Link
             href="/admin/products"
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors w-auto md:w-full ${
+            className={`flex w-auto items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors md:w-full ${
               isActive('/admin/products')
                 ? 'bg-brand-primary/10 text-brand-primary font-bold'
                 : 'text-text-secondary hover:text-text-primary hover:bg-bg-main'
@@ -52,7 +52,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           <Link
             href="/admin/categories"
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors w-auto md:w-full ${
+            className={`flex w-auto items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors md:w-full ${
               isActive('/admin/categories')
                 ? 'bg-brand-primary/10 text-brand-primary font-bold'
                 : 'text-text-secondary hover:text-text-primary hover:bg-bg-main'
@@ -77,7 +77,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-w-0 p-6 pb-24 md:pb-6">{children}</main>
+      <main className="min-w-0 flex-1 p-6 pb-24 md:pb-6">{children}</main>
     </div>
   );
 }

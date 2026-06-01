@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 interface AnimatedOrderButtonProps {
   onClick: () => Promise<void> | void;
@@ -19,7 +18,6 @@ export function AnimatedOrderButton({
   disabled = false,
 }: AnimatedOrderButtonProps) {
   const [state, setState] = useState<'idle' | 'driving' | 'success'>('idle');
-  const tc = useTranslations('Common');
 
   const handleClick = async () => {
     if (state !== 'idle' || disabled) return;

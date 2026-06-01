@@ -68,7 +68,7 @@ export function ConfirmModal({
   const IconComponent = theme.accentIcon;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-in fade-in duration-200">
+    <div className="animate-in fade-in fixed inset-0 z-[100] flex items-center justify-center p-6 duration-200">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
@@ -76,7 +76,7 @@ export function ConfirmModal({
       />
 
       {/* Modal Container */}
-      <div className="bg-bg-elevated border-border-color relative w-full max-w-md rounded-3xl border p-8 shadow-2xl transition-all duration-200 animate-in zoom-in-95 slide-in-from-bottom-4">
+      <div className="bg-bg-elevated border-border-color animate-in zoom-in-95 slide-in-from-bottom-4 relative w-full max-w-md rounded-3xl border p-8 shadow-2xl transition-all duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -87,7 +87,9 @@ export function ConfirmModal({
 
         <div className="flex flex-col items-center text-center">
           {/* Accent Icon */}
-          <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-full border ${theme.bgIcon} ${theme.borderIcon}`}>
+          <div
+            className={`mb-6 flex h-14 w-14 items-center justify-center rounded-full border ${theme.bgIcon} ${theme.borderIcon}`}
+          >
             <IconComponent className={`h-7 w-7 ${theme.textIcon}`} />
           </div>
 
@@ -95,23 +97,21 @@ export function ConfirmModal({
           <h3 className="text-text-primary font-serif text-2xl font-bold tracking-tight">
             {title}
           </h3>
-          <p className="text-text-secondary mt-3 text-sm leading-relaxed opacity-70">
-            {message}
-          </p>
+          <p className="text-text-secondary mt-3 text-sm leading-relaxed opacity-70">{message}</p>
 
           {/* Action Buttons */}
           <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row">
             <button
               onClick={onClose}
               disabled={isPending}
-              className="bg-bg-main hover:bg-zinc-100 dark:hover:bg-zinc-800 text-text-primary border-border-color flex-1 rounded-full border py-3.5 text-[10px] font-bold tracking-widest uppercase transition-all active:scale-95 disabled:opacity-50"
+              className="bg-bg-main text-text-primary border-border-color flex-1 rounded-full border py-3.5 text-[10px] font-bold tracking-widest uppercase transition-all hover:bg-zinc-100 active:scale-95 disabled:opacity-50 dark:hover:bg-zinc-800"
             >
               {cancelText}
             </button>
             <button
               onClick={onConfirm}
               disabled={isPending}
-              className={`flex-1 rounded-full py-3.5 text-[10px] font-bold tracking-widest uppercase shadow-lg transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 ${theme.confirmBtn}`}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-[10px] font-bold tracking-widest uppercase shadow-lg transition-all active:scale-95 disabled:opacity-50 ${theme.confirmBtn}`}
             >
               {isPending && (
                 <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
