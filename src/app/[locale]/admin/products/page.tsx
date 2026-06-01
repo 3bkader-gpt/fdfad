@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server';
-import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { Plus, Edit2 } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { Product } from '@/types/supabase';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { DeleteProductButton } from './DeleteProductButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -100,9 +101,7 @@ export default async function AdminProductsPage({
                 <Edit2 className="h-3 w-3" />
                 {t('edit')}
               </Link>
-              <button className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition-colors hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40">
-                <Trash2 className="h-4 w-4" />
-              </button>
+              <DeleteProductButton id={product.id} />
             </div>
           </div>
         ))}
