@@ -27,8 +27,26 @@ export default async function ProductPage({
 
   const product = productData as Product;
 
-  // 2. Fetch up to 4 related products from the same category
+  // 2. Fetch category name for breadcrumb
   const categoryId = product.product_categories?.[0]?.category_id;
+  let categoryName: string | null = null;
+  let categorySlug: string | null = null;
+
+  if (categoryId) {
+    const { data: catData } = await supabase
+      .from('categories')
+      .select('name_ar, name_en, slug')
+      .eq('id', categoryId)
+      .single();
+
+    if (catData) {
+      const cat = catData as { name_ar: string; name_en: string; slug: string };
+      categoryName = locale === 'ar' ? cat.name_ar : cat.name_en;
+      categorySlug = cat.slug;
+    }
+  }
+
+  // 3. Fetch up to 4 related products from the same category
   let relatedProducts: Product[] = [];
 
   if (categoryId) {
@@ -45,5 +63,12 @@ export default async function ProductPage({
     }
   }
 
-  return <ProductDetailsClient product={product} relatedProducts={relatedProducts} />;
+  return (
+    <ProductDetailsClient
+      product={product}
+      relatedProducts={relatedProducts}
+      categoryName={categoryName}
+      categorySlug={categorySlug}
+    />
+  );
 }

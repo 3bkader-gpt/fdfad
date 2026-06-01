@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { StatusPill } from './orders/[id]/StatusPill';
-import { ShoppingBag, Clock, Package, Truck, CheckCircle2 } from 'lucide-react';
+import { ShoppingBag, Clock, Package, Truck, CheckCircle2, TrendingUp } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { Order } from '@/types/supabase';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -35,6 +35,13 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
     shipped: typedOrders.filter((o) => o.status === 'SHIPPED').length,
     delivered: typedOrders.filter((o) => o.status === 'DELIVERED').length,
   };
+
+  // Revenue this week
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const revenueThisWeek = typedOrders
+    .filter((o) => o.status === 'DELIVERED' && new Date(o.created_at) >= oneWeekAgo)
+    .reduce((sum, o) => sum + o.total_amount, 0);
 
   return (
     <div className="text-text-primary flex flex-col gap-10 text-start">
@@ -79,6 +86,21 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           icon={<CheckCircle2 className="h-4 w-4" />}
           color="bg-status-delivered-bg text-status-delivered-text"
         />
+        {/* Revenue KPI */}
+        <div className="col-span-2 md:col-span-5">
+          <div className="border-brand-accent/20 bg-brand-accent/5 flex items-center justify-between rounded-2xl border p-5">
+            <div className="flex items-center gap-3">
+              <div className="bg-brand-accent/10 text-brand-accent rounded-lg p-2">
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold tracking-widest uppercase opacity-60">{t('revenueWeek')}</p>
+                <p className="text-brand-accent text-2xl font-bold tabular-nums">{revenueThisWeek.toLocaleString()} {tc('egp')}</p>
+              </div>
+            </div>
+            <p className="text-[9px] font-bold tracking-widest uppercase opacity-30">{t('deliveredOnly')}</p>
+          </div>
+        </div>
       </div>
 
       {/* Orders Table */}
@@ -100,19 +122,19 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
             <thead className="bg-bg-main border-border-color border-b whitespace-nowrap">
               <tr>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
-                  Order
+                  {t('colOrder')}
                 </th>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
-                  Customer
+                  {t('colCustomer')}
                 </th>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
-                  Location
+                  {t('colLocation')}
                 </th>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
-                  Total
+                  {t('colTotal')}
                 </th>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
-                  Status
+                  {t('colStatus')}
                 </th>
               </tr>
             </thead>

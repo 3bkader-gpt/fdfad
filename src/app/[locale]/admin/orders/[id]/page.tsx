@@ -4,7 +4,8 @@ import { notFound } from 'next/navigation';
 import { User, MapPin, Notebook, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { OrderWithItems } from '@/types/supabase';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
+import { PrintWaybillButton } from './PrintWaybillButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,7 @@ export default async function OrderDetailsPage({
 }) {
   const { id, locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('Admin');
 
   const supabase = await createClient();
 
@@ -40,7 +42,7 @@ export default async function OrderDetailsPage({
             className="hover:text-brand-accent flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase opacity-40 transition-colors"
           >
             <ArrowLeft className="h-3 w-3 rtl:rotate-180" />
-            Back to dashboard
+            {t('backToOrders')}
           </Link>
           <div className="flex items-center gap-4 text-start">
             <h2 className="font-serif text-4xl font-bold tracking-tight">{order.order_no}</h2>
@@ -186,11 +188,9 @@ export default async function OrderDetailsPage({
           {/* Quick Actions */}
           <div className="border-border-color bg-bg-elevated rounded-2xl border p-6 text-center">
             <p className="mb-4 text-center text-[9px] font-bold tracking-widest uppercase opacity-40">
-              Internal Workflow
+              {t('colStatus')}
             </p>
-            <button className="border-border-color hover:bg-bg-main w-full rounded-lg border py-3 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors">
-              Print Waybill
-            </button>
+            <PrintWaybillButton label={t('printWaybill')} />
           </div>
         </div>
       </div>

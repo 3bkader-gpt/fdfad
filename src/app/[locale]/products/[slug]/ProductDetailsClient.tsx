@@ -11,6 +11,8 @@ import { AddToCartButton } from '@/components/ui/AddToCartButton';
 interface ProductDetailsClientProps {
   product: Product;
   relatedProducts: Product[];
+  categoryName?: string | null;
+  categorySlug?: string | null;
 }
 
 const COLOR_MAP: Record<string, string> = {
@@ -27,7 +29,7 @@ const COLOR_MAP: Record<string, string> = {
   white: '#FAFAFA',
 };
 
-export function ProductDetailsClient({ product, relatedProducts }: ProductDetailsClientProps) {
+export function ProductDetailsClient({ product, relatedProducts, categoryName, categorySlug }: ProductDetailsClientProps) {
   const t = useTranslations('Products');
   const tc = useTranslations('Common');
   const tco = useTranslations('Checkout');
@@ -129,7 +131,37 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
         <div className="w-9" />
       </nav>
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-0 pt-[73px] md:grid-cols-2 md:px-6 md:pt-28">
+      {/* 2. Breadcrumb */}
+      {categoryName && (
+        <nav
+          aria-label="Breadcrumb"
+          className="border-border-color bg-bg-main/80 fixed top-[57px] left-0 z-[55] w-full border-b px-6 py-2 backdrop-blur-sm"
+        >
+          <ol className="flex items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase opacity-50">
+            <li>
+              <Link href="/" className="hover:opacity-100 transition-opacity">
+                {tc('back')}
+              </Link>
+            </li>
+            <li className="opacity-40">/</li>
+            {categorySlug && (
+              <>
+                <li>
+                  <Link href={`/categories/${categorySlug}`} className="hover:opacity-100 transition-opacity">
+                    {categoryName}
+                  </Link>
+                </li>
+                <li className="opacity-40">/</li>
+              </>
+            )}
+            <li className="opacity-100 text-text-primary line-clamp-1 max-w-[200px]">
+              {product.title}
+            </li>
+          </ol>
+        </nav>
+      )}
+
+      <div className={`mx-auto grid max-w-6xl grid-cols-1 gap-8 px-0 ${categoryName ? 'pt-[105px] md:pt-36' : 'pt-[73px] md:pt-28'} md:grid-cols-2 md:px-6`}>
         {/* Gallery Section */}
         <section className="flex flex-col gap-4">
           {/* Main Display Container */}
