@@ -55,7 +55,7 @@
   box-shadow: 0 4px 16px rgba(200, 155, 126, 0.25);
 }
 
-/* Theme Toggle Animations - Hardened for Mobile (44px target) */
+/* Theme Toggle Animations */
 .theme-toggle {
   --tg-w: 64px; --tg-h: 44px; --tg-pad: 4px;
   position: relative; display: inline-flex; width: var(--tg-w); height: var(--tg-h); cursor: pointer;
@@ -77,6 +77,82 @@
 }
 .theme-toggle__input:checked ~ .theme-toggle__track .theme-toggle__orb {
   transform: translateX(28px); background: var(--brand-accent);
+}
+
+/* Luxury Social Expand Buttons */
+.social-expand-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 52px;
+  width: 52px;
+  padding: 0 16px;
+  border-radius: 50px;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.social-expand-btn:hover, .social-expand-btn:active {
+  width: 170px;
+  color: #fff;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.social-expand-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.social-expand-btn:hover .social-expand-icon, .social-expand-btn:active .social-expand-icon {
+  transform: rotate(360deg);
+}
+
+.social-expand-text {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.5s ease;
+}
+
+.social-expand-btn:hover .social-expand-text, .social-expand-btn:active .social-expand-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.social-whatsapp:hover, .social-whatsapp:active {
+  background: #25D366;
+  border-color: #25D366;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25);
+}
+
+.social-instagram:hover, .social-instagram:active {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-color: transparent;
+  box-shadow: 0 10px 25px rgba(188, 24, 136, 0.25);
+}
+
+.social-facebook:hover, .social-facebook:active {
+  background: #1877F2;
+  border-color: #1877F2;
+  box-shadow: 0 10px 25px rgba(24, 119, 242, 0.25);
+}
+
+.social-tiktok:hover, .social-tiktok:active {
+  background: #000000;
+  border-color: #000000;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes slide-in-right {
@@ -109,7 +185,6 @@ html, body {
   overflow-x: hidden;
   position: relative;
   width: 100%;
-  /* Optimize for touch interactions */
   touch-action: manipulation;
 }
 
