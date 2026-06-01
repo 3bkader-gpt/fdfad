@@ -59,25 +59,25 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           label="New"
           value={metrics.new}
           icon={<Clock className="h-4 w-4" />}
-          color="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
+          color="bg-status-new-bg text-status-new-text"
         />
         <MetricCard
           label="Preparing"
           value={metrics.preparing}
           icon={<Package className="h-4 w-4" />}
-          color="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400"
+          color="bg-status-preparing-bg text-status-preparing-text"
         />
         <MetricCard
           label="Shipped"
           value={metrics.shipped}
           icon={<Truck className="h-4 w-4" />}
-          color="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400"
+          color="bg-status-shipped-bg text-status-shipped-text"
         />
         <MetricCard
           label="Delivered"
           value={metrics.delivered}
           icon={<CheckCircle2 className="h-4 w-4" />}
-          color="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
+          color="bg-status-delivered-bg text-status-delivered-text"
         />
       </div>
 
