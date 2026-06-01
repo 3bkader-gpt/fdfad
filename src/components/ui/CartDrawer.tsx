@@ -3,10 +3,13 @@
 import { useCart } from '@/lib/store';
 import { X, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export function CartDrawer() {
   const { items, isOpen, setIsOpen, updateQuantity, removeItem, total } = useCart();
+  const t = useTranslations('Cart');
+  const tc = useTranslations('Common');
 
   if (!isOpen) return null;
 
@@ -24,7 +27,9 @@ export function CartDrawer() {
         <header className="flex items-center justify-between border-b border-[#2C3E35]/5 px-6 py-6">
           <div className="flex items-center gap-3">
             <ShoppingBag className="h-5 w-5" />
-            <h2 className="font-serif text-xl font-bold tracking-tight text-[#2C3E35]">Your Bag</h2>
+            <h2 className="font-serif text-xl font-bold tracking-tight text-[#2C3E35]">
+              {t('title')}
+            </h2>
             <span className="rounded-full bg-[#2C3E35] px-2 py-0.5 text-[10px] font-bold text-white">
               {items.reduce((acc, item) => acc + item.quantity, 0)}
             </span>
@@ -38,7 +43,7 @@ export function CartDrawer() {
         </header>
 
         {/* Items List */}
-        <div className="no-scrollbar flex-1 overflow-y-auto px-6 py-4">
+        <div className="no-scrollbar flex-1 overflow-y-auto px-6 py-4 text-start">
           {items.length > 0 ? (
             <div className="flex flex-col gap-6">
               {items.map((item) => (
@@ -59,8 +64,8 @@ export function CartDrawer() {
                         <h3 className="line-clamp-1 text-xs font-medium tracking-tight uppercase">
                           {item.product.title}
                         </h3>
-                        <p className="text-sm font-semibold whitespace-nowrap">
-                          {item.product.price} EGP
+                        <p className="text-left text-sm font-semibold whitespace-nowrap">
+                          {item.product.price} {tc('egp')}
                         </p>
                       </div>
                       <p className="mt-0.5 text-[10px] text-[#2C3E35]/40 italic">
@@ -69,26 +74,26 @@ export function CartDrawer() {
                     </div>
 
                     <div className="mt-4 flex items-center justify-between">
-                      <div className="flex items-center gap-3 rounded-full bg-[#FAFAFA] px-2 py-1 ring-1 ring-[#2C3E35]/5">
+                      <div className="flex items-center gap-4 rounded-full bg-[#FAFAFA] px-2 py-1 ring-1 ring-[#2C3E35]/5">
                         <button
                           onClick={() => updateQuantity(item.product.id, -1)}
-                          className="p-1 transition-colors hover:text-[#C89B7E]"
+                          className="flex h-8 w-8 items-center justify-center transition-colors hover:text-[#C89B7E]"
                         >
-                          <Minus className="h-3 w-3" />
+                          <Minus className="h-4 w-4" />
                         </button>
                         <span className="w-4 text-center text-xs font-bold">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.product.id, 1)}
-                          className="p-1 transition-colors hover:text-[#C89B7E]"
+                          className="flex h-8 w-8 items-center justify-center transition-colors hover:text-[#C89B7E]"
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className="h-4 w-4" />
                         </button>
                       </div>
                       <button
                         onClick={() => removeItem(item.product.id)}
                         className="text-[10px] font-bold tracking-widest text-red-500/60 uppercase transition-colors hover:text-red-600"
                       >
-                        Remove
+                        {t('remove')}
                       </button>
                     </div>
                   </div>
@@ -98,12 +103,12 @@ export function CartDrawer() {
           ) : (
             <div className="flex h-full flex-col items-center justify-center text-center opacity-30">
               <ShoppingBag className="mb-4 h-12 w-12 stroke-1" />
-              <p className="font-serif text-lg italic">Your bag is currently empty.</p>
+              <p className="font-serif text-lg italic">{t('empty')}</p>
               <button
                 onClick={() => setIsOpen(false)}
                 className="mt-6 text-xs font-bold tracking-widest text-[#2C3E35] uppercase underline underline-offset-4"
               >
-                Continue Browsing
+                {t('continueBrowsing')}
               </button>
             </div>
           )}
@@ -111,16 +116,18 @@ export function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <footer className="border-t border-[#2C3E35]/5 bg-[#FAFAFA] px-6 py-8">
+          <footer className="border-t border-[#2C3E35]/5 bg-[#FAFAFA] px-6 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <div className="mb-6 flex items-center justify-between">
               <span className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
-                Subtotal
+                {t('subtotal')}
               </span>
-              <span className="text-xl font-bold tracking-tight text-[#2C3E35]">{total()} EGP</span>
+              <span className="text-xl font-bold tracking-tight text-[#2C3E35]">
+                {total()} {tc('egp')}
+              </span>
             </div>
 
             <p className="mb-6 text-center text-[10px] text-[#2C3E35]/50 italic">
-              Shipping calculated at checkout. Cash on Delivery supported.
+              {t('shippingNote')}
             </p>
 
             <Link
@@ -128,8 +135,8 @@ export function CartDrawer() {
               onClick={() => setIsOpen(false)}
               className="flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[10px] font-bold tracking-[0.3em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95"
             >
-              Secure Checkout
-              <ArrowRight className="h-3 w-3" />
+              {t('checkout')}
+              <ArrowRight className="h-3 w-3 rtl:rotate-180" />
             </Link>
           </footer>
         )}

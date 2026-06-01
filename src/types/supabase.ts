@@ -1,5 +1,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
+export type OrderStatus = 'NEW' | 'CONFIRMED' | 'PREPARING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+
 export interface Database {
   public: {
     Tables: {
@@ -17,6 +19,52 @@ export interface Database {
         Update: {
           id?: string;
           email?: string;
+          created_at?: string;
+        };
+      };
+      categories: {
+        Row: {
+          id: string;
+          name: string;
+          slug: string;
+          description: string | null;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          slug: string;
+          description?: string | null;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          slug?: string;
+          description?: string | null;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      product_categories: {
+        Row: {
+          product_id: string;
+          category_id: string;
+          created_at: string;
+        };
+        Insert: {
+          product_id: string;
+          category_id: string;
+          created_at?: string;
+        };
+        Update: {
+          product_id?: string;
+          category_id?: string;
           created_at?: string;
         };
       };
@@ -155,13 +203,7 @@ export interface Database {
         };
       };
     };
-    Views: {
-      [_ in string]: {
-        Row: {
-          [_ in string]: Json | undefined;
-        };
-      };
-    };
+    Views: Record<string, never>;
     Functions: {
       create_order_rpc: {
         Args: {
@@ -174,18 +216,31 @@ export interface Database {
         };
         Returns: Json;
       };
+      update_order_status_rpc: {
+        Args: {
+          p_order_id: string;
+          p_status: string;
+        };
+        Returns: Json;
+      };
     };
-    Enums: {
-      [_ in string]: string;
-    };
+    Enums: Record<string, never>;
   };
 }
 
+// Helpers for joined queries
+export type Category = Database['public']['Tables']['categories']['Row'];
 export type Product = Database['public']['Tables']['products']['Row'] & {
   product_images: Database['public']['Tables']['product_images']['Row'][];
+  product_categories?: {
+    category_id: string;
+    categories: Category | null;
+  }[];
 };
 
-export type Order = Database['public']['Tables']['orders']['Row'];
+export type Order = Database['public']['Tables']['orders']['Row'] & {
+  status: OrderStatus;
+};
 export type OrderItem = Database['public']['Tables']['order_items']['Row'];
 export type OrderWithItems = Order & {
   order_items: (OrderItem & {

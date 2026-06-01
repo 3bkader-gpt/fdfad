@@ -1,0 +1,92 @@
+{
+  "Common": {
+    "title": "Fadfaad",
+    "subtitle": "The Art of Modest Drapery",
+    "egp": "EGP",
+    "madeInEgypt": "Made in Egypt",
+    "madeInCairo": "Made in Cairo",
+    "handmade": "Handmade",
+    "loading": "Loading...",
+    "error": "An unexpected error occurred",
+    "back": "Back",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "Nav": {
+    "home": "Home",
+    "collection": "Collection",
+    "about": "About",
+    "contact": "Contact",
+    "explore": "Explore",
+    "bag": "Shopping Bag"
+  },
+  "Hero": {
+    "est": "Est. 2026",
+    "cta": "Explore Collection"
+  },
+  "Trust": {
+    "cod": "Cash on Delivery",
+    "fastDelivery": "Fast Delivery",
+    "returns": "14-Day Returns"
+  },
+  "Products": {
+    "latest": "Latest Arrivals",
+    "empty": "Our next curation is arriving soon.",
+    "opacity": "Opacity Index",
+    "opaque": "100% Opaque",
+    "highlyModest": "Highly Modest",
+    "details": "The Details",
+    "fabric": "Textile",
+    "origin": "Origin",
+    "premium": "Premium Grade",
+    "addToCart": "Add to Bag",
+    "awaitingVisuals": "Visuals Pending"
+  },
+  "Cart": {
+    "title": "Your Bag",
+    "empty": "Your bag is currently empty.",
+    "subtotal": "Subtotal",
+    "checkout": "Secure Checkout",
+    "remove": "Remove",
+    "continueBrowsing": "Continue Browsing",
+    "shippingNote": "Shipping calculated at checkout. Cash on Delivery supported."
+  },
+  "Checkout": {
+    "title": "Checkout",
+    "summary": "Order Summary",
+    "total": "Total to Pay",
+    "details": "Delivery Details",
+    "fullName": "Full Name",
+    "phone": "Mobile Number",
+    "governorate": "Governorate",
+    "address": "Detailed Address",
+    "notes": "Notes (Optional)",
+    "processing": "Processing...",
+    "confirmOrder": "Confirm Order — {total} EGP",
+    "success": "Order Received!",
+    "orderNo": "Order Number",
+    "successNote": "We will contact you shortly to confirm."
+  },
+  "Admin": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "products": "Products",
+    "categories": "Categories",
+    "logout": "Logout",
+    "overview": "Overview",
+    "recentOrders": "Recent Orders",
+    "viewAll": "View All",
+    "newProduct": "New Product",
+    "editProduct": "Edit Product",
+    "newCategory": "New Category",
+    "editCategory": "Edit Category",
+    "visibility": "Visibility",
+    "active": "Active",
+    "archived": "Archived",
+    "primaryCategory": "Primary Category",
+    "commit": "Commit to Collection"
+  }
+}

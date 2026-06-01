@@ -39,6 +39,12 @@
   scrollbar-width: none;
 }
 
+html, body {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
 body {
   background: #FAFAFA;
   color: #2C3E35;

@@ -1,12 +1,17 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Product } from '@/types/supabase';
+import { useTranslations } from 'next-intl';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const t = useTranslations('Products');
+  const tc = useTranslations('Common');
   const mainImage = product.product_images?.[0]?.url;
 
   return (
@@ -23,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         ) : (
           <div className="flex h-full items-center justify-center text-[10px] tracking-widest uppercase italic opacity-20">
-            Awaiting Visuals
+            {t('awaitingVisuals')}
           </div>
         )}
 
@@ -31,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {product.made_in_egypt && (
             <span className="rounded-sm bg-[#4A7C59] px-2 py-0.5 text-[7px] font-bold tracking-tighter text-white uppercase shadow-sm">
-              Made in Egypt
+              {tc('madeInEgypt')}
             </span>
           )}
         </div>
@@ -43,14 +48,16 @@ export function ProductCard({ product }: ProductCardProps) {
           <h3 className="line-clamp-1 text-[11px] font-medium tracking-tight text-[#2C3E35] uppercase">
             {product.title}
           </h3>
-          <span className="shrink-0 font-mono text-[9px] opacity-40">
+          <span className="shrink-0 text-left font-mono text-[9px] opacity-40">
             OPAC {product.opacity_scale}/5
           </span>
         </div>
 
         <p className="mb-1 text-[10px] text-[#2C3E35]/60 italic">{product.fabric_type}</p>
 
-        <p className="text-sm font-semibold text-[#2C3E35]">{product.price} EGP</p>
+        <p className="text-sm font-semibold text-[#2C3E35]">
+          {product.price} {tc('egp')}
+        </p>
       </div>
     </Link>
   );

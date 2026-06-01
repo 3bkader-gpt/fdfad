@@ -2,18 +2,21 @@
 
 import { useCart } from '@/lib/store';
 import { X, ChevronRight, Heart, Mail } from 'lucide-react';
-import Link from 'next/link';
-
-const CATEGORIES = [
-  { name: 'All Collection', href: '/' },
-  { name: 'Abayas', href: '/#collection' },
-  { name: 'Khimars', href: '/#collection' },
-  { name: 'Jilbabs', href: '/#collection' },
-  { name: 'Prayer Wear', href: '/#collection' },
-];
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export function MobileMenu() {
   const { isMenuOpen, setIsMenuOpen } = useCart();
+  const t = useTranslations('Nav');
+  const tc = useTranslations('Common');
+
+  const CATEGORIES = [
+    { name: t('home'), href: '/' },
+    { name: 'Abayas', href: '/#collection' },
+    { name: 'Khimars', href: '/#collection' },
+    { name: 'Jilbabs', href: '/#collection' },
+    { name: 'Prayer Wear', href: '/#collection' },
+  ];
 
   if (!isMenuOpen) return null;
 
@@ -29,7 +32,9 @@ export function MobileMenu() {
       <div className="animate-slide-in-left relative flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl">
         {/* Header */}
         <header className="flex items-center justify-between border-b border-[#2C3E35]/5 px-6 py-6">
-          <h2 className="font-serif text-xl font-bold tracking-tight text-[#2C3E35]">Explore</h2>
+          <h2 className="font-serif text-xl font-bold tracking-tight text-[#2C3E35]">
+            {t('explore')}
+          </h2>
           <button
             onClick={() => setIsMenuOpen(false)}
             className="rounded-full p-2 transition-colors hover:bg-[#FAFAFA]"
@@ -51,7 +56,7 @@ export function MobileMenu() {
                   <span className="text-left text-sm font-bold tracking-[0.2em] text-[#2C3E35] uppercase opacity-80 transition-opacity group-hover:opacity-100">
                     {cat.name}
                   </span>
-                  <ChevronRight className="h-4 w-4 opacity-20" />
+                  <ChevronRight className="h-4 w-4 opacity-20 rtl:rotate-180" />
                 </Link>
               </li>
             ))}
@@ -59,7 +64,7 @@ export function MobileMenu() {
 
           <div className="mt-16 border-t border-[#2C3E35]/5 pt-8 text-left">
             <h3 className="mb-6 text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
-              Connect with us
+              {t('contact')}
             </h3>
             <div className="flex flex-col gap-4">
               <a
@@ -81,9 +86,9 @@ export function MobileMenu() {
         </nav>
 
         {/* Footer */}
-        <footer className="bg-[#FAFAFA] px-6 py-8 text-left">
+        <footer className="bg-[#FAFAFA] px-6 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))] text-left">
           <p className="text-[9px] font-bold tracking-widest uppercase opacity-30">
-            © 2026 FADFAAD CAIRO
+            © 2026 {tc('title').toUpperCase()} CAIRO
           </p>
         </footer>
       </div>
