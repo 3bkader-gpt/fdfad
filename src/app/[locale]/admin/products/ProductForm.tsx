@@ -286,7 +286,7 @@ export function ProductForm({
               </label>
               <input
                 {...register('title')}
-                className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.title ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+                className={`rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.title ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
                 placeholder="e.g. Silk Chiffon Khimar"
               />
               {errors.title && <p className="text-[10px] text-red-500">{errors.title.message}</p>}
@@ -301,7 +301,7 @@ export function ProductForm({
                 {...register('price')}
                 type="number"
                 step="0.01"
-                className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.price ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+                className={`rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.price ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
               />
               {errors.price && <p className="text-[10px] text-red-500">{errors.price.message}</p>}
               <p className="text-[10px] opacity-40">{t('helpPrice')}</p>
@@ -313,7 +313,7 @@ export function ProductForm({
               </label>
               <select
                 {...register('category_id')}
-                className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.category_id ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+                className={`rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.category_id ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
               >
                 <option value="">Select a Category</option>
                 {categories.map((cat) => (
@@ -334,7 +334,7 @@ export function ProductForm({
               </label>
               <select
                 {...register('is_active')}
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
               >
                 <option value="true">{t('active')}</option>
                 <option value="false">{t('archived')}</option>
@@ -348,7 +348,7 @@ export function ProductForm({
               </label>
               <select
                 {...register('made_in_egypt')}
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
               >
                 <option value="true">True</option>
                 <option value="false">False</option>
@@ -363,7 +363,7 @@ export function ProductForm({
               <textarea
                 {...register('description')}
                 rows={4}
-                className="w-full rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="w-full rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="Describe the drape, feel, and fit..."
               />
               <p className="text-[10px] opacity-40">{t('helpDescription')}</p>
@@ -398,7 +398,7 @@ export function ProductForm({
                   addSize();
                 }
               }}
-              className="flex-1 rounded-xl bg-white px-4 py-3 text-sm shadow-sm ring-1 ring-black/5 outline-none focus:ring-2 focus:ring-[#C89B7E]/30"
+              className="flex-1 rounded-xl bg-bg-main text-text-primary px-4 py-3 text-sm shadow-sm ring-1 ring-border-color outline-none focus:ring-2 focus:ring-[#C89B7E]/30"
             />
             <button
               type="button"
@@ -472,7 +472,7 @@ export function ProductForm({
                   addColor();
                 }
               }}
-              className="flex-1 rounded-xl bg-white px-4 py-3 text-sm shadow-sm ring-1 ring-black/5 outline-none focus:ring-2 focus:ring-[#C89B7E]/30"
+              className="flex-1 rounded-xl bg-bg-main text-text-primary px-4 py-3 text-sm shadow-sm ring-1 ring-border-color outline-none focus:ring-2 focus:ring-[#C89B7E]/30"
             />
             <datalist id="standard-colors">
               {STANDARD_COLORS.map((c) => (
@@ -535,7 +535,7 @@ export function ProductForm({
               </label>
               <input
                 {...register('fabric_type')}
-                className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fabric_type ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+                className={`rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fabric_type ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
                 placeholder="e.g. Medine Silk"
               />
               <p className="text-[10px] opacity-40">{t('helpFabric')}</p>
@@ -548,7 +548,7 @@ export function ProductForm({
               <input
                 {...register('garment_length_cm')}
                 type="number"
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="e.g. 145"
               />
               <p className="text-[10px] opacity-40">{t('helpLength')}</p>
@@ -560,7 +560,7 @@ export function ProductForm({
               </label>
               <input
                 {...register('season')}
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="e.g. All Seasons, Summer"
               />
               <p className="text-[10px] opacity-40">{t('helpSeason')}</p>
@@ -572,7 +572,7 @@ export function ProductForm({
               </label>
               <input
                 {...register('care_instructions')}
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="e.g. Machine Wash Cold"
               />
               <p className="text-[10px] opacity-40">{t('helpCare')}</p>
@@ -584,7 +584,7 @@ export function ProductForm({
               </label>
               <select
                 {...register('opacity_scale')}
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
               >
                 {[1, 2, 3, 4, 5].map((v) => (
                   <option key={v} value={v}>
@@ -611,7 +611,7 @@ export function ProductForm({
               <input
                 {...register('model_height_cm')}
                 type="number"
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="e.g. 168"
               />
               <p className="text-[10px] opacity-40">{t('helpModelHeight')}</p>
@@ -624,7 +624,7 @@ export function ProductForm({
               <input
                 {...register('model_weight_kg')}
                 type="number"
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="e.g. 65"
               />
               <p className="text-[10px] opacity-40">{t('helpModelWeight')}</p>
@@ -636,7 +636,7 @@ export function ProductForm({
               </label>
               <input
                 {...register('model_size_worn')}
-                className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                 placeholder="e.g. 56"
               />
               <p className="text-[10px] opacity-40">{t('helpModelSize')}</p>
@@ -671,7 +671,7 @@ export function ProductForm({
                       <select
                         value={row.size}
                         onChange={(e) => updateRecommendationRow(index, 'size', e.target.value)}
-                        className="rounded-xl bg-white px-4 py-2.5 text-sm shadow-sm ring-1 ring-black/5 focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                        className="rounded-xl bg-bg-main text-text-primary px-4 py-2.5 text-sm shadow-sm ring-1 ring-border-color focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                       >
                         <option value="">Select Size</option>
                         {sizes.map((s) => (
@@ -689,7 +689,7 @@ export function ProductForm({
                           updateRecommendationRow(index, 'weight_range', e.target.value)
                         }
                         placeholder="e.g. 50-65kg"
-                        className="rounded-xl bg-white px-4 py-2.5 text-sm shadow-sm ring-1 ring-black/5 focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+                        className="rounded-xl bg-bg-main text-text-primary px-4 py-2.5 text-sm shadow-sm ring-1 ring-border-color focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
                       />
                     </div>
                     <button
