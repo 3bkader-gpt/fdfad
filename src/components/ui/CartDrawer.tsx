@@ -22,23 +22,21 @@ export function CartDrawer() {
       />
 
       {/* Drawer */}
-      <div className="animate-slide-in-right relative flex h-full w-full max-w-md flex-col bg-white shadow-2xl">
+      <div className="animate-slide-in-right bg-bg-main relative flex h-full w-full max-w-md flex-col shadow-2xl">
         {/* Header */}
-        <header className="flex items-center justify-between border-b border-[#2C3E35]/5 px-6 py-6">
-          <div className="flex items-center gap-3">
+        <header className="border-border-color flex items-center justify-between border-b px-6 py-6">
+          <div className="text-text-primary flex items-center gap-3">
             <ShoppingBag className="h-5 w-5" />
-            <h2 className="font-serif text-xl font-bold tracking-tight text-[#2C3E35]">
-              {t('title')}
-            </h2>
-            <span className="rounded-full bg-[#2C3E35] px-2 py-0.5 text-[10px] font-bold text-white">
+            <h2 className="font-serif text-xl font-bold tracking-tight">{t('title')}</h2>
+            <span className="bg-brand-primary rounded-full px-2 py-0.5 text-[10px] font-bold text-white">
               {items.reduce((acc, item) => acc + item.quantity, 0)}
             </span>
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="rounded-full p-2 transition-colors hover:bg-[#FAFAFA]"
+            className="hover:bg-bg-elevated rounded-full p-2 transition-colors"
           >
-            <X className="h-5 w-5" />
+            <X className="text-text-primary h-5 w-5" />
           </button>
         </header>
 
@@ -48,7 +46,7 @@ export function CartDrawer() {
             <div className="flex flex-col gap-6">
               {items.map((item) => (
                 <div key={item.product.id} className="group flex gap-4">
-                  <div className="relative aspect-[3/4] h-24 w-18 shrink-0 overflow-hidden rounded bg-[#F5F5F5]">
+                  <div className="bg-bg-elevated border-border-color relative aspect-[3/4] h-24 w-18 shrink-0 overflow-hidden rounded border">
                     {item.product.product_images?.[0] && (
                       <Image
                         src={item.product.product_images[0].url}
@@ -59,7 +57,7 @@ export function CartDrawer() {
                     )}
                   </div>
                   <div className="flex flex-1 flex-col justify-between py-0.5">
-                    <div>
+                    <div className="text-text-primary">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="line-clamp-1 text-xs font-medium tracking-tight uppercase">
                           {item.product.title}
@@ -68,23 +66,25 @@ export function CartDrawer() {
                           {item.product.price} {tc('egp')}
                         </p>
                       </div>
-                      <p className="mt-0.5 text-[10px] text-[#2C3E35]/40 italic">
+                      <p className="mt-0.5 text-[10px] italic opacity-40">
                         {item.product.fabric_type}
                       </p>
                     </div>
 
                     <div className="mt-4 flex items-center justify-between">
-                      <div className="flex items-center gap-4 rounded-full bg-[#FAFAFA] px-2 py-1 ring-1 ring-[#2C3E35]/5">
+                      <div className="bg-bg-elevated ring-border-color flex items-center gap-4 rounded-full px-2 py-1 ring-1">
                         <button
                           onClick={() => updateQuantity(item.product.id, -1)}
-                          className="flex h-8 w-8 items-center justify-center transition-colors hover:text-[#C89B7E]"
+                          className="hover:text-brand-accent text-text-primary flex h-8 w-8 items-center justify-center transition-colors"
                         >
                           <Minus className="h-4 w-4" />
                         </button>
-                        <span className="w-4 text-center text-xs font-bold">{item.quantity}</span>
+                        <span className="text-text-primary w-4 text-center text-xs font-bold">
+                          {item.quantity}
+                        </span>
                         <button
                           onClick={() => updateQuantity(item.product.id, 1)}
-                          className="flex h-8 w-8 items-center justify-center transition-colors hover:text-[#C89B7E]"
+                          className="hover:text-brand-accent text-text-primary flex h-8 w-8 items-center justify-center transition-colors"
                         >
                           <Plus className="h-4 w-4" />
                         </button>
@@ -101,12 +101,12 @@ export function CartDrawer() {
               ))}
             </div>
           ) : (
-            <div className="flex h-full flex-col items-center justify-center text-center opacity-30">
+            <div className="text-text-primary flex h-full flex-col items-center justify-center text-center opacity-30">
               <ShoppingBag className="mb-4 h-12 w-12 stroke-1" />
               <p className="font-serif text-lg italic">{t('empty')}</p>
               <button
                 onClick={() => setIsOpen(false)}
-                className="mt-6 text-xs font-bold tracking-widest text-[#2C3E35] uppercase underline underline-offset-4"
+                className="mt-6 text-xs font-bold tracking-widest uppercase underline underline-offset-4"
               >
                 {t('continueBrowsing')}
               </button>
@@ -116,24 +116,24 @@ export function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <footer className="border-t border-[#2C3E35]/5 bg-[#FAFAFA] px-6 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]">
-            <div className="mb-6 flex items-center justify-between">
+          <footer className="border-border-color bg-bg-elevated border-t px-6 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]">
+            <div className="text-text-primary mb-6 flex items-center justify-between">
               <span className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
                 {t('subtotal')}
               </span>
-              <span className="text-xl font-bold tracking-tight text-[#2C3E35]">
+              <span className="text-xl font-bold tracking-tight">
                 {total()} {tc('egp')}
               </span>
             </div>
 
-            <p className="mb-6 text-center text-[10px] text-[#2C3E35]/50 italic">
+            <p className="text-text-primary mb-6 text-center text-[10px] italic opacity-50">
               {t('shippingNote')}
             </p>
 
             <Link
               href="/checkout"
               onClick={() => setIsOpen(false)}
-              className="flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[10px] font-bold tracking-[0.3em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95"
+              className="bg-brand-primary shadow-brand-primary/20 hover:bg-brand-primary/90 flex w-full items-center justify-center gap-3 rounded-full py-5 text-[10px] font-bold tracking-[0.3em] text-white uppercase shadow-xl transition-all active:scale-95"
             >
               {t('checkout')}
               <ArrowRight className="h-3 w-3 rtl:rotate-180" />

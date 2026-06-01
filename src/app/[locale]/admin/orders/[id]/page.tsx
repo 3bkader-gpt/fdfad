@@ -2,13 +2,20 @@ import { createClient } from '@/lib/supabase/server';
 import { StatusPill } from './StatusPill';
 import { notFound } from 'next/navigation';
 import { User, MapPin, Notebook, ShoppingBag, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { OrderWithItems } from '@/types/supabase';
+import { setRequestLocale } from 'next-intl/server';
 
 export const dynamic = 'force-dynamic';
 
-export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function OrderDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}) {
+  const { id, locale } = await params;
+  setRequestLocale(locale);
+
   const supabase = await createClient();
 
   // Fetch order with its items
@@ -22,28 +29,24 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
     notFound();
   }
 
-  // We use a type assertion to our manually defined domain type
-  // This is safer than unknown as it verifies against our expected schema
   const order = data as OrderWithItems;
 
   return (
-    <div className="flex flex-col gap-10 pb-20">
+    <div className="text-text-primary flex flex-col gap-10 pb-20 transition-colors duration-300">
       <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
           <Link
             href="/admin"
-            className="flex items-center gap-2 text-[10px] font-bold tracking-widest text-[#2C3E35]/40 uppercase transition-colors hover:text-[#C89B7E]"
+            className="hover:text-brand-accent flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase opacity-40 transition-colors"
           >
-            <ArrowLeft className="h-3 w-3" />
+            <ArrowLeft className="h-3 w-3 rtl:rotate-180" />
             Back to dashboard
           </Link>
-          <div className="flex items-center gap-4 text-left">
-            <h2 className="font-serif text-4xl font-bold tracking-tight text-[#2C3E35]">
-              {order.order_no}
-            </h2>
+          <div className="flex items-center gap-4 text-start">
+            <h2 className="font-serif text-4xl font-bold tracking-tight">{order.order_no}</h2>
             <StatusPill orderId={order.id} currentStatus={order.status} />
           </div>
-          <p className="text-left text-[10px] font-bold tracking-widest uppercase opacity-40">
+          <p className="text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
             Placed on {new Date(order.created_at).toLocaleString()}
           </p>
         </div>
@@ -53,27 +56,27 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
         {/* Left Column: Customer & Shipping */}
         <div className="flex flex-col gap-8 md:col-span-2">
           {/* Section: Customer */}
-          <div className="rounded-2xl border border-[#2C3E35]/5 bg-white p-8 shadow-sm">
-            <div className="mb-8 flex items-center gap-3 border-b border-[#2C3E35]/5 pb-4">
+          <div className="border-border-color bg-bg-elevated rounded-2xl border p-8 shadow-sm">
+            <div className="border-border-color mb-8 flex items-center gap-3 border-b pb-4">
               <User className="h-4 w-4 opacity-30" />
               <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
                 Customer Credentials
               </h3>
             </div>
-            <div className="grid grid-cols-1 gap-8 text-left sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-8 text-start sm:grid-cols-2">
               <div>
-                <p className="mb-1 text-left text-[9px] font-bold tracking-widest uppercase opacity-30">
+                <p className="mb-1 text-start text-[9px] font-bold tracking-widest uppercase opacity-30">
                   Full Name
                 </p>
-                <p className="text-left text-sm font-medium">{order.customer_name}</p>
+                <p className="text-start text-sm font-medium">{order.customer_name}</p>
               </div>
               <div>
-                <p className="mb-1 text-left text-[9px] font-bold tracking-widest uppercase opacity-30">
+                <p className="mb-1 text-start text-[9px] font-bold tracking-widest uppercase opacity-30">
                   Mobile Number
                 </p>
                 <a
                   href={`tel:${order.phone_number}`}
-                  className="text-left text-sm font-bold text-[#C89B7E] underline underline-offset-4"
+                  className="text-brand-accent text-start text-sm font-bold underline underline-offset-4"
                 >
                   {order.phone_number}
                 </a>
@@ -82,25 +85,25 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
           </div>
 
           {/* Section: Address */}
-          <div className="rounded-2xl border border-[#2C3E35]/5 bg-white p-8 text-left shadow-sm">
-            <div className="mb-8 flex items-center gap-3 border-b border-[#2C3E35]/5 pb-4">
+          <div className="border-border-color bg-bg-elevated rounded-2xl border p-8 text-start shadow-sm">
+            <div className="border-border-color mb-8 flex items-center gap-3 border-b pb-4">
               <MapPin className="h-4 w-4 opacity-30" />
-              <h3 className="text-left text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
+              <h3 className="text-start text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
                 Fulfillment Location
               </h3>
             </div>
-            <div className="flex flex-col gap-6 text-left">
+            <div className="flex flex-col gap-6 text-start">
               <div>
-                <p className="mb-1 text-left text-[9px] font-bold tracking-widest uppercase opacity-30">
+                <p className="mb-1 text-start text-[9px] font-bold tracking-widest uppercase opacity-30">
                   Governorate
                 </p>
-                <p className="text-left text-sm font-medium">{order.governorate}</p>
+                <p className="text-start text-sm font-medium">{order.governorate}</p>
               </div>
               <div>
-                <p className="mb-1 text-left text-[9px] font-bold tracking-widest uppercase opacity-30">
+                <p className="mb-1 text-start text-[9px] font-bold tracking-widest uppercase opacity-30">
                   Street Address
                 </p>
-                <p className="max-w-lg text-left text-sm leading-relaxed font-medium">
+                <p className="max-w-lg text-start text-sm leading-relaxed font-medium">
                   {order.address}
                 </p>
               </div>
@@ -109,38 +112,36 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
 
           {/* Section: Notes */}
           {order.notes && (
-            <div className="rounded-2xl border border-[#C89B7E]/10 bg-[#E5D9D0]/20 p-8 text-left">
-              <div className="mb-4 flex items-center gap-3 text-left">
-                <Notebook className="h-4 w-4 text-[#C89B7E]" />
-                <h3 className="text-left text-[10px] font-bold tracking-[0.2em] text-[#C89B7E] uppercase">
+            <div className="border-brand-accent/10 bg-brand-accent/5 rounded-2xl border p-8 text-start">
+              <div className="mb-4 flex items-center gap-3 text-start">
+                <Notebook className="text-brand-accent h-4 w-4" />
+                <h3 className="text-brand-accent text-start text-[10px] font-bold tracking-[0.2em] uppercase">
                   Owner&apos;s Directive (Notes)
                 </h3>
               </div>
-              <p className="text-left text-sm leading-relaxed text-[#2C3E35]/70 italic">
-                {order.notes}
-              </p>
+              <p className="text-start text-sm leading-relaxed italic opacity-70">{order.notes}</p>
             </div>
           )}
         </div>
 
         {/* Right Column: Order Items & Payment */}
-        <div className="flex flex-col gap-8 text-left">
-          <div className="rounded-2xl bg-[#2C3E35] p-8 text-left text-white shadow-xl shadow-[#2C3E35]/10">
-            <div className="mb-8 flex items-center gap-3 border-b border-white/10 pb-4 text-left">
+        <div className="flex flex-col gap-8 text-start">
+          <div className="bg-brand-primary shadow-brand-primary/10 rounded-2xl p-8 text-start text-white shadow-xl">
+            <div className="mb-8 flex items-center gap-3 border-b border-white/10 pb-4 text-start">
               <ShoppingBag className="h-4 w-4 opacity-40" />
-              <h3 className="text-left text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
+              <h3 className="text-start text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
                 Curation Manifest
               </h3>
             </div>
 
-            <div className="flex flex-col gap-6 text-left">
+            <div className="flex flex-col gap-6 text-start">
               {order.order_items.map((item) => (
-                <div key={item.id} className="flex items-start justify-between gap-4 text-left">
-                  <div className="flex flex-col gap-1 text-left">
-                    <p className="text-left text-xs leading-tight font-medium">
+                <div key={item.id} className="flex items-start justify-between gap-4 text-start">
+                  <div className="flex flex-col gap-1 text-start">
+                    <p className="text-start text-xs leading-tight font-medium">
                       {item.products?.title || 'Unknown Product'}
                     </p>
-                    <p className="text-left text-[9px] tracking-widest uppercase opacity-40">
+                    <p className="text-start text-[9px] tracking-widest uppercase opacity-40">
                       Qty: {item.quantity}
                     </p>
                   </div>
@@ -164,12 +165,12 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
             </div>
           </div>
 
-          {/* Quick Actions (Future) */}
-          <div className="rounded-2xl border border-[#2C3E35]/5 bg-white p-6 text-center">
+          {/* Quick Actions */}
+          <div className="border-border-color bg-bg-elevated rounded-2xl border p-6 text-center">
             <p className="mb-4 text-center text-[9px] font-bold tracking-widest uppercase opacity-40">
               Internal Workflow
             </p>
-            <button className="w-full rounded-lg border border-[#2C3E35]/10 py-3 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:bg-[#FAFAFA]">
+            <button className="border-border-color hover:bg-bg-main w-full rounded-lg border py-3 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors">
               Print Waybill
             </button>
           </div>

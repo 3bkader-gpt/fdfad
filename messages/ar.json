@@ -17,8 +17,9 @@
   },
   "Nav": {
     "home": "الرئيسية",
-    "collection": "التشكيلة",
-    "about": "عن فضفاض",
+    "categories": "الأقسام",
+    "newArrivals": "أحدث الإضافات",
+    "bestSellers": "الأكثر مبيعاً",
     "contact": "تواصل معنا",
     "explore": "اكتشفي المزيد",
     "bag": "حقيبة التسوق"

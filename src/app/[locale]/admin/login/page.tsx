@@ -8,15 +8,15 @@ export default async function LoginPage({
   const { error } = await searchParams;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFA] p-6 text-[#2C3E35]">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm ring-1 ring-black/5">
+    <div className="bg-bg-main text-text-primary flex min-h-screen flex-col items-center justify-center p-6 transition-colors duration-300">
+      <div className="bg-bg-elevated ring-border-color w-full max-w-md rounded-xl p-8 shadow-sm ring-1">
         <header className="mb-8 text-center">
           <h1 className="font-serif text-3xl font-bold tracking-tight">فضفاض</h1>
           <p className="mt-2 text-sm tracking-widest uppercase opacity-60">Admin Portal</p>
         </header>
 
         <form action={login} className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-start">
             <label
               className="text-xs font-semibold tracking-wider uppercase opacity-70"
               htmlFor="email"
@@ -28,12 +28,12 @@ export default async function LoginPage({
               name="email"
               type="email"
               required
-              className="rounded-lg bg-[#F5F5F5] px-4 py-3 text-sm transition-all focus:ring-2 focus:ring-[#C89B7E]/50 focus:outline-none"
+              className="bg-bg-main focus:ring-brand-accent/50 text-text-primary rounded-lg px-4 py-3 text-sm transition-all focus:ring-2 focus:outline-none"
               placeholder="owner@fdfad.com"
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-start">
             <label
               className="text-xs font-semibold tracking-wider uppercase opacity-70"
               htmlFor="password"
@@ -45,19 +45,19 @@ export default async function LoginPage({
               name="password"
               type="password"
               required
-              className="rounded-lg bg-[#F5F5F5] px-4 py-3 text-sm transition-all focus:ring-2 focus:ring-[#C89B7E]/50 focus:outline-none"
+              className="bg-bg-main focus:ring-brand-accent/50 text-text-primary rounded-lg px-4 py-3 text-sm transition-all focus:ring-2 focus:outline-none"
             />
           </div>
 
           {error && (
-            <div className="rounded-lg bg-red-50 p-3 text-center text-xs font-medium text-red-600 ring-1 ring-red-100">
+            <div className="rounded-lg bg-red-50 p-3 text-center text-xs font-medium text-red-600 ring-1 ring-red-100 dark:bg-red-900/20 dark:text-red-400 dark:ring-red-900/40">
               {error}
             </div>
           )}
 
           <button
             type="submit"
-            className="mt-2 rounded-lg bg-[#2C3E35] py-3 text-sm font-bold tracking-widest text-white uppercase transition-all hover:bg-[#1E2B25] active:scale-[0.98]"
+            className="bg-brand-primary mt-2 rounded-lg py-3 text-sm font-bold tracking-widest text-white uppercase transition-all hover:opacity-90 active:scale-[0.98]"
           >
             Sign In
           </button>

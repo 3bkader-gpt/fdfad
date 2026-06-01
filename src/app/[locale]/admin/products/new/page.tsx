@@ -1,7 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { ProductForm } from '../ProductForm';
+import { setRequestLocale } from 'next-intl/server';
 
-export default async function NewProductPage() {
+export default async function NewProductPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const supabase = await createClient();
   const { data: categories } = await supabase
     .from('categories')
@@ -10,7 +14,7 @@ export default async function NewProductPage() {
     .order('name');
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="text-text-primary flex flex-col gap-10">
       <ProductForm categories={categories || []} />
     </div>
   );

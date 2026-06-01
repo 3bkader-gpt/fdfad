@@ -17,8 +17,9 @@
   },
   "Nav": {
     "home": "Home",
-    "collection": "Collection",
-    "about": "About",
+    "categories": "Categories",
+    "newArrivals": "New Arrivals",
+    "bestSellers": "Best Sellers",
     "contact": "Contact",
     "explore": "Explore",
     "bag": "Shopping Bag"

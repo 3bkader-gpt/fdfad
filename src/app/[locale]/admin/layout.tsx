@@ -9,9 +9,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const t = useTranslations('Admin');
 
   return (
-    <div className="flex min-h-screen bg-[#FAFAFA] text-[#2C3E35]">
+    <div className="bg-bg-main text-text-primary flex min-h-screen transition-colors duration-300">
       {/* Sidebar */}
-      <aside className="fixed bottom-0 left-0 z-50 flex w-full border-t bg-white px-6 py-4 md:static md:h-screen md:w-64 md:flex-col md:border-t-0 md:border-r">
+      <aside className="border-border-color bg-bg-elevated fixed bottom-0 left-0 z-50 flex w-full border-t px-6 py-4 md:static md:h-screen md:w-64 md:flex-col md:border-t-0 md:border-r">
         <div className="hidden md:mb-12 md:block md:px-2">
           <h1 className="font-serif text-2xl font-bold tracking-tight">فضفاض</h1>
           <p className="text-[10px] tracking-widest uppercase opacity-40">{t('dashboard')}</p>
@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="flex w-full items-center justify-between md:flex-col md:items-start md:gap-4">
           <Link
             href="/admin"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100"
+            className="hover:bg-bg-main flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
           >
             <ShoppingBag className="h-5 w-5" />
             <span className="hidden md:inline">{t('orders')}</span>
@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           <Link
             href="/admin/products"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100"
+            className="hover:bg-bg-main flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
           >
             <Package className="h-5 w-5" />
             <span className="hidden md:inline">{t('products')}</span>
@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           <Link
             href="/admin/categories"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100"
+            className="hover:bg-bg-main flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
           >
             <Tag className="h-5 w-5" />
             <span className="hidden md:inline">{t('categories')}</span>

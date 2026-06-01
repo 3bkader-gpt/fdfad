@@ -35,6 +35,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+import { ThemeProvider } from '@/providers/ThemeProvider';
+
 export default async function LocaleLayout({
   children,
   params,
@@ -67,8 +69,10 @@ export default async function LocaleLayout({
         className={`flex min-h-full flex-col antialiased ${locale === 'ar' ? 'font-cairo' : 'font-sans'}`}
       >
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <GlobalHeader />
-          {children}
+          <ThemeProvider>
+            <GlobalHeader />
+            {children}
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

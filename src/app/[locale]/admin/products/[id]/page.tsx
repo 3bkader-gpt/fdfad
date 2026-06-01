@@ -2,11 +2,18 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { ProductForm } from '../ProductForm';
 import { Product } from '@/types/supabase';
+import { setRequestLocale } from 'next-intl/server';
 
 export const dynamic = 'force-dynamic';
 
-export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function EditProductPage({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}) {
+  const { id, locale } = await params;
+  setRequestLocale(locale);
+
   const supabase = await createClient();
 
   // Fetch product with images and current category associations
@@ -30,7 +37,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   const product = productData as Product;
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="text-text-primary flex flex-col gap-10">
       <ProductForm initialData={product} categories={categories || []} />
     </div>
   );

@@ -23,7 +23,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
     .order('created_at', { ascending: false });
 
   if (error) {
-    return <div>Error loading orders: {error.message}</div>;
+    return <div className="text-text-primary">Error loading orders: {error.message}</div>;
   }
 
   const typedOrders = (data as Order[]) || [];
@@ -37,12 +37,10 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
   };
 
   return (
-    <div className="flex flex-col gap-10 text-start">
+    <div className="text-text-primary flex flex-col gap-10 text-start">
       <header>
-        <h2 className="font-serif text-4xl font-bold tracking-tight text-[#2C3E35]">
-          {t('overview')}
-        </h2>
-        <p className="mt-2 text-[10px] font-bold tracking-widest text-[#2C3E35]/60 uppercase">
+        <h2 className="font-serif text-4xl font-bold tracking-tight">{t('overview')}</h2>
+        <p className="mt-2 text-[10px] font-bold tracking-widest uppercase opacity-60">
           Your business at a glance
         </p>
       </header>
@@ -53,31 +51,31 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           label="Total"
           value={metrics.total}
           icon={<ShoppingBag className="h-4 w-4" />}
-          color="bg-gray-100"
+          color="bg-bg-elevated border border-border-color"
         />
         <MetricCard
           label="New"
           value={metrics.new}
           icon={<Clock className="h-4 w-4" />}
-          color="bg-blue-100 text-blue-700"
+          color="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
         />
         <MetricCard
           label="Preparing"
           value={metrics.preparing}
           icon={<Package className="h-4 w-4" />}
-          color="bg-yellow-100 text-yellow-700"
+          color="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400"
         />
         <MetricCard
           label="Shipped"
           value={metrics.shipped}
           icon={<Truck className="h-4 w-4" />}
-          color="bg-indigo-100 text-indigo-700"
+          color="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400"
         />
         <MetricCard
           label="Delivered"
           value={metrics.delivered}
           icon={<CheckCircle2 className="h-4 w-4" />}
-          color="bg-green-100 text-green-700"
+          color="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
         />
       </div>
 
@@ -89,15 +87,15 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           </h3>
           <Link
             href="/admin/orders"
-            className="text-[10px] font-bold tracking-widest text-[#C89B7E] uppercase underline underline-offset-4"
+            className="text-brand-accent text-[10px] font-bold tracking-widest uppercase underline underline-offset-4"
           >
             {t('viewAll')}
           </Link>
         </div>
 
-        <div className="overflow-x-auto rounded-2xl border border-[#2C3E35]/5 bg-white shadow-sm">
+        <div className="border-border-color bg-bg-elevated overflow-x-auto rounded-2xl border shadow-sm">
           <table className="w-full text-start">
-            <thead className="border-b border-[#2C3E35]/5 bg-[#FAFAFA]">
+            <thead className="bg-bg-main border-border-color border-b">
               <tr>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
                   Order
@@ -116,13 +114,13 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#2C3E35]/5">
+            <tbody className="divide-border-color divide-y">
               {typedOrders.slice(0, 10).map((order) => (
-                <tr key={order.id} className="group transition-colors hover:bg-[#FAFAFA]">
+                <tr key={order.id} className="group hover:bg-bg-main transition-colors">
                   <td className="px-6 py-5">
                     <Link
                       href={`/admin/orders/${order.id}`}
-                      className="font-mono text-xs font-bold text-[#C89B7E] hover:underline"
+                      className="text-brand-accent font-mono text-xs font-bold hover:underline"
                     >
                       {order.order_no}
                     </Link>
@@ -170,10 +168,12 @@ function MetricCard({
   color: string;
 }) {
   return (
-    <div className="rounded-2xl border border-[#2C3E35]/5 bg-white p-5 shadow-sm">
-      <div className={`mb-3 inline-flex rounded-lg p-2 ${color.split(' ')[0]}`}>{icon}</div>
+    <div
+      className={`rounded-2xl p-5 shadow-sm ${color.includes('border') ? color : ''} ${!color.includes('border') ? color : ''} bg-bg-elevated border-border-color border`}
+    >
+      <div className={`mb-3 inline-flex rounded-lg p-2 ${color}`}>{icon}</div>
       <p className="text-[9px] font-bold tracking-widest uppercase opacity-40">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-[#2C3E35]">{value}</p>
+      <p className="mt-1 text-2xl font-bold">{value}</p>
     </div>
   );
 }

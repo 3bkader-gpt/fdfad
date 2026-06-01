@@ -38,11 +38,11 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="text-text-primary flex flex-col gap-8">
       <div className="flex justify-end">
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 rounded-full bg-[#2C3E35] px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase transition-all hover:bg-[#1E2B25] active:scale-95"
+          className="bg-brand-primary flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:opacity-90 active:scale-95"
         >
           <Plus className="h-4 w-4" />
           Add Category
@@ -53,22 +53,20 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className="group relative flex flex-col gap-4 rounded-2xl border border-[#2C3E35]/5 bg-white p-6 shadow-sm transition-all hover:shadow-md"
+            className="group border-border-color bg-bg-elevated relative flex flex-col gap-4 rounded-2xl border p-6 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="rounded-full bg-[#FAFAFA] p-2">
+                <div className="bg-bg-main border-border-color rounded-full border p-2">
                   <Tag className="h-4 w-4 opacity-40" />
                 </div>
-                <h3 className="text-sm font-bold tracking-tight text-[#2C3E35] uppercase">
-                  {cat.name}
-                </h3>
+                <h3 className="text-sm font-bold tracking-tight uppercase">{cat.name}</h3>
               </div>
               <span
                 className={`rounded-full px-2 py-0.5 text-[8px] font-bold tracking-tighter uppercase ${
                   cat.is_active
-                    ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20'
-                    : 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20'
+                    ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20 dark:bg-green-900/20 dark:text-green-400'
+                    : 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20 dark:bg-gray-800 dark:text-gray-400'
                 }`}
               >
                 {cat.is_active ? 'Active' : 'Archived'}
@@ -81,10 +79,10 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
               </p>
             )}
 
-            <div className="mt-2 flex items-center gap-2 border-t border-[#2C3E35]/5 pt-4">
+            <div className="border-border-color mt-2 flex items-center gap-2 border-t pt-4">
               <button
                 onClick={() => handleEdit(cat)}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#FAFAFA] py-2 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:bg-[#F0F0F0]"
+                className="bg-bg-main hover:bg-bg-elevated flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:opacity-100"
               >
                 <Edit2 className="h-3 w-3" />
                 Edit
@@ -92,7 +90,7 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
               {cat.is_active && (
                 <button
                   onClick={() => handleArchive(cat.id)}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors hover:bg-amber-100"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/40"
                   title="Archive Category"
                 >
                   <Archive className="h-4 w-4" />
@@ -110,14 +108,14 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setIsFormOpen(false)}
           />
-          <div className="animate-in zoom-in-95 relative w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl duration-200">
+          <div className="bg-bg-elevated animate-in zoom-in-95 border-border-color relative w-full max-w-md rounded-3xl border p-8 shadow-2xl duration-200">
             <div className="mb-8 flex items-center justify-between">
-              <h2 className="font-serif text-2xl font-bold text-[#2C3E35]">
+              <h2 className="font-serif text-2xl font-bold">
                 {editingCategory ? 'Edit Category' : 'New Category'}
               </h2>
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="rounded-full p-2 hover:bg-[#FAFAFA]"
+                className="hover:bg-bg-main rounded-full p-2"
               >
                 <X className="h-5 w-5 opacity-40" />
               </button>

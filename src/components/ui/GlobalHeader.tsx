@@ -1,71 +1,181 @@
 'use client';
 
 import { useCart } from '@/lib/store';
-import { Menu, ShoppingBag, Globe } from 'lucide-react';
-import { Link, useRouter, usePathname } from '@/i18n/routing';
+import { Menu, ShoppingBag, X } from 'lucide-react';
+import { Link } from '@/i18n/routing';
 import { CartDrawer } from './CartDrawer';
 import { MobileMenu } from './MobileMenu';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
+import { WHATSAPP_URL } from '@/data/site';
+import gsap from 'gsap';
+
+const navLinks = [
+  { key: 'home', href: '/' },
+  { key: 'categories', href: '/#collection' },
+  { key: 'newArrivals', href: '/#collection' },
+  { key: 'bestSellers', href: '/#collection' },
+  { key: 'contact', href: 'mailto:hello@fadfaad.com' },
+] as const;
 
 export function GlobalHeader() {
-  const { setIsOpen, setIsMenuOpen, items } = useCart();
+  const { setIsOpen, setIsMenuOpen, isMenuOpen, items } = useCart();
   const [isMounted, setIsMounted] = useState(false);
+  const [dockVisible, setDockVisible] = useState(true);
   const t = useTranslations('Common');
+  const tn = useTranslations('Nav');
   const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
+  const lastScrollY = useRef(0);
+
+  const dockInnerRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLDivElement>(null);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
-  const itemCount = isMounted ? items.reduce((acc, item) => acc + item.quantity, 0) : 0;
+  // Scroll visibility logic for Desktop Dock
+  useEffect(() => {
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      // Show dock when scrolling up or at the top
+      setDockVisible(currentY <= lastScrollY.current || currentY <= 120);
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const toggleLanguage = () => {
-    const nextLocale = locale === 'ar' ? 'en' : 'ar';
-    router.replace(pathname, { locale: nextLocale });
-  };
+  // GSAP Sliding Pill Animation
+  const slidePillTo = useCallback((link: HTMLAnchorElement | null) => {
+    if (!highlightRef.current || !dockInnerRef.current || !link) return;
+    const navRect = dockInnerRef.current.getBoundingClientRect();
+    const itemRect = link.getBoundingClientRect();
+
+    gsap.to(highlightRef.current, {
+      x: itemRect.left - navRect.left,
+      width: itemRect.width,
+      autoAlpha: 1,
+      duration: 0.4,
+      ease: 'power3.out',
+    });
+  }, []);
+
+  const hidePill = useCallback(() => {
+    if (!highlightRef.current) return;
+    gsap.to(highlightRef.current, {
+      autoAlpha: 0,
+      duration: 0.3,
+    });
+  }, []);
+
+  const itemCount = isMounted ? items.reduce((acc, item) => acc + item.quantity, 0) : 0;
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-[#2C3E35]/5 bg-white/80 px-6 py-4 backdrop-blur-md">
-        <div className="flex items-center gap-3">
+      {/* 1. Mobile Header (Sticky Top) */}
+      <header className="border-border-color bg-bg-main/80 sticky top-0 z-50 flex w-full items-center justify-between border-b px-6 py-4 backdrop-blur-md md:hidden">
+        <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsMenuOpen(true)}
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FAFAFA] transition-colors hover:bg-zinc-100"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors"
           >
-            <Menu className="h-5 w-5" />
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
-
-          <button
-            onClick={toggleLanguage}
-            className="flex h-11 items-center gap-1.5 rounded-full bg-[#FAFAFA] px-4 text-[10px] font-bold tracking-widest uppercase transition-colors hover:bg-zinc-100"
-          >
-            <Globe className="h-3.5 w-3.5 opacity-40" />
-            <span>{locale === 'ar' ? 'EN' : 'عربي'}</span>
-          </button>
+          <LanguageToggle />
         </div>
 
         <Link href="/" className="absolute left-1/2 -translate-x-1/2">
-          <h1 className="font-serif text-xl font-bold tracking-tight">{t('title')}</h1>
+          <h1 className="text-text-primary font-serif text-xl font-bold tracking-tight">
+            {t('title')}
+          </h1>
         </Link>
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <button
             onClick={() => setIsOpen(true)}
-            className="relative flex h-11 w-11 items-center justify-center rounded-full bg-[#FAFAFA] transition-colors hover:bg-zinc-100"
+            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color relative flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors"
           >
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className="text-text-primary h-5 w-5" />
             {itemCount > 0 && (
-              <span className="animate-in zoom-in absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C89B7E] text-[8px] font-bold text-white duration-300">
+              <span className="animate-in zoom-in bg-brand-accent absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold text-white shadow-lg">
                 {itemCount}
               </span>
             )}
           </button>
         </div>
       </header>
+
+      {/* 2. Desktop Floating Dock (Fixed Bottom) */}
+      <div
+        className={`fixed inset-x-0 bottom-8 z-[60] hidden justify-center transition-all duration-500 ease-in-out md:flex ${
+          dockVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+        }`}
+      >
+        <div
+          ref={dockInnerRef}
+          className="fadfaad-dock-shell relative flex items-center gap-1 rounded-full px-3 py-2 shadow-2xl"
+          onMouseLeave={hidePill}
+        >
+          {/* Animated Highlight Pill */}
+          <div
+            ref={highlightRef}
+            className="fadfaad-dock-highlight pointer-events-none invisible absolute top-1"
+            style={{ width: 0 }}
+          />
+
+          {/* Nav Links */}
+          {navLinks.map((link, i) => (
+            <Link
+              key={link.key}
+              href={link.href}
+              ref={(el) => {
+                // Type casting because Link passes ref to anchor
+                if (el) linkRefs.current[i] = el as unknown as HTMLAnchorElement;
+              }}
+              onMouseEnter={(e) => slidePillTo(e.currentTarget as unknown as HTMLAnchorElement)}
+              className="text-text-secondary hover:text-text-primary relative z-10 px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors"
+            >
+              {tn(link.key)}
+            </Link>
+          ))}
+
+          {/* Divider */}
+          <div className="bg-border-color mx-2 h-6 w-[1px]" />
+
+          {/* Actions */}
+          <div className="flex items-center gap-2 px-2">
+            <ThemeToggle />
+            <LanguageToggle />
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="bg-bg-elevated hover:bg-brand-accent/10 border-border-color relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors"
+            >
+              <ShoppingBag className="text-text-primary h-4.5 w-4.5" />
+              {itemCount > 0 && (
+                <span className="bg-brand-accent absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold text-white">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-brand-primary ml-2 flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:scale-105 active:scale-95"
+            >
+              <span>{locale === 'ar' ? 'اطلبي الآن' : 'Order Now'}</span>
+            </a>
+          </div>
+        </div>
+      </div>
 
       <CartDrawer />
       <MobileMenu />

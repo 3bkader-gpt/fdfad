@@ -108,17 +108,17 @@ export default function CheckoutPage() {
   };
 
   if (!isMounted) {
-    return <div className="min-h-screen bg-[#FAFAFA]" />;
+    return <div className="bg-bg-main min-h-screen" />;
   }
 
   if (mountedItems.length === 0) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFA] p-6 text-center">
-        <h2 className="font-serif text-2xl font-bold text-[#2C3E35]">{t('empty')}</h2>
+      <div className="bg-bg-main text-text-primary flex min-h-screen flex-col items-center justify-center p-6 text-center">
+        <h2 className="font-serif text-2xl font-bold">{t('empty')}</h2>
         <p className="mt-2 text-sm opacity-60">Add some curated items before checking out.</p>
         <Link
           href="/"
-          className="mt-8 rounded-full bg-[#2C3E35] px-8 py-3 text-[10px] font-bold tracking-widest text-white uppercase transition-all hover:bg-[#1E2B25]"
+          className="bg-brand-primary mt-8 rounded-full px-8 py-3 text-[10px] font-bold tracking-widest text-white uppercase transition-all hover:scale-105"
         >
           {tc('back')}
         </Link>
@@ -127,12 +127,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FAFAFA] pb-[calc(3rem+env(safe-area-inset-bottom))] text-[#2C3E35]">
-      <nav className="flex items-center justify-between border-b border-[#2C3E35]/5 bg-white px-6 py-4">
-        <Link
-          href="/"
-          className="rounded-full bg-[#FAFAFA] p-2 transition-colors hover:bg-zinc-100"
-        >
+    <main className="bg-bg-main text-text-primary min-h-screen pb-[calc(3rem+env(safe-area-inset-bottom))] transition-colors duration-300">
+      <nav className="border-border-color bg-bg-elevated flex items-center justify-between border-b px-6 py-4">
+        <Link href="/" className="bg-bg-main rounded-full p-2 transition-colors hover:bg-zinc-100">
           <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
         </Link>
         <h1 className="font-serif text-lg font-bold tracking-tight">{t('title')}</h1>
@@ -140,7 +137,7 @@ export default function CheckoutPage() {
       </nav>
 
       <div className="mx-auto max-w-md px-6 pt-8 text-start">
-        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+        <div className="bg-bg-elevated ring-border-color mb-8 rounded-2xl p-6 shadow-sm ring-1">
           <h2 className="mb-4 text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
             {t('summary')}
           </h2>
@@ -155,9 +152,9 @@ export default function CheckoutPage() {
                 </span>
               </div>
             ))}
-            <div className="mt-2 flex items-center justify-between border-t border-[#2C3E35]/5 pt-4">
+            <div className="border-border-color mt-2 flex items-center justify-between border-t pt-4">
               <span className="text-xs font-bold tracking-widest uppercase">{t('total')}</span>
-              <span className="text-xl font-bold text-[#2C3E35]">
+              <span className="text-text-primary text-xl font-bold">
                 {cartTotal} {tc('egp')}
               </span>
             </div>
@@ -181,7 +178,7 @@ export default function CheckoutPage() {
             </label>
             <input
               {...register('fullName')}
-              className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fullName ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fullName ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
               placeholder="Arwa Mahmoud"
             />
             {errors.fullName && (
@@ -195,7 +192,7 @@ export default function CheckoutPage() {
             </label>
             <input
               {...register('phone')}
-              className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.phone ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.phone ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
               placeholder="01xxxxxxxxx"
             />
             {errors.phone && (
@@ -209,7 +206,7 @@ export default function CheckoutPage() {
             </label>
             <select
               {...register('governorate')}
-              className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.governorate ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.governorate ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
             >
               <option value="">Select Region</option>
               {GOVERNORATES.map((g) => (
@@ -230,7 +227,7 @@ export default function CheckoutPage() {
             <textarea
               {...register('address')}
               rows={3}
-              className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.address ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
+              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.address ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
               placeholder="Building #, Street name, District..."
             />
             {errors.address && (
@@ -244,7 +241,7 @@ export default function CheckoutPage() {
             </label>
             <input
               {...register('notes')}
-              className="rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
+              className="bg-bg-elevated ring-border-color focus:ring-brand-accent/30 rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none"
               placeholder="Special delivery instructions..."
             />
           </div>
@@ -252,7 +249,7 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-4 flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold tracking-[0.25em] text-white uppercase shadow-xl shadow-[#2C3E35]/20 transition-all hover:bg-[#1E2B25] active:scale-95 disabled:opacity-50"
+            className="bg-brand-primary shadow-brand-primary/20 mt-4 flex w-full items-center justify-center gap-3 rounded-full py-5 text-[11px] font-bold tracking-[0.25em] text-white uppercase shadow-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
           >
             {isSubmitting ? (
               <>
