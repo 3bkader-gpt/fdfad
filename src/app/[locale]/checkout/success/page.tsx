@@ -1,9 +1,9 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { CheckCircle2, ArrowRight, Star } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Star, MessageCircle } from 'lucide-react';
 import { Link } from '@/i18n/routing';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 function SuccessContent() {
@@ -12,6 +12,21 @@ function SuccessContent() {
   const t = useTranslations('Checkout');
   const tc = useTranslations('Common');
   const tn = useTranslations('Nav');
+  
+  const [lastOrder, setLastOrder] = useState<{orderNo: string, message: string} | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('lastOrder');
+    if (saved) {
+      setLastOrder(JSON.parse(saved));
+    }
+  }, []);
+
+  const openWhatsApp = () => {
+    if (lastOrder) {
+      window.open(`https://wa.me/201023100767?text=${encodeURIComponent(lastOrder.message)}`, '_blank');
+    }
+  };
 
   return (
     <div className="mx-auto flex max-w-md flex-col items-center px-6 pt-12 text-center">
@@ -22,7 +37,11 @@ function SuccessContent() {
       <h1 className="mb-4 font-serif text-4xl font-bold tracking-tight text-[#2C3E35]">
         {t('success')}
       </h1>
-      <p className="mb-10 text-sm text-pretty opacity-60">{t('successNote')}</p>
+      <p className="mb-10 text-sm text-pretty opacity-60">
+        رقم الطلب: {orderNo || 'FDF-XXXX'}
+        <br />
+        تم فتح واتساب لإرسال الطلب مباشرة إلى فريق فضفاض.
+      </p>
 
       {/* Order Info */}
       <div className="mb-10 w-full rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5">
@@ -54,6 +73,15 @@ function SuccessContent() {
 
       {/* Social / Next Steps */}
       <div className="flex w-full flex-col gap-4">
+        {lastOrder && (
+          <button
+            onClick={openWhatsApp}
+            className="flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] py-5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all active:scale-95"
+          >
+            <MessageCircle className="h-4 w-4" />
+            فتح واتساب مرة أخرى
+          </button>
+        )}
         <Link
           href="/"
           className="flex w-full items-center justify-center gap-3 rounded-full bg-[#2C3E35] py-5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all active:scale-95"
@@ -61,15 +89,6 @@ function SuccessContent() {
           {tc('back')}
           <ArrowRight className="h-4 w-4 rtl:rotate-180" />
         </Link>
-
-        <a
-          href="https://instagram.com"
-          target="_blank"
-          className="flex w-full items-center justify-center gap-3 rounded-full border border-[#2C3E35]/10 py-5 text-[11px] font-bold tracking-[0.2em] text-[#2C3E35] uppercase transition-all hover:bg-[#FAFAFA]"
-        >
-          <Star className="h-4 w-4" />
-          {tn('about')}
-        </a>
       </div>
 
       <footer className="mt-16 opacity-30">

@@ -11,6 +11,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedOrderButton } from '@/components/ui/AnimatedOrderButton';
 import { Toast } from '@/components/ui/Toast';
+import { WHATSAPP_URL } from '@/data/site';
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -137,6 +138,62 @@ export default function CheckoutPage() {
           });
 
           if (result.success) {
+            // Construct WhatsApp message
+            const message = `🛍️ طلب جديد من فضفاض
+
+رقم الطلب:
+${result.orderNo}
+
+👤 بيانات العميل
+
+الاسم:
+${values.fullName}
+
+رقم الهاتف:
+${values.phone}
+
+المحافظة:
+${values.governorate}
+
+العنوان:
+${values.address}
+
+🧕 المنتجات
+
+${mountedItems.map((item, index) => `${index + 1}.
+
+${item.product.title}
+
+اللون:
+${item.selectedColor || '-'}
+
+المقاس:
+${item.selectedSize || '-'}
+
+الكمية:
+${item.quantity}
+
+السعر:
+${item.product.price * item.quantity} جنيه
+
+---
+`).join('\n')}
+
+💰 الإجمالي:
+
+${cartTotal} جنيه
+
+🕒 تم إنشاء الطلب من موقع فضفاض`;
+
+            // Open WhatsApp
+            window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, '_blank');
+
+            // Save order info to localStorage for re-triggering
+            localStorage.setItem('lastOrder', JSON.stringify({
+              orderNo: result.orderNo,
+              message,
+            }));
+
             setTimeout(() => {
               clearCart();
               router.push(`/checkout/success?orderNo=${result.orderNo}`);
