@@ -231,7 +231,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
             </h2>
 
             <div className="border-border-color flex items-center justify-between border-b pb-5">
-              <p className="text-2xl font-semibold tracking-tight text-[#2C3E35]">
+              <p className="text-2xl font-semibold tracking-tight text-brand-primary">
                 {product.price} <span className="text-sm font-normal opacity-60">{tc('egp')}</span>
               </p>
 
@@ -270,8 +270,8 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                       }}
                       className={`flex h-[48px] min-w-[48px] items-center justify-center rounded-xl border text-xs font-bold uppercase transition-all active:scale-95 ${
                         isSelected
-                          ? 'border-[#2C3E35] bg-[#2C3E35] text-white shadow-lg shadow-[#2C3E35]/15'
-                          : 'border-border-color text-text-primary bg-white hover:border-[#C89B7E]'
+                          ? 'border-brand-primary bg-brand-primary text-white dark:text-bg-main shadow-lg shadow-brand-primary/15'
+                          : 'border-border-color text-text-primary bg-bg-elevated hover:border-brand-accent'
                       }`}
                     >
                       {size}
@@ -310,8 +310,8 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                       }}
                       className={`relative flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-semibold transition-all active:scale-95 ${
                         isSelected
-                          ? 'bg-bg-elevated border-brand-accent scale-105 shadow-md shadow-[#C89B7E]/10'
-                          : 'border-border-color bg-white hover:border-[#C89B7E]'
+                          ? 'bg-bg-elevated border-brand-accent scale-105 shadow-md shadow-brand-accent/10'
+                          : 'border-border-color bg-bg-elevated hover:border-brand-accent'
                       }`}
                     >
                       <span
@@ -330,7 +330,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
           {/* Fit Guide Section */}
           {(product.model_height_cm || product.model_weight_kg || recommendations.length > 0) && (
             <div className="border-border-color bg-bg-elevated flex flex-col gap-5 rounded-2xl border p-6">
-              <h4 className="border-border-color flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-[0.15em] text-[#2C3E35] uppercase">
+              <h4 className="border-border-color flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-[0.15em] text-brand-primary uppercase">
                 <Ruler className="text-brand-accent h-4 w-4" />
                 {t('fitGuide')}
               </h4>
@@ -343,7 +343,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                       <span className="mb-0.5 block text-[8px] font-bold tracking-widest uppercase opacity-40">
                         {tc('modelHeight')}
                       </span>
-                      <span className="text-xs font-bold text-[#2C3E35]">
+                      <span className="text-xs font-bold text-text-primary">
                         {product.model_height_cm} cm
                       </span>
                     </div>
@@ -353,7 +353,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                       <span className="mb-0.5 block text-[8px] font-bold tracking-widest uppercase opacity-40">
                         {tc('modelWeight')}
                       </span>
-                      <span className="text-xs font-bold text-[#2C3E35]">
+                      <span className="text-xs font-bold text-text-primary">
                         {product.model_weight_kg} kg
                       </span>
                     </div>
@@ -385,7 +385,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                           i < recommendations.length - 1 ? 'border-border-color border-b' : ''
                         }`}
                       >
-                        <span className="font-bold text-[#2C3E35]">
+                        <span className="font-bold text-text-primary">
                           {tc('modelSize')} {row.size}
                         </span>
                         <span className="opacity-70">{row.weight_range}</span>
@@ -535,7 +535,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
       {/* Related Products Section */}
       {relatedProducts.length > 0 && (
         <section className="border-border-color mx-auto mt-20 max-w-6xl border-t px-6 pt-12">
-          <h3 className="mb-8 text-center font-serif text-2xl font-bold tracking-tight text-[#2C3E35] md:text-start">
+          <h3 className="mb-8 text-center font-serif text-2xl font-bold tracking-tight text-brand-primary md:text-start">
             {t('relatedTitle')}
           </h3>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
@@ -567,7 +567,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                     <span className="text-[9px] font-bold tracking-widest uppercase opacity-40">
                       {rel.fabric_type}
                     </span>
-                    <h4 className="group-hover:text-brand-accent truncate text-sm font-medium tracking-tight text-[#2C3E35] transition-colors">
+                    <h4 className="group-hover:text-brand-accent truncate text-sm font-medium tracking-tight text-text-primary transition-colors">
                       {rel.title}
                     </h4>
                     <p className="text-brand-primary text-xs font-bold">
