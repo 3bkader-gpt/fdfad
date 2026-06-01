@@ -386,7 +386,7 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
                         }`}
                       >
                         <span className="font-bold text-text-primary">
-                          {tc('modelSize')} {row.size}
+                          {tc('size')} {row.size}
                         </span>
                         <span className="opacity-70">{row.weight_range}</span>
                       </div>

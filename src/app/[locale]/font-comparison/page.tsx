@@ -142,12 +142,12 @@ export default function FontComparisonPage() {
                       <span className="font-bold">٦٥ كجم</span>
                     </div>
                     <div className="bg-white dark:bg-[#1A1A1A] p-2 rounded-lg border border-black/5 dark:border-white/5">
-                      <span className="block text-[8px] opacity-40 uppercase">مقاس الموديل</span>
+                      <span className="block text-[8px] opacity-40 uppercase">المقاس</span>
                       <span className="font-bold text-brand-accent">٥٦</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center text-xs px-2 mt-1">
-                    <span className="font-bold">مقاس الموديل المقترح ٥٤</span>
+                    <span className="font-bold">المقاس المقترح ٥٤</span>
                     <span className="opacity-60">يناسب وزن ٦٥-٨٠ كجم</span>
                   </div>
                 </div>
