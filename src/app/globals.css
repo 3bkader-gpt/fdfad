@@ -12,7 +12,7 @@
   --border-color: rgba(44, 62, 53, 0.08);
 
   /* Semantic Status Colors (WCAG AA compliant) */
-  --status-new-bg: #e2e8f0; --status-new-text: #1e293b;
+  --status-new-bg: #cbd5e1; --status-new-text: #0f172a;
   --status-confirmed-bg: #dbeafe; --status-confirmed-text: #1e40af;
   --status-preparing-bg: #fef3c7; --status-preparing-text: #92400e;
   --status-shipped-bg: #e0e7ff; --status-shipped-text: #3730a3;

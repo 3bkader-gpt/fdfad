@@ -174,7 +174,7 @@ function MetricCard({
       className={`rounded-2xl p-5 shadow-sm ${color.includes('border') ? color : ''} ${!color.includes('border') ? color : ''} bg-bg-elevated border-border-color border`}
     >
       <div className={`mb-3 inline-flex rounded-lg p-2 ${color}`}>{icon}</div>
-      <p className="text-[9px] font-bold tracking-widest uppercase opacity-40">{label}</p>
+      <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">{label}</p>
       <p className="mt-1 text-2xl font-bold">{value}</p>
     </div>
   );
