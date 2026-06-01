@@ -14,7 +14,7 @@ import gsap from 'gsap';
 
 const navLinks = [
   { key: 'home', href: '/' },
-  { key: 'categories', href: '/#collection' },
+  { key: 'categories', href: '/categories' },
   { key: 'newArrivals', href: '/#collection' },
   { key: 'bestSellers', href: '/#collection' },
   { key: 'contact', href: 'mailto:hello@fadfaad.com' },

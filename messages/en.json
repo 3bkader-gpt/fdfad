@@ -46,6 +46,13 @@
     "addToCart": "Add to Bag",
     "awaitingVisuals": "Visuals Pending"
   },
+  "Categories": {
+    "title": "Collections",
+    "subtitle": "Explore our curated collections",
+    "empty": "No collections available right now.",
+    "emptyProducts": "No pieces available in this collection yet.",
+    "explore": "Explore Collection"
+  },
   "Cart": {
     "title": "Your Bag",
     "empty": "Your bag is currently empty.",

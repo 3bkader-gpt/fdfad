@@ -14,7 +14,7 @@ export function MobileMenu() {
 
   const navLinks = [
     { key: 'home', href: '/' },
-    { key: 'categories', href: '/#collection' },
+    { key: 'categories', href: '/categories' },
     { key: 'newArrivals', href: '/#collection' },
     { key: 'bestSellers', href: '/#collection' },
   ] as const;
