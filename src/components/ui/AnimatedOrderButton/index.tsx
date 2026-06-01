@@ -22,16 +22,20 @@ export function AnimatedOrderButton({
   const handleClick = async () => {
     if (state !== 'idle' || disabled) return;
 
-    // Trigger business logic
-    await onClick();
+    try {
+      // Trigger business logic
+      await onClick();
 
-    // Start animation
-    setState('driving');
+      // Start animation
+      setState('driving');
 
-    // Simulate/Wait for delivery animation (matching the CSS duration)
-    setTimeout(() => {
-      setState('success');
-    }, 2000);
+      // Simulate/Wait for delivery animation (matching the CSS duration)
+      setTimeout(() => {
+        setState('success');
+      }, 2000);
+    } catch {
+      // Do not animate on error
+    }
   };
 
   return (

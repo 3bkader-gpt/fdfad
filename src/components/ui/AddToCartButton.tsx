@@ -21,13 +21,13 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
     // 1. Validate size selection if sizes are available
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
       setErrorMsg(t('sizeRequired'));
-      return;
+      throw new Error('Size required');
     }
 
     // 2. Validate color selection if colors are available
     if (product.colors && product.colors.length > 0 && !selectedColor) {
       setErrorMsg(t('colorRequired'));
-      return;
+      throw new Error('Color required');
     }
 
     setErrorMsg(null);
