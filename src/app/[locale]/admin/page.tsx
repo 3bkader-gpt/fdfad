@@ -46,13 +46,15 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
       </header>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-        <MetricCard
-          label="Total"
-          value={metrics.total}
-          icon={<ShoppingBag className="h-4 w-4" />}
-          color="bg-bg-elevated border border-border-color"
-        />
+      <div className="grid grid-cols-2 gap-4 w-full md:grid-cols-5">
+        <div className="col-span-2 md:col-span-1">
+          <MetricCard
+            label="Total"
+            value={metrics.total}
+            icon={<ShoppingBag className="h-4 w-4" />}
+            color="bg-bg-elevated border border-border-color"
+          />
+        </div>
         <MetricCard
           label="New"
           value={metrics.new}
@@ -94,7 +96,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
         </div>
 
         <div className="border-border-color bg-bg-elevated overflow-x-auto rounded-2xl border shadow-sm">
-          <table className="w-full text-start">
+          <table className="w-full min-w-[600px] text-start">
             <thead className="bg-bg-main border-border-color border-b">
               <tr>
                 <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
