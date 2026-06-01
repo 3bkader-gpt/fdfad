@@ -3,7 +3,6 @@
 import { supabase } from '@/lib/supabase';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { TrustBar } from '@/components/ui/TrustBar';
-import { SocialFollow } from '@/components/ui/SocialFollow';
 import { Product } from '@/types/supabase';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
@@ -152,14 +151,6 @@ export default function Home({ params }: { params: Promise<{ locale: string }> }
           </div>
         )}
       </section>
-
-      <SocialFollow />
-
-      <footer className="border-border-color bg-bg-elevated border-t px-6 py-16 text-center">
-        <p className="text-text-primary text-center text-[9px] font-bold tracking-[0.3em] uppercase opacity-30">
-          © 2026 {tc('title').toUpperCase()} CAIRO
-        </p>
-      </footer>
     </main>
   );
 }

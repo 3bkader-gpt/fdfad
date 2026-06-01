@@ -1,4 +1,5 @@
 import { GlobalHeader } from '@/components/ui/GlobalHeader';
+import { GlobalFooter } from '@/components/ui/GlobalFooter';
 import { Geist, Geist_Mono, Playfair_Display, Cairo } from 'next/font/google';
 import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
@@ -72,6 +73,7 @@ export default async function LocaleLayout({
           <ThemeProvider>
             <GlobalHeader />
             {children}
+            <GlobalFooter />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
