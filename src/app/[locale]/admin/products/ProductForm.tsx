@@ -138,6 +138,7 @@ export function ProductForm({
               {errors.image_url.message}
             </p>
           )}
+          <p className="mt-1.5 text-[10px] opacity-40">{t('helpImage')}</p>
         </div>
 
         {/* Core Info */}
@@ -156,6 +157,7 @@ export function ProductForm({
                 {errors.title.message}
               </p>
             )}
+            <p className="text-[10px] opacity-40">{t('helpTitle')}</p>
           </div>
 
           <input type="hidden" {...register('slug')} />
@@ -172,6 +174,7 @@ export function ProductForm({
             step="0.01"
             className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.price ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
           />
+          <p className="text-[10px] opacity-40">{t('helpPrice')}</p>
         </div>
 
         <div className="flex flex-col gap-1.5 text-start">
@@ -183,6 +186,7 @@ export function ProductForm({
             className={`rounded-xl bg-white px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fabric_type ? 'ring-red-200 focus:ring-red-100' : 'ring-black/5 focus:ring-[#C89B7E]/30'}`}
             placeholder="e.g. Medine Silk"
           />
+          <p className="text-[10px] opacity-40">{t('helpFabric')}</p>
         </div>
 
         {/* Sensory Details */}
@@ -200,6 +204,7 @@ export function ProductForm({
               </option>
             ))}
           </select>
+          <p className="text-[10px] opacity-40">{t('helpOpacity')}</p>
         </div>
 
         <div className="flex flex-col gap-1.5 text-start">
@@ -213,6 +218,7 @@ export function ProductForm({
             <option value="true">{t('active')}</option>
             <option value="false">{t('archived')}</option>
           </select>
+          <p className="text-[10px] opacity-40">{t('helpVisibility')}</p>
         </div>
 
         {/* Category Selection */}
@@ -236,6 +242,7 @@ export function ProductForm({
               {errors.category_id.message}
             </p>
           )}
+          <p className="text-[10px] opacity-40">{t('helpCategory')}</p>
         </div>
 
         {/* Origin */}
@@ -256,6 +263,7 @@ export function ProductForm({
                 <option value="false">False</option>
               </select>
             </div>
+            <p className="text-[10px] opacity-40">{t('helpMadeInEgypt')}</p>
           </div>
         </div>
 
@@ -269,6 +277,7 @@ export function ProductForm({
             className="mt-1.5 w-full rounded-xl bg-white px-4 py-3.5 text-start text-sm shadow-sm ring-1 ring-black/5 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
             placeholder="Describe the drape, feel, and fit..."
           />
+          <p className="mt-1.5 text-[10px] opacity-40">{t('helpDescription')}</p>
         </div>
 
         <button

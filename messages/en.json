@@ -113,6 +113,15 @@
     "deleteProductTitle": "Delete Product",
     "deleteProductConfirm": "Are you sure you want to permanently delete this product? This action cannot be undone.",
     "deleteCategoryTitle": "Delete Category",
-    "deleteCategoryConfirm": "Are you sure you want to permanently delete this category? All linked products will be unassigned and this action cannot be undone."
+    "deleteCategoryConfirm": "Are you sure you want to permanently delete this category? All linked products will be unassigned and this action cannot be undone.",
+    "helpTitle": "Write the piece name exactly as it should appear to customers on the site.",
+    "helpPrice": "Enter the price in Egyptian Pounds (EGP).",
+    "helpFabric": "Write the fabric/textile type here (e.g. Saudi Crepe).",
+    "helpOpacity": "Select opacity from 1 (sheer) to 5 (fully opaque).",
+    "helpVisibility": "Choose whether the piece shows on the site (Active) or is hidden (Archived).",
+    "helpCategory": "Select the primary collection this piece belongs to.",
+    "helpMadeInEgypt": "Toggle if this piece is made in Egypt to show the Made in Cairo badge.",
+    "helpDescription": "Write more details about sizing, stitching, styling, and how to wear it.",
+    "helpImage": "Upload a clear, high-quality photo of the piece."
   }
 }
