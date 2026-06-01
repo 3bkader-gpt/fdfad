@@ -31,6 +31,10 @@ export interface Database {
           is_active: boolean;
           created_at: string;
           updated_at: string;
+          name_ar: string;
+          name_en: string;
+          description_ar: string | null;
+          description_en: string | null;
         };
         Insert: {
           id?: string;
@@ -40,6 +44,10 @@ export interface Database {
           is_active?: boolean;
           created_at?: string;
           updated_at?: string;
+          name_ar: string;
+          name_en: string;
+          description_ar?: string | null;
+          description_en?: string | null;
         };
         Update: {
           id?: string;
@@ -49,6 +57,10 @@ export interface Database {
           is_active?: boolean;
           created_at?: string;
           updated_at?: string;
+          name_ar?: string;
+          name_en?: string;
+          description_ar?: string | null;
+          description_en?: string | null;
         };
       };
       product_categories: {

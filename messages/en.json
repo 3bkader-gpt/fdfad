@@ -95,6 +95,20 @@
     "active": "Active",
     "archived": "Archived",
     "primaryCategory": "Primary Category",
-    "commit": "Commit to Collection"
+    "commit": "Commit to Collection",
+    "categoriesSubtitle": "Organize your modest collection",
+    "addCategory": "Add Category",
+    "archiveConfirm": "Are you sure you want to archive this category? It will no longer appear on the storefront but will remain in the database for history.",
+    "categoryNameAr": "Category Name (Arabic)",
+    "categoryNameEn": "Category Name (English)",
+    "categoryNameArPlaceholder": "e.g. إسدالات",
+    "categoryNameEnPlaceholder": "e.g. Isdals",
+    "nameRequired": "Name is required",
+    "descriptionAr": "Description (Arabic)",
+    "descriptionEn": "Description (English)",
+    "descriptionArPlaceholder": "Brief description of the category in Arabic...",
+    "descriptionEnPlaceholder": "Brief description of the category in English...",
+    "hidden": "Hidden",
+    "saveCategory": "Save Category"
   }
 }

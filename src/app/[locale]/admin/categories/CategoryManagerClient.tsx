@@ -5,8 +5,11 @@ import { Category } from '@/types/supabase';
 import { Plus, Edit2, Archive, Tag, X } from 'lucide-react';
 import { CategoryForm } from './CategoryForm';
 import { archiveCategory } from './actions';
+import { useTranslations } from 'next-intl';
 
 export function CategoryManagerClient({ initialCategories }: { initialCategories: Category[] }) {
+  const t = useTranslations('Admin');
+  const tc = useTranslations('Common');
   const [categories, setCategories] = useState(initialCategories);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | undefined>(undefined);
@@ -24,7 +27,7 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
   const handleArchive = async (id: string) => {
     if (
       confirm(
-        'Are you sure you want to archive this category? It will no longer appear on the storefront but will remain in the database for history.',
+        t('archiveConfirm'),
       )
     ) {
       try {
@@ -45,7 +48,7 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
           className="bg-brand-primary flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:opacity-90 active:scale-95"
         >
           <Plus className="h-4 w-4" />
-          Add Category
+          {t('addCategory')}
         </button>
       </div>
 
@@ -60,7 +63,10 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
                 <div className="bg-bg-main border-border-color rounded-full border p-2">
                   <Tag className="h-4 w-4 opacity-40" />
                 </div>
-                <h3 className="text-sm font-bold tracking-tight uppercase">{cat.name}</h3>
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="text-sm font-bold tracking-tight">{cat.name_ar}</h3>
+                  <span className="text-[10px] font-medium opacity-65">{cat.name_en}</span>
+                </div>
               </div>
               <span
                 className={`rounded-full px-2 py-0.5 text-[8px] font-bold tracking-tighter uppercase ${
@@ -69,14 +75,15 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
                     : 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20 dark:bg-gray-800 dark:text-gray-400'
                 }`}
               >
-                {cat.is_active ? 'Active' : 'Archived'}
+                {cat.is_active ? t('active') : t('archived')}
               </span>
             </div>
 
-            {cat.description && (
-              <p className="line-clamp-2 text-[10px] leading-relaxed opacity-40">
-                {cat.description}
-              </p>
+            {(cat.description_ar || cat.description_en) && (
+              <div className="flex flex-col gap-1 text-[10px] leading-relaxed opacity-50">
+                {cat.description_ar && <p className="line-clamp-1" dir="rtl">{cat.description_ar}</p>}
+                {cat.description_en && <p className="line-clamp-1" dir="ltr">{cat.description_en}</p>}
+              </div>
             )}
 
             <div className="border-border-color mt-2 flex items-center gap-2 border-t pt-4">
@@ -85,13 +92,13 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
                 className="bg-bg-main hover:bg-bg-elevated flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:opacity-100"
               >
                 <Edit2 className="h-3 w-3" />
-                Edit
+                {tc('edit')}
               </button>
               {cat.is_active && (
                 <button
                   onClick={() => handleArchive(cat.id)}
                   className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/40"
-                  title="Archive Category"
+                  title={t('archived')}
                 >
                   <Archive className="h-4 w-4" />
                 </button>
@@ -111,7 +118,7 @@ export function CategoryManagerClient({ initialCategories }: { initialCategories
           <div className="bg-bg-elevated animate-in zoom-in-95 border-border-color relative w-full max-w-md rounded-3xl border p-8 shadow-2xl duration-200">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="font-serif text-2xl font-bold">
-                {editingCategory ? 'Edit Category' : 'New Category'}
+                {editingCategory ? t('editCategory') : t('newCategory')}
               </h2>
               <button
                 onClick={() => setIsFormOpen(false)}

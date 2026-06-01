@@ -22,7 +22,10 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
     id: string;
     name: string;
     slug: string;
-    description: string | null;
+    name_ar: string;
+    name_en: string;
+    description_ar: string | null;
+    description_en: string | null;
   }[];
 
   if (error) {
@@ -49,29 +52,33 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/categories/${category.slug}`}
-                className="group border-border-color bg-bg-elevated hover:border-brand-accent/30 flex flex-col justify-center rounded-2xl border p-8 shadow-sm transition-all hover:shadow-md"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <h2 className="text-text-primary group-hover:text-brand-accent font-serif text-2xl font-bold tracking-tight transition-colors">
-                      {category.name}
-                    </h2>
-                    {category.description && (
-                      <p className="max-w-[90%] text-sm leading-relaxed opacity-60">
-                        {category.description}
-                      </p>
-                    )}
+            {categories.map((category) => {
+              const categoryName = (locale === 'ar' ? category.name_ar : category.name_en) || category.name;
+              const categoryDescription = locale === 'ar' ? category.description_ar : category.description_en;
+              return (
+                <Link
+                  key={category.id}
+                  href={`/categories/${category.slug}`}
+                  className="group border-border-color bg-bg-elevated hover:border-brand-accent/30 flex flex-col justify-center rounded-2xl border p-8 shadow-sm transition-all hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-2">
+                      <h2 className="text-text-primary group-hover:text-brand-accent font-serif text-2xl font-bold tracking-tight transition-colors">
+                        {categoryName}
+                      </h2>
+                      {categoryDescription && (
+                        <p className="max-w-[90%] text-sm leading-relaxed opacity-60">
+                          {categoryDescription}
+                        </p>
+                      )}
+                    </div>
+                    <div className="bg-bg-main border-border-color group-hover:bg-brand-accent/5 flex h-10 w-10 items-center justify-center rounded-full border transition-colors">
+                      <ChevronRight className="text-text-primary group-hover:text-brand-accent h-5 w-5 opacity-40 transition-all group-hover:opacity-100 rtl:rotate-180" />
+                    </div>
                   </div>
-                  <div className="bg-bg-main border-border-color group-hover:bg-brand-accent/5 flex h-10 w-10 items-center justify-center rounded-full border transition-colors">
-                    <ChevronRight className="text-text-primary group-hover:text-brand-accent h-5 w-5 opacity-40 transition-all group-hover:opacity-100 rtl:rotate-180" />
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         )}
       </section>

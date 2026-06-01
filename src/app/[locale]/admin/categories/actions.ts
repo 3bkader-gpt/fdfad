@@ -10,17 +10,25 @@ type CategoryUpdate = Database['public']['Tables']['categories']['Update'];
 export async function upsertCategory(formData: FormData, id?: string) {
   const supabase = await createClient();
 
-  const name = formData.get('name') as string;
-  const slug = name
+  const name_ar = formData.get('name_ar') as string;
+  const name_en = formData.get('name_en') as string;
+  const description_ar = formData.get('description_ar') as string;
+  const description_en = formData.get('description_en') as string;
+
+  const slug = name_en
     .toLowerCase()
     .trim()
     .replace(/\s+/g, '-')
     .replace(/[^\w-]+/g, '');
 
   const categoryData: CategoryInsert = {
-    name,
+    name: name_ar,
+    name_ar,
+    name_en,
     slug,
-    description: formData.get('description') as string,
+    description: description_ar || null,
+    description_ar: description_ar || null,
+    description_en: description_en || null,
     is_active: formData.get('is_active') === 'true',
   };
 

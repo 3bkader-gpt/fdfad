@@ -35,7 +35,11 @@ export default async function CategoryDetailPage({
   const category = categoryData as unknown as {
     id: string;
     name: string;
-    description: string | null;
+    slug: string;
+    name_ar: string;
+    name_en: string;
+    description_ar: string | null;
+    description_en: string | null;
   };
 
   // 2. Fetch active products for this category using an inner join
@@ -73,6 +77,8 @@ export default async function CategoryDetailPage({
   }
 
   const typedProducts = (productsData as Product[]) || [];
+  const categoryName = (locale === 'ar' ? category.name_ar : category.name_en) || category.name;
+  const categoryDescription = locale === 'ar' ? category.description_ar : category.description_en;
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-32 transition-colors duration-300">
@@ -86,11 +92,11 @@ export default async function CategoryDetailPage({
         </Link>
         <div className="relative z-10">
           <h1 className="text-text-primary mb-4 font-serif text-4xl font-bold tracking-tight">
-            {category.name}
+            {categoryName}
           </h1>
-          {category.description && (
+          {categoryDescription && (
             <p className="text-text-secondary mx-auto max-w-md text-sm leading-relaxed opacity-60">
-              {category.description}
+              {categoryDescription}
             </p>
           )}
         </div>

@@ -95,6 +95,20 @@
     "active": "نشط",
     "archived": "مؤرشف",
     "primaryCategory": "القسم الأساسي",
-    "commit": "إضافة للتشكيلة"
+    "commit": "إضافة للتشكيلة",
+    "categoriesSubtitle": "نظمي مجموعاتك وأقسام الموقع",
+    "addCategory": "إضافة قسم",
+    "archiveConfirm": "هل أنت متأكد من أرشفة هذا القسم؟ لن يظهر في المتجر ولكنه سيبقى في قاعدة البيانات للأرشيف.",
+    "categoryNameAr": "اسم القسم بالعربية",
+    "categoryNameEn": "اسم القسم بالإنجليزية",
+    "categoryNameArPlaceholder": "مثال: إسدالات",
+    "categoryNameEnPlaceholder": "مثال: Isdals",
+    "nameRequired": "الاسم مطلوب",
+    "descriptionAr": "الوصف بالعربية",
+    "descriptionEn": "الوصف بالإنجليزية",
+    "descriptionArPlaceholder": "وصف مختصر للقسم بالعربية...",
+    "descriptionEnPlaceholder": "وصف مختصر للقسم بالإنجليزية...",
+    "hidden": "مخفي",
+    "saveCategory": "حفظ القسم"
   }
 }

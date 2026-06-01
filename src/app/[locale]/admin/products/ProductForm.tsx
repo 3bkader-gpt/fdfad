@@ -227,7 +227,7 @@ export function ProductForm({
             <option value="">Select a Category</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
-                {cat.name}
+                {cat.name_ar} / {cat.name_en}
               </option>
             ))}
           </select>

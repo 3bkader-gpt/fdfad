@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { CategoryManagerClient } from './CategoryManagerClient';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,6 +11,8 @@ export default async function AdminCategoriesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+
+  const t = await getTranslations('Admin');
 
   const supabase = await createClient();
 
@@ -24,9 +26,9 @@ export default async function AdminCategoriesPage({
     <div className="text-text-primary flex flex-col gap-10 text-start">
       <header className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-4xl font-bold tracking-tight">Categories</h2>
+          <h2 className="font-serif text-4xl font-bold tracking-tight">{t('categories')}</h2>
           <p className="mt-2 text-[10px] font-bold tracking-widest uppercase opacity-60">
-            Organize your modest collection
+            {t('categoriesSubtitle')}
           </p>
         </div>
       </header>
