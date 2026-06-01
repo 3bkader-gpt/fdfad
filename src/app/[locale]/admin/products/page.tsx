@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server';
-import { Link } from '@/i18n/routing';
 import { Product } from '@/types/supabase';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AdminProductsClient } from './AdminProductsClient';
@@ -31,4 +30,3 @@ export default async function AdminProductsPage({
 
   return <AdminProductsClient products={products} locale={locale} />;
 }
-
