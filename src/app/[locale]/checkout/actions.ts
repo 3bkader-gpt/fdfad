@@ -11,7 +11,13 @@ export async function createOrder(orderData: {
   address: string;
   notes?: string;
   total_amount: number;
-  items: { product_id: string; quantity: number; price_at_purchase: number }[];
+  items: {
+    product_id: string;
+    quantity: number;
+    price_at_purchase: number;
+    selected_size?: string | null;
+    selected_color?: string | null;
+  }[];
 }) {
   const supabase = await createClient();
 
@@ -81,6 +87,8 @@ export async function createOrder(orderData: {
       product_id: item.product_id,
       quantity: item.quantity,
       price_at_purchase: item.price_at_purchase,
+      selected_size: item.selected_size || null,
+      selected_color: item.selected_color || null,
     }),
   );
 

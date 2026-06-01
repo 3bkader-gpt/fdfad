@@ -20,6 +20,21 @@ export async function upsertProduct(formData: FormData, id?: string) {
     fabric_type: formData.get('fabric_type') as string,
     made_in_egypt: formData.get('made_in_egypt') === 'true',
     is_active: formData.get('is_active') === 'true',
+    sizes: JSON.parse((formData.get('sizes') as string) || '[]'),
+    colors: JSON.parse((formData.get('colors') as string) || '[]'),
+    garment_length_cm: formData.get('garment_length_cm')
+      ? parseInt(formData.get('garment_length_cm') as string)
+      : null,
+    season: (formData.get('season') as string) || null,
+    care_instructions: (formData.get('care_instructions') as string) || null,
+    model_height_cm: formData.get('model_height_cm')
+      ? parseInt(formData.get('model_height_cm') as string)
+      : null,
+    model_weight_kg: formData.get('model_weight_kg')
+      ? parseInt(formData.get('model_weight_kg') as string)
+      : null,
+    model_size_worn: (formData.get('model_size_worn') as string) || null,
+    size_recommendations: JSON.parse((formData.get('size_recommendations') as string) || '[]'),
   };
 
   const categoryId = formData.get('category_id') as string;
@@ -61,8 +76,6 @@ export async function upsertProduct(formData: FormData, id?: string) {
 
   // Handle Category Assignment
   if (productId && categoryId) {
-    // For MVP, we maintain only one category.
-    // Delete existing links for this product and create the new one.
     await (
       supabase.from('product_categories') as unknown as {
         delete: () => {
@@ -86,22 +99,30 @@ export async function upsertProduct(formData: FormData, id?: string) {
     });
   }
 
-  // Handle Image URL
-  const imageUrl = formData.get('image_url') as string;
-  if (imageUrl && productId) {
+  // Handle Multiple Images
+  const imagesJson = formData.get('images') as string;
+  if (imagesJson && productId) {
+    const imagesList = JSON.parse(imagesJson) as { url: string; is_cover: boolean }[];
     const imagesTable = supabase.from('product_images') as unknown as {
       delete: () => {
         eq: (k: string, v: string) => Promise<{ error: { message: string } | null }>;
       };
-      insert: (v: ImageInsert) => Promise<{ error: { message: string } | null }>;
+      insert: (v: ImageInsert[]) => Promise<{ error: { message: string } | null }>;
     };
 
     await imagesTable.delete().eq('product_id', productId);
-    await imagesTable.insert({
-      product_id: productId,
-      url: imageUrl,
-      display_order: 0,
-    });
+
+    if (imagesList.length > 0) {
+      const inserts: ImageInsert[] = imagesList.map((img, index) => ({
+        product_id: productId!,
+        url: img.url,
+        is_cover: img.is_cover,
+        display_order: index,
+      }));
+
+      const { error: imagesInsertError } = await imagesTable.insert(inserts);
+      if (imagesInsertError) throw new Error(imagesInsertError.message);
+    }
   }
 
   revalidatePath('/');

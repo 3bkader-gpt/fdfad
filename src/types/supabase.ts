@@ -93,6 +93,15 @@ export interface Database {
           is_active: boolean;
           created_at: string;
           updated_at: string;
+          sizes: string[];
+          colors: string[];
+          garment_length_cm: number | null;
+          season: string | null;
+          care_instructions: string | null;
+          model_height_cm: number | null;
+          model_weight_kg: number | null;
+          model_size_worn: string | null;
+          size_recommendations: Json;
         };
         Insert: {
           id?: string;
@@ -106,6 +115,15 @@ export interface Database {
           is_active?: boolean;
           created_at?: string;
           updated_at?: string;
+          sizes?: string[];
+          colors?: string[];
+          garment_length_cm?: number | null;
+          season?: string | null;
+          care_instructions?: string | null;
+          model_height_cm?: number | null;
+          model_weight_kg?: number | null;
+          model_size_worn?: string | null;
+          size_recommendations?: Json;
         };
         Update: {
           id?: string;
@@ -119,6 +137,15 @@ export interface Database {
           is_active?: boolean;
           created_at?: string;
           updated_at?: string;
+          sizes?: string[];
+          colors?: string[];
+          garment_length_cm?: number | null;
+          season?: string | null;
+          care_instructions?: string | null;
+          model_height_cm?: number | null;
+          model_weight_kg?: number | null;
+          model_size_worn?: string | null;
+          size_recommendations?: Json;
         };
       };
       product_images: {
@@ -129,6 +156,7 @@ export interface Database {
           alt_text: string | null;
           display_order: number;
           created_at: string;
+          is_cover: boolean;
         };
         Insert: {
           id?: string;
@@ -137,6 +165,7 @@ export interface Database {
           alt_text?: string | null;
           display_order?: number;
           created_at?: string;
+          is_cover?: boolean;
         };
         Update: {
           id?: string;
@@ -145,6 +174,7 @@ export interface Database {
           alt_text?: string | null;
           display_order?: number;
           created_at?: string;
+          is_cover?: boolean;
         };
       };
       orders: {
@@ -196,6 +226,8 @@ export interface Database {
           quantity: number;
           price_at_purchase: number;
           created_at: string;
+          selected_size: string | null;
+          selected_color: string | null;
         };
         Insert: {
           id?: string;
@@ -204,6 +236,8 @@ export interface Database {
           quantity: number;
           price_at_purchase: number;
           created_at?: string;
+          selected_size?: string | null;
+          selected_color?: string | null;
         };
         Update: {
           id?: string;
@@ -212,6 +246,8 @@ export interface Database {
           quantity?: number;
           price_at_purchase?: number;
           created_at?: string;
+          selected_size?: string | null;
+          selected_color?: string | null;
         };
       };
     };

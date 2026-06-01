@@ -13,7 +13,16 @@
     "delete": "Delete",
     "edit": "Edit",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "exchangePolicy": "Easy Exchange & Return",
+    "easyExchange": "Fast exchange & return within 14 days.",
+    "garmentLength": "Garment Length",
+    "season": "Season",
+    "careInstructions": "Care Instructions",
+    "modelHeight": "Model Height",
+    "modelWeight": "Model Weight",
+    "modelSize": "Size Worn",
+    "sizeRecommend": "Size Recommendation"
   },
   "Nav": {
     "home": "Home",
@@ -44,7 +53,16 @@
     "origin": "Origin",
     "premium": "Premium Grade",
     "addToCart": "Add to Bag",
-    "awaitingVisuals": "Visuals Pending"
+    "awaitingVisuals": "Visuals Pending",
+    "selectSize": "Select Size",
+    "selectColor": "Select Color",
+    "sizeRequired": "Please select a size first",
+    "colorRequired": "Please select a color first",
+    "specs": "Specifications",
+    "fitGuide": "Fit & Model Guide",
+    "shippingTitle": "Shipping & Returns",
+    "relatedTitle": "You May Also Like",
+    "noRecommendations": "No size recommendations available."
   },
   "Categories": {
     "title": "Collections",
@@ -122,6 +140,26 @@
     "helpCategory": "Select the primary collection this piece belongs to.",
     "helpMadeInEgypt": "Toggle if this piece is made in Egypt to show the Made in Cairo badge.",
     "helpDescription": "Write more details about sizing, stitching, styling, and how to wear it.",
-    "helpImage": "Upload a clear, high-quality photo of the piece."
+    "helpImage": "Upload a clear, high-quality photo of the piece.",
+    "basicInfo": "Basic Information",
+    "media": "Media",
+    "sizes": "Sizes",
+    "colors": "Colors",
+    "specifications": "Specifications",
+    "fitGuideSec": "Fit Guide",
+    "seoSec": "SEO",
+    "helpMedia": "Upload product photos. The first image will be the primary cover.",
+    "helpSizes": "Add sizes available for this product.",
+    "helpColors": "Add colors available for this product.",
+    "helpLength": "Enter the garment length in centimeters (e.g. 145).",
+    "helpSeason": "Enter the season for this item (e.g. Summer, Winter, All Seasons).",
+    "helpCare": "Enter washing and care instructions.",
+    "helpModelHeight": "Enter model height in centimeters.",
+    "helpModelWeight": "Enter model weight in kilograms.",
+    "helpModelSize": "Enter the size worn by the model.",
+    "helpRecommendations": "Map sizes to weight ranges (e.g. Size 52 -> 50-65kg).",
+    "addSize": "Add Size",
+    "addColor": "Add Color",
+    "addRecommendation": "Add Row"
   }
 }

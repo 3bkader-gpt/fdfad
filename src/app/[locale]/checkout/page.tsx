@@ -96,6 +96,8 @@ export default function CheckoutPage() {
               product_id: item.product.id,
               quantity: item.quantity,
               price_at_purchase: item.product.price,
+              selected_size: item.selectedSize || null,
+              selected_color: item.selectedColor || null,
             })),
           });
 
@@ -154,9 +156,17 @@ export default function CheckoutPage() {
           </h2>
           <div className="flex flex-col gap-3">
             {mountedItems.map((item) => (
-              <div key={item.product.id} className="flex justify-between text-sm">
+              <div
+                key={`${item.product.id}-${item.selectedSize || ''}-${item.selectedColor || ''}`}
+                className="flex justify-between text-sm"
+              >
                 <span className="truncate pr-4 opacity-70">
                   {item.quantity}x {item.product.title}
+                  {(item.selectedSize || item.selectedColor) && (
+                    <span className="mt-0.5 block text-[10px] opacity-60">
+                      {[item.selectedSize, item.selectedColor].filter(Boolean).join(' / ')}
+                    </span>
+                  )}
                 </span>
                 <span className="font-medium whitespace-nowrap">
                   {item.product.price * item.quantity} {tc('egp')}
