@@ -3,7 +3,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { Database } from '@/types/supabase';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 type ProductInsert = Database['public']['Tables']['products']['Insert'];
 type ProductUpdate = Database['public']['Tables']['products']['Update'];
@@ -107,7 +106,7 @@ export async function upsertProduct(formData: FormData, id?: string) {
 
   revalidatePath('/');
   revalidatePath('/admin/products');
-  redirect('/admin/products');
+  return { success: true };
 }
 
 export async function deleteProduct(id: string) {

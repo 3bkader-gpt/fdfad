@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { upsertProduct } from './ProductActions';
 import { Loader2, ArrowLeft, Globe } from 'lucide-react';
 import { ImageUpload } from '@/components/ui/ImageUpload';
-import { Link } from '@/i18n/routing';
+import { Link, useRouter } from '@/i18n/routing';
 import { useState, useEffect } from 'react';
 import { Product, Category } from '@/types/supabase';
 import { useTranslations } from 'next-intl';
@@ -23,7 +23,7 @@ const productSchema = z.object({
   fabric_type: z.string().min(1, 'Fabric type is required'),
   made_in_egypt: z.string(),
   is_active: z.string(),
-  image_url: z.string().url('Invalid image URL').or(z.literal('')),
+  image_url: z.string().optional().or(z.literal('')),
   category_id: z.string().min(1, 'Category is required'),
 });
 
@@ -48,6 +48,7 @@ export function ProductForm({
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditing = !!initialData;
+  const router = useRouter();
   const t = useTranslations('Admin');
   const tc = useTranslations('Common');
   const tp = useTranslations('Products');
@@ -100,10 +101,11 @@ export function ProductForm({
   const onSubmit = async (values: ProductFormValues) => {
     setIsSubmitting(true);
     const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => formData.append(key, value));
+    Object.entries(values).forEach(([key, value]) => formData.append(key, value ?? ''));
 
     try {
       await upsertProduct(formData, initialData?.id);
+      router.push('/admin/products');
     } catch (e: unknown) {
       const error = e as Error;
       alert(error.message);
@@ -111,8 +113,12 @@ export function ProductForm({
     }
   };
 
+  const onInvalid = (errs: object) => {
+    console.error('[ProductForm] Validation errors:', errs);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-2xl flex-col gap-10 text-start">
+    <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex max-w-2xl flex-col gap-10 text-start">
       <header className="flex items-center gap-4">
         <Link
           href="/admin/products"
@@ -279,6 +285,20 @@ export function ProductForm({
           />
           <p className="mt-1.5 text-[10px] opacity-40">{t('helpDescription')}</p>
         </div>
+
+        {/* Validation Error Summary */}
+        {Object.keys(errors).length > 0 && (
+          <div className="md:col-span-2 rounded-xl bg-red-50 border border-red-200 px-4 py-3">
+            <p className="text-[11px] font-bold text-red-600 mb-1">في حاجة ناقصة:</p>
+            <ul className="list-disc list-inside space-y-0.5">
+              {errors.title && <li className="text-[10px] text-red-500">{errors.title.message}</li>}
+              {errors.fabric_type && <li className="text-[10px] text-red-500">{errors.fabric_type.message}</li>}
+              {errors.category_id && <li className="text-[10px] text-red-500">لازم تختار قسم</li>}
+              {errors.price && <li className="text-[10px] text-red-500">{errors.price.message}</li>}
+              {errors.image_url && <li className="text-[10px] text-red-500">{errors.image_url.message}</li>}
+            </ul>
+          </div>
+        )}
 
         <button
           type="submit"
