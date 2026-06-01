@@ -29,8 +29,8 @@ const productSchema = z.object({
     .regex(/^[a-z0-9-]+$/, 'Slug must be URL-friendly (a-z, 0-9, -)'),
   description: z.string().optional(),
   price: z.string().refine((v) => !isNaN(parseFloat(v)) && parseFloat(v) >= 0, 'Invalid price'),
-  opacity_scale: z.string(),
-  fabric_type: z.string().min(1, 'Fabric type is required'),
+  opacity_scale: z.string().optional(),
+  fabric_type: z.string().optional(),
   made_in_egypt: z.string(),
   is_active: z.string(),
   category_id: z.string().min(1, 'Category is required'),
@@ -134,9 +134,9 @@ export function ProductForm({
           title: initialData.title,
           slug: initialData.slug,
           description: initialData.description || '',
-          fabric_type: initialData.fabric_type,
+          fabric_type: initialData.fabric_type || '',
           price: initialData.price.toString(),
-          opacity_scale: initialData.opacity_scale.toString(),
+          opacity_scale: initialData.opacity_scale?.toString() || '',
           made_in_egypt: initialData.made_in_egypt.toString(),
           is_active: initialData.is_active.toString(),
           category_id: initialData.product_categories?.[0]?.category_id || '',
@@ -586,6 +586,7 @@ export function ProductForm({
                 {...register('opacity_scale')}
                 className="rounded-xl bg-bg-main text-text-primary px-4 py-3.5 text-sm shadow-sm ring-1 ring-border-color transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
               >
+                <option value="">Select Opacity</option>
                 {[1, 2, 3, 4, 5].map((v) => (
                   <option key={v} value={v}>
                     {v} {v === 5 ? `(${tp('opaque')})` : ''}
@@ -707,23 +708,7 @@ export function ProductForm({
           </div>
         </section>
 
-        {/* Section 7: SEO / Metadata */}
-        <section className="bg-bg-elevated border-border-color flex flex-col gap-6 rounded-2xl border p-6 shadow-sm md:p-8">
-          <h3 className="border-border-color border-b pb-3 font-serif text-xl font-bold text-[#2C3E35]">
-            {t('seoSec')}
-          </h3>
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-              URL Slug (Auto-generated)
-            </label>
-            <input
-              {...register('slug')}
-              readOnly
-              className="border-border-color rounded-xl border bg-[#FAFAFA] px-4 py-3 text-sm text-zinc-500 outline-none select-all"
-            />
-            <p className="text-[10px] opacity-40">Auto-created based on title. Used in site URL.</p>
-          </div>
-        </section>
+        <input type="hidden" {...register('slug')} />
       </div>
 
       {/* Validation Error Summary */}

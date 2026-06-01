@@ -87,8 +87,8 @@ export interface Database {
           slug: string;
           description: string | null;
           price: number;
-          opacity_scale: number;
-          fabric_type: string;
+          opacity_scale: number | null;
+          fabric_type: string | null;
           made_in_egypt: boolean;
           is_active: boolean;
           created_at: string;
@@ -109,8 +109,8 @@ export interface Database {
           slug: string;
           description?: string | null;
           price: number;
-          opacity_scale: number;
-          fabric_type: string;
+          opacity_scale?: number | null;
+          fabric_type?: string | null;
           made_in_egypt?: boolean;
           is_active?: boolean;
           created_at?: string;
@@ -131,8 +131,8 @@ export interface Database {
           slug?: string;
           description?: string | null;
           price?: number;
-          opacity_scale?: number;
-          fabric_type?: string;
+          opacity_scale?: number | null;
+          fabric_type?: string | null;
           made_in_egypt?: boolean;
           is_active?: boolean;
           created_at?: string;

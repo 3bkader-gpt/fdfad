@@ -445,28 +445,30 @@ export function ProductDetailsClient({ product, relatedProducts }: ProductDetail
               </div>
 
               {/* Opacity Meter */}
-              <div className="border-border-color bg-bg-elevated flex flex-col justify-center gap-2 rounded-xl border p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[8px] font-bold tracking-widest uppercase opacity-40">
-                    {t('opacity')}
-                  </span>
-                  <span className="text-brand-accent text-[8px] font-bold uppercase">
-                    {product.opacity_scale}/5
-                  </span>
+              {product.opacity_scale !== null && product.opacity_scale !== undefined && (
+                <div className="border-border-color bg-bg-elevated flex flex-col justify-center gap-2 rounded-xl border p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[8px] font-bold tracking-widest uppercase opacity-40">
+                      {t('opacity')}
+                    </span>
+                    <span className="text-brand-accent text-[8px] font-bold uppercase">
+                      {product.opacity_scale}/5
+                    </span>
+                  </div>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((level) => (
+                      <div
+                        key={level}
+                        className={`h-1 flex-1 rounded-full ${
+                          level <= (product.opacity_scale ?? 0)
+                            ? 'bg-brand-accent'
+                            : 'bg-bg-main border-border-color/50 border'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((level) => (
-                    <div
-                      key={level}
-                      className={`h-1 flex-1 rounded-full ${
-                        level <= product.opacity_scale
-                          ? 'bg-brand-accent'
-                          : 'bg-bg-main border-border-color/50 border'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
+              )}
             </div>
           </div>
 
