@@ -17,6 +17,7 @@ export default async function OrderDetailsPage({
   const { id, locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations('Admin');
+  const tc = await getTranslations('Common');
 
   const supabase = await createClient();
 
@@ -171,7 +172,7 @@ export default async function OrderDetailsPage({
                     )}
                   </div>
                   <p className="text-xs font-bold whitespace-nowrap">
-                    {item.price_at_purchase * item.quantity} EGP
+                    {item.price_at_purchase * item.quantity} {tc('egp')}
                   </p>
                 </div>
               ))}
@@ -181,7 +182,9 @@ export default async function OrderDetailsPage({
               <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
                 {t('orderTotal')}
               </span>
-              <span className="text-2xl font-bold tracking-tight">{order.total_amount} EGP</span>
+              <span className="text-2xl font-bold tracking-tight">
+                {order.total_amount} {tc('egp')}
+              </span>
             </div>
 
             <div className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-white/5 py-2 text-[9px] font-bold tracking-widest uppercase">

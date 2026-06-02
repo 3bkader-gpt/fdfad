@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Search, ArrowLeft } from 'lucide-react';
-import { Link } from '@/i18n/routing';
+import { Link, useRouter } from '@/i18n/routing';
 import { Order } from '@/types/supabase';
 import { StatusPill } from './[id]/StatusPill';
 import { useTranslations } from 'next-intl';
@@ -22,6 +22,7 @@ type FilterStatus =
   | 'CANCELLED';
 
 export function AdminOrdersClient({ orders, locale }: AdminOrdersClientProps) {
+  const router = useRouter();
   const t = useTranslations('Admin');
   const tcom = useTranslations('Common');
   const [search, setSearch] = useState('');
@@ -125,12 +126,14 @@ export function AdminOrdersClient({ orders, locale }: AdminOrdersClientProps) {
             {filtered.map((order) => (
               <tr
                 key={order.id}
+                onClick={() => router.push(`/admin/orders/${order.id}`)}
                 className="group hover:bg-bg-main cursor-pointer transition-colors"
               >
                 <td className="px-6 py-5">
                   <Link
                     href={`/admin/orders/${order.id}`}
                     className="text-brand-accent font-mono text-xs font-bold hover:underline"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {order.order_no}
                   </Link>
@@ -163,7 +166,7 @@ export function AdminOrdersClient({ orders, locale }: AdminOrdersClientProps) {
                 <td className="px-6 py-5 text-xs font-bold">
                   {order.total_amount} {tcom('egp')}
                 </td>
-                <td className="px-6 py-5">
+                <td className="px-6 py-5" onClick={(e) => e.stopPropagation()}>
                   <StatusPill orderId={order.id} currentStatus={order.status} />
                 </td>
               </tr>

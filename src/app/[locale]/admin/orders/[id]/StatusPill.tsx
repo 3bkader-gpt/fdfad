@@ -90,13 +90,13 @@ export function StatusPill({
       </button>
 
       {isOpen && (
-        <div className="animate-in fade-in slide-in-from-top-1 absolute top-full left-0 z-[100] mt-1 w-40 origin-top-left rounded-xl bg-white p-1.5 text-left shadow-2xl ring-1 ring-black/5 duration-200">
+        <div className="animate-in fade-in slide-in-from-top-1 bg-bg-elevated border-border-color absolute top-full left-0 z-[100] mt-1 w-40 origin-top-left rounded-xl border p-1.5 text-left shadow-2xl duration-200">
           {STATUSES.map((s) => (
             <button
               key={s}
               onClick={() => handleUpdate(s)}
-              className={`flex min-h-[44px] w-full items-center justify-between rounded-lg px-4 py-2 text-[10px] font-bold tracking-wider uppercase transition-colors hover:bg-[#FAFAFA] ${
-                s === status ? 'text-[#C89B7E]' : 'text-[#2C3E35]/60'
+              className={`hover:bg-bg-main flex min-h-[44px] w-full items-center justify-between rounded-lg px-4 py-2 text-[10px] font-bold tracking-wider uppercase transition-colors ${
+                s === status ? 'text-brand-accent' : 'text-text-primary/60'
               }`}
             >
               {t(s)}
