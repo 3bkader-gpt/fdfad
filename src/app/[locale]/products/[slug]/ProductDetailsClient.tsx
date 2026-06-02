@@ -29,7 +29,12 @@ const COLOR_MAP: Record<string, string> = {
   white: '#FAFAFA',
 };
 
-export function ProductDetailsClient({ product, relatedProducts, categoryName, categorySlug }: ProductDetailsClientProps) {
+export function ProductDetailsClient({
+  product,
+  relatedProducts,
+  categoryName,
+  categorySlug,
+}: ProductDetailsClientProps) {
   const t = useTranslations('Products');
   const tc = useTranslations('Common');
   const tco = useTranslations('Checkout');
@@ -139,7 +144,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
         >
           <ol className="flex items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase opacity-50">
             <li>
-              <Link href="/" className="hover:opacity-100 transition-opacity">
+              <Link href="/" className="transition-opacity hover:opacity-100">
                 {tc('back')}
               </Link>
             </li>
@@ -147,21 +152,26 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
             {categorySlug && (
               <>
                 <li>
-                  <Link href={`/categories/${categorySlug}`} className="hover:opacity-100 transition-opacity">
+                  <Link
+                    href={`/categories/${categorySlug}`}
+                    className="transition-opacity hover:opacity-100"
+                  >
                     {categoryName}
                   </Link>
                 </li>
                 <li className="opacity-40">/</li>
               </>
             )}
-            <li className="opacity-100 text-text-primary line-clamp-1 max-w-[200px]">
+            <li className="text-text-primary line-clamp-1 max-w-[200px] opacity-100">
               {product.title}
             </li>
           </ol>
         </nav>
       )}
 
-      <div className={`mx-auto grid max-w-6xl grid-cols-1 gap-8 px-0 ${categoryName ? 'pt-[105px] md:pt-36' : 'pt-[73px] md:pt-28'} md:grid-cols-2 md:px-6`}>
+      <div
+        className={`mx-auto grid max-w-6xl grid-cols-1 gap-8 px-0 ${categoryName ? 'pt-[105px] md:pt-36' : 'pt-[73px] md:pt-28'} md:grid-cols-2 md:px-6`}
+      >
         {/* Gallery Section */}
         <section className="flex flex-col gap-4">
           {/* Main Display Container */}
@@ -264,7 +274,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
             </h2>
 
             <div className="border-border-color flex items-center justify-between border-b pb-5">
-              <p className="text-2xl font-semibold tracking-tight text-brand-primary">
+              <p className="text-brand-primary text-2xl font-semibold tracking-tight">
                 {product.price} <span className="text-sm font-normal opacity-60">{tc('egp')}</span>
               </p>
 
@@ -303,7 +313,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                       }}
                       className={`flex h-[48px] min-w-[48px] items-center justify-center rounded-xl border text-xs font-bold uppercase transition-all active:scale-95 ${
                         isSelected
-                          ? 'border-brand-primary bg-brand-primary text-white dark:text-bg-main shadow-lg shadow-brand-primary/15'
+                          ? 'border-brand-primary bg-brand-primary dark:text-bg-main shadow-brand-primary/15 text-white shadow-lg'
                           : 'border-border-color text-text-primary bg-bg-elevated hover:border-brand-accent'
                       }`}
                     >
@@ -343,7 +353,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                       }}
                       className={`relative flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-semibold transition-all active:scale-95 ${
                         isSelected
-                          ? 'bg-bg-elevated border-brand-accent scale-105 shadow-md shadow-brand-accent/10'
+                          ? 'bg-bg-elevated border-brand-accent shadow-brand-accent/10 scale-105 shadow-md'
                           : 'border-border-color bg-bg-elevated hover:border-brand-accent'
                       }`}
                     >
@@ -363,7 +373,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
           {/* Fit Guide Section */}
           {(product.model_height_cm || product.model_weight_kg || recommendations.length > 0) && (
             <div className="border-border-color bg-bg-elevated flex flex-col gap-5 rounded-2xl border p-6">
-              <h4 className="border-border-color flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-[0.15em] text-brand-primary uppercase">
+              <h4 className="border-border-color text-brand-primary flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-[0.15em] uppercase">
                 <Ruler className="text-brand-accent h-4 w-4" />
                 {t('fitGuide')}
               </h4>
@@ -376,7 +386,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                       <span className="mb-0.5 block text-[8px] font-bold tracking-widest uppercase opacity-40">
                         {tc('modelHeight')}
                       </span>
-                      <span className="text-xs font-bold text-text-primary">
+                      <span className="text-text-primary text-xs font-bold">
                         {product.model_height_cm} cm
                       </span>
                     </div>
@@ -386,7 +396,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                       <span className="mb-0.5 block text-[8px] font-bold tracking-widest uppercase opacity-40">
                         {tc('modelWeight')}
                       </span>
-                      <span className="text-xs font-bold text-text-primary">
+                      <span className="text-text-primary text-xs font-bold">
                         {product.model_weight_kg} kg
                       </span>
                     </div>
@@ -418,7 +428,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                           i < recommendations.length - 1 ? 'border-border-color border-b' : ''
                         }`}
                       >
-                        <span className="font-bold text-text-primary">
+                        <span className="text-text-primary font-bold">
                           {tc('size')} {row.size}
                         </span>
                         <span className="opacity-70">{row.weight_range}</span>
@@ -537,10 +547,10 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                 <Truck className="text-brand-accent h-4.5 w-4.5" />
               </div>
               <div>
-                <p className="text-xs font-bold tracking-tight uppercase">{tco('cashOnDelivery')}</p>
-                <p className="text-[10px] text-pretty opacity-60">
-                  {tc('easyExchange')}
+                <p className="text-xs font-bold tracking-tight uppercase">
+                  {tco('cashOnDelivery')}
                 </p>
+                <p className="text-[10px] text-pretty opacity-60">{tc('easyExchange')}</p>
               </div>
             </div>
           </div>
@@ -570,7 +580,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
       {/* Related Products Section */}
       {relatedProducts.length > 0 && (
         <section className="border-border-color mx-auto mt-20 max-w-6xl border-t px-6 pt-12">
-          <h3 className="mb-8 text-center font-serif text-2xl font-bold tracking-tight text-brand-primary md:text-start">
+          <h3 className="text-brand-primary mb-8 text-center font-serif text-2xl font-bold tracking-tight md:text-start">
             {t('relatedTitle')}
           </h3>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
@@ -602,7 +612,7 @@ export function ProductDetailsClient({ product, relatedProducts, categoryName, c
                     <span className="text-[9px] font-bold tracking-widest uppercase opacity-40">
                       {rel.fabric_type}
                     </span>
-                    <h4 className="group-hover:text-brand-accent truncate text-sm font-medium tracking-tight text-text-primary transition-colors">
+                    <h4 className="group-hover:text-brand-accent text-text-primary truncate text-sm font-medium tracking-tight transition-colors">
                       {rel.title}
                     </h4>
                     <p className="text-brand-primary text-xs font-bold">

@@ -3,7 +3,7 @@
 - **Product:** FADFAAD
 - **Purpose:** Modest-fashion ecommerce for Arabic-speaking users.
 - **Target Audience:** Modern, modest, fashion-conscious women (20-40s).
-- **Core Principles:** 
+- **Core Principles:**
   - Bilingual (RTL/LTR) excellence.
   - Mobile-first approach.
   - Luxury aesthetic (minimalism, clarity).

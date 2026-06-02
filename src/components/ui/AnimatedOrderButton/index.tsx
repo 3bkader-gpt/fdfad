@@ -40,6 +40,7 @@ export function AnimatedOrderButton({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       disabled={disabled || state !== 'idle'}
       className={`luxury-order-btn ${state === 'driving' ? 'is-driving' : ''} ${state === 'success' ? 'is-success' : ''} ${className}`}

@@ -1,18 +1,22 @@
 # COLOR CONTRAST AUDIT & ACCESSIBILITY REMEDIATION
 
 ## 1. Audit Findings
+
 The initial audit confirmed that status pills used low-contrast combinations (e.g., `bg-yellow-50` with `text-yellow-700`), failing WCAG AA contrast standards, particularly in light mode.
 
 ## 2. Remediation Strategy
+
 - **Tokenization:** Centralized status colors in `src/app/globals.css` using semantic CSS variables (`--status-*-bg`, `--status-*-text`) for both light and dark modes.
 - **Tailwind Integration:** Added these tokens to `@theme` for consistent Tailwind utility usage (`bg-status-*-bg`, `text-status-*-text`).
 - **Standardization:** Applied the new semantic palette to `StatusPill` components, ensuring WCAG AA compliance across all order statuses.
 
 ## 3. Implementation Details
+
 - Modified `src/app/globals.css` to include the semantic status color palette.
 - Updated `src/app/[locale]/admin/orders/[id]/StatusPill.tsx` to utilize the new classes.
 
 ## 4. Verification
+
 - Build successfully passed (`pnpm build`).
 - Lint successfully passed (`pnpm lint`).
 - Visual review of color combinations:
@@ -25,4 +29,5 @@ The initial audit confirmed that status pills used low-contrast combinations (e.
   - Dark mode variants also adjusted for luxury readability.
 
 ## 5. Remaining Risks
+
 - Other non-status UI elements (e.g., minor text helpers, empty states) may still require contrast auditing. This audit focused specifically on the P0 status indicators.

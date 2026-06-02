@@ -10,6 +10,7 @@
 Following the initial audit, a series of critical ergonomic and aesthetic improvements were implemented to reach "Production Grade" status.
 
 ### Visual & Ergonomic Fixes
+
 - **Functional Global Navigation:** Replaced the static header with a fully functional `GlobalHeader`. Integrated a slide-in `MobileMenu` (Sidebar) that provides quick access to categories and contact info.
 - **Branded States:** Replaced generic Next.js fallback pages with custom-designed `loading.tsx` and `not-found.tsx` that adhere to the brand's serif-led minimalism.
 - **Ergonomic Spacing:** Increased vertical rhythm on the homepage and standardized horizontal safe-zones (`px-6`) across all storefront interfaces.
@@ -17,19 +18,20 @@ Following the initial audit, a series of critical ergonomic and aesthetic improv
 
 ### Page-by-Page Validation
 
-| Page | Status | Evidence | Evaluation |
-| :--- | :---: | :--- | :--- |
-| **Homepage** | ✅ PASS | `01_homepage.png` | Strong visual hierarchy; Serif H1 establishes immediate authority. |
-| **Product Grid** | ✅ PASS | `02_product_grid.png` | 3:4 aspect ratios correctly showcase garment drape. |
-| **Product Detail**| ✅ PASS | `03_pdp.png` | Labeled Opacity Index solves sensory gap; Sticky CTA is ergonomically perfect. |
-| **Cart Drawer** | ✅ PASS | `04_cart_drawer.png` | High-end animated slide-in; Clear price breakdown. |
-| **Checkout** | ✅ PASS | `05_checkout.png` | Single-page form reduces friction; Standardized inputs. |
-| **Empty/404** | ✅ PASS | `06_styled_404.png` | Graceful recovery path with brand-consistent messaging. |
-| **Mobile Menu** | ✅ PASS | `07_mobile_menu.png` | Primary navigation route for discovery. |
+| Page               | Status  | Evidence              | Evaluation                                                                     |
+| :----------------- | :-----: | :-------------------- | :----------------------------------------------------------------------------- |
+| **Homepage**       | ✅ PASS | `01_homepage.png`     | Strong visual hierarchy; Serif H1 establishes immediate authority.             |
+| **Product Grid**   | ✅ PASS | `02_product_grid.png` | 3:4 aspect ratios correctly showcase garment drape.                            |
+| **Product Detail** | ✅ PASS | `03_pdp.png`          | Labeled Opacity Index solves sensory gap; Sticky CTA is ergonomically perfect. |
+| **Cart Drawer**    | ✅ PASS | `04_cart_drawer.png`  | High-end animated slide-in; Clear price breakdown.                             |
+| **Checkout**       | ✅ PASS | `05_checkout.png`     | Single-page form reduces friction; Standardized inputs.                        |
+| **Empty/404**      | ✅ PASS | `06_styled_404.png`   | Graceful recovery path with brand-consistent messaging.                        |
+| **Mobile Menu**    | ✅ PASS | `07_mobile_menu.png`  | Primary navigation route for discovery.                                        |
 
 ---
 
 ## 2. Technical Integrity
+
 - **Build Status:** `PASS`
 - **Lint Status:** `PASS`
 - **Asset Security:** Remote patterns for Unsplash and Supabase CDN correctly configured in `next.config.ts`.

@@ -5,13 +5,17 @@ This document describes the PostgreSQL schema implemented on Supabase for the FA
 ## Tables
 
 ### 1. `admins`
+
 Stores authorized administrative accounts.
+
 - `id` (uuid, PK): Unique identifier.
 - `email` (text, unique): Admin login email.
 - `created_at` (timestamptz): Creation timestamp.
 
 ### 2. `products`
+
 The core catalog of modest fashion items.
+
 - `id` (uuid, PK): Unique identifier.
 - `title` (text): Display name.
 - `slug` (text, unique): URL-friendly identifier.
@@ -25,7 +29,9 @@ The core catalog of modest fashion items.
 - `updated_at` (timestamptz): Last modification timestamp.
 
 ### 3. `product_images`
+
 One-to-many relationship with products for galleries.
+
 - `id` (uuid, PK): Unique identifier.
 - `product_id` (uuid, FK): Reference to `products.id`.
 - `url` (text): CDN/Storage URL.
@@ -33,7 +39,9 @@ One-to-many relationship with products for galleries.
 - `display_order` (int): Sorting order for the gallery.
 
 ### 4. `orders`
+
 Structured customer orders to replace WhatsApp chat logs.
+
 - `id` (uuid, PK): Unique identifier.
 - `order_no` (text, unique): Human-readable ID (e.g., FDF-1001).
 - `customer_name` (text): Full name.
@@ -47,7 +55,9 @@ Structured customer orders to replace WhatsApp chat logs.
 - `updated_at` (timestamptz): Last status change.
 
 ### 5. `order_items`
+
 Snapshot of line items within an order.
+
 - `id` (uuid, PK): Unique identifier.
 - `order_id` (uuid, FK): Reference to `orders.id`.
 - `product_id` (uuid, FK): Reference to `products.id`.
@@ -55,5 +65,6 @@ Snapshot of line items within an order.
 - `price_at_purchase` (numeric): Historic price (guards against future catalog changes).
 
 ## Security (RLS)
+
 - **Anonymous:** Can only SELECT active products/images and INSERT into orders/items.
 - **Authenticated (Admin):** Full CRUD access to all tables.

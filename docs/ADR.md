@@ -10,33 +10,37 @@
 ## 1. Technology Selection & Evaluation
 
 ### Frontend Framework
-*   **Options:** Next.js, React (CRA/Vite), Nuxt.
-*   **Decision:** **Next.js (App Router)**
-*   **Justification:** Next.js provides out-of-the-box SEO (Server-Side Rendering), which is non-negotiable for a fashion brand competing for search traffic. Its Image Optimization component is critical for the high-res macro fabric shots identified in our research.
-*   **Tradeoff:** Higher learning curve compared to Vite, but justifies the cost with performance and deployment ease on Vercel.
+
+- **Options:** Next.js, React (CRA/Vite), Nuxt.
+- **Decision:** **Next.js (App Router)**
+- **Justification:** Next.js provides out-of-the-box SEO (Server-Side Rendering), which is non-negotiable for a fashion brand competing for search traffic. Its Image Optimization component is critical for the high-res macro fabric shots identified in our research.
+- **Tradeoff:** Higher learning curve compared to Vite, but justifies the cost with performance and deployment ease on Vercel.
 
 ### Backend & Database
-*   **Options:** Supabase, Firebase, NestJS + PostgreSQL.
-*   **Decision:** **Supabase (PostgreSQL)**
-*   **Justification:** Supabase provides a managed PostgreSQL database, Real-time subscriptions (perfect for the Admin "New Order" notification), and built-in Auth. It eliminates the need to manage a separate backend server for an MVP, drastically reducing "WhatsApp style" data loss risks.
-*   **Tradeoff:** Vendor lock-in to Supabase features, but the underlying data is standard PostgreSQL, making future migration easy.
+
+- **Options:** Supabase, Firebase, NestJS + PostgreSQL.
+- **Decision:** **Supabase (PostgreSQL)**
+- **Justification:** Supabase provides a managed PostgreSQL database, Real-time subscriptions (perfect for the Admin "New Order" notification), and built-in Auth. It eliminates the need to manage a separate backend server for an MVP, drastically reducing "WhatsApp style" data loss risks.
+- **Tradeoff:** Vendor lock-in to Supabase features, but the underlying data is standard PostgreSQL, making future migration easy.
 
 ### Authentication
-*   **Decision:** **Supabase Auth**
-*   **Justification:** Seamless integration with PostgreSQL Row Level Security (RLS). We only need to secure the `/admin` route for the owner.
+
+- **Decision:** **Supabase Auth**
+- **Justification:** Seamless integration with PostgreSQL Row Level Security (RLS). We only need to secure the `/admin` route for the owner.
 
 ### Hosting & Storage
-*   **Decision:** **Vercel (Hosting) + Supabase Storage (Assets)**
-*   **Justification:** Vercel is the native environment for Next.js. Supabase Storage handles image uploads for product management with built-in CDN support.
+
+- **Decision:** **Vercel (Hosting) + Supabase Storage (Assets)**
+- **Justification:** Vercel is the native environment for Next.js. Supabase Storage handles image uploads for product management with built-in CDN support.
 
 ---
 
 ## 2. Final Recommended Stack (The "Speed-to-Trust" Stack)
 
-*   **Frontend:** Next.js 14+, Tailwind CSS (Modern UI), Lucide Icons.
-*   **Backend:** Supabase (DB, Auth, Storage).
-*   **Deployment:** Vercel.
-*   **State Management:** TanStack Query (React Query) for reliable server-state.
+- **Frontend:** Next.js 14+, Tailwind CSS (Modern UI), Lucide Icons.
+- **Backend:** Supabase (DB, Auth, Storage).
+- **Deployment:** Vercel.
+- **State Management:** TanStack Query (React Query) for reliable server-state.
 
 **Why this stack?**
 This stack allows us to build the MVP in days. It solves the **Business Pain** by providing a robust, structured database immediately, while giving the customer a high-end, fast "boutique" feel that builds trust.
@@ -68,42 +72,45 @@ We will follow a **Feature-Based Architecture** within the `src` directory to ke
 ## 4. Database Design (Production Schema)
 
 ### 4.1 Table: `products`
-| Column | Type | Constraints |
-| :--- | :--- | :--- |
-| `id` | uuid | PK, default gen_random_uuid() |
-| `name_ar` | text | NOT NULL |
-| `name_en` | text | NOT NULL |
-| `description` | text | |
-| `price` | numeric | NOT NULL, CHECK (price > 0) |
-| `category` | text | NOT NULL (Enum: abaya, khimar, jilbab, hijab) |
-| `opacity` | int | CHECK (opacity BETWEEN 1 AND 5) |
-| `weight` | text | (Light, Medium, Heavy) |
-| `images` | text[] | Array of URLs |
-| `stock_status`| boolean| Default: true |
-| `created_at` | timestamptz| Default: now() |
+
+| Column         | Type        | Constraints                                   |
+| :------------- | :---------- | :-------------------------------------------- |
+| `id`           | uuid        | PK, default gen_random_uuid()                 |
+| `name_ar`      | text        | NOT NULL                                      |
+| `name_en`      | text        | NOT NULL                                      |
+| `description`  | text        |                                               |
+| `price`        | numeric     | NOT NULL, CHECK (price > 0)                   |
+| `category`     | text        | NOT NULL (Enum: abaya, khimar, jilbab, hijab) |
+| `opacity`      | int         | CHECK (opacity BETWEEN 1 AND 5)               |
+| `weight`       | text        | (Light, Medium, Heavy)                        |
+| `images`       | text[]      | Array of URLs                                 |
+| `stock_status` | boolean     | Default: true                                 |
+| `created_at`   | timestamptz | Default: now()                                |
 
 ### 4.2 Table: `orders`
-| Column | Type | Constraints |
-| :--- | :--- | :--- |
-| `id` | uuid | PK |
-| `order_no` | text | UNIQUE (Format: FDF-1001) |
-| `customer_name`| text | NOT NULL |
-| `phone` | text | NOT NULL |
-| `governorate` | text | NOT NULL |
-| `address` | text | NOT NULL |
-| `notes` | text | |
-| `total` | numeric | NOT NULL |
-| `status` | text | Default: 'new' (new, confirmed, preparing, shipped, delivered, cancelled) |
-| `created_at` | timestamptz| Default: now() |
+
+| Column          | Type        | Constraints                                                               |
+| :-------------- | :---------- | :------------------------------------------------------------------------ |
+| `id`            | uuid        | PK                                                                        |
+| `order_no`      | text        | UNIQUE (Format: FDF-1001)                                                 |
+| `customer_name` | text        | NOT NULL                                                                  |
+| `phone`         | text        | NOT NULL                                                                  |
+| `governorate`   | text        | NOT NULL                                                                  |
+| `address`       | text        | NOT NULL                                                                  |
+| `notes`         | text        |                                                                           |
+| `total`         | numeric     | NOT NULL                                                                  |
+| `status`        | text        | Default: 'new' (new, confirmed, preparing, shipped, delivered, cancelled) |
+| `created_at`    | timestamptz | Default: now()                                                            |
 
 ### 4.3 Table: `order_items`
-| Column | Type | Constraints |
-| :--- | :--- | :--- |
-| `id` | uuid | PK |
-| `order_id` | uuid | FK -> orders.id (ON DELETE CASCADE) |
-| `product_id` | uuid | FK -> products.id |
-| `quantity` | int | NOT NULL |
-| `price` | numeric | Price at time of purchase |
+
+| Column       | Type    | Constraints                         |
+| :----------- | :------ | :---------------------------------- |
+| `id`         | uuid    | PK                                  |
+| `order_id`   | uuid    | FK -> orders.id (ON DELETE CASCADE) |
+| `product_id` | uuid    | FK -> products.id                   |
+| `quantity`   | int     | NOT NULL                            |
+| `price`      | numeric | Price at time of purchase           |
 
 ---
 
@@ -112,10 +119,11 @@ We will follow a **Feature-Based Architecture** within the `src` directory to ke
 For the MVP, we will use **Supabase Client-Side SDK with RLS** for maximum speed, supplemented by **Next.js Server Actions** for sensitive operations.
 
 ### Endpoints (Internal)
-*   `GET /products`: Fetch active catalog (Public).
-*   `POST /orders`: Submit checkout form + line items (Public).
-*   `GET /admin/orders`: Real-time order stream (Admin Only).
-*   `PATCH /admin/orders/:id`: Update status (Admin Only).
+
+- `GET /products`: Fetch active catalog (Public).
+- `POST /orders`: Submit checkout form + line items (Public).
+- `GET /admin/orders`: Real-time order stream (Admin Only).
+- `PATCH /admin/orders/:id`: Update status (Admin Only).
 
 ---
 
@@ -130,32 +138,32 @@ For the MVP, we will use **Supabase Client-Side SDK with RLS** for maximum speed
 
 ## 7. Scalability Review
 
-*   **100 orders/day:** Handled easily by the free tier of Supabase/Vercel.
-*   **1000 orders/day:** PostgreSQL handles this without sweat. The bottleneck will be human fulfillment (the owner).
-*   **10,000 orders/day:** The architecture survives. We would only need to upgrade Supabase to a Pro tier for higher connection limits and IOPS.
+- **100 orders/day:** Handled easily by the free tier of Supabase/Vercel.
+- **1000 orders/day:** PostgreSQL handles this without sweat. The bottleneck will be human fulfillment (the owner).
+- **10,000 orders/day:** The architecture survives. We would only need to upgrade Supabase to a Pro tier for higher connection limits and IOPS.
 
 ---
 
 ## 8. Developer Experience (DX)
 
-*   **Package Manager:** `pnpm` (Fast, efficient).
-*   **Linting/Formatting:** ESLint + Prettier.
-*   **Validation:** Zod (Type-safe schemas).
-*   **Testing:** Playwright for "Happy Path" checkout testing.
-*   **Deployment:** Git-flow -> Vercel (Auto-deploy on `main` branch).
+- **Package Manager:** `pnpm` (Fast, efficient).
+- **Linting/Formatting:** ESLint + Prettier.
+- **Validation:** Zod (Type-safe schemas).
+- **Testing:** Playwright for "Happy Path" checkout testing.
+- **Deployment:** Git-flow -> Vercel (Auto-deploy on `main` branch).
 
 ---
 
 ## 9. Implementation Plan
 
-| Phase | Task | Complexity |
-| :--- | :--- | :--- |
-| **Ph 1** | **Infra:** Set up Supabase Project, Tables, and RLS Policies. | Low |
-| **Ph 2** | **Core UI:** Homepage + Category Grid + Mobile Nav. | Medium |
-| **Ph 3** | **PDP:** Implementation of Opacity Scales and Image Gallery. | Medium |
-| **Ph 4** | **Cart & Checkout:** Drawer cart + COD Single Page Checkout. | High |
-| **Ph 5** | **Admin:** Secure Dashboard + Order Status Toggles. | Medium |
-| **Ph 6** | **Launch:** Vercel deployment + Domain mapping. | Low |
+| Phase    | Task                                                          | Complexity |
+| :------- | :------------------------------------------------------------ | :--------- |
+| **Ph 1** | **Infra:** Set up Supabase Project, Tables, and RLS Policies. | Low        |
+| **Ph 2** | **Core UI:** Homepage + Category Grid + Mobile Nav.           | Medium     |
+| **Ph 3** | **PDP:** Implementation of Opacity Scales and Image Gallery.  | Medium     |
+| **Ph 4** | **Cart & Checkout:** Drawer cart + COD Single Page Checkout.  | High       |
+| **Ph 5** | **Admin:** Secure Dashboard + Order Status Toggles.           | Medium     |
+| **Ph 6** | **Launch:** Vercel deployment + Domain mapping.               | Low        |
 
 ---
 

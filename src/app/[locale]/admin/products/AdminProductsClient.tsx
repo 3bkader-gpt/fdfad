@@ -70,7 +70,7 @@ export function AdminProductsClient({ products, locale }: AdminProductsClientPro
                 className={`rounded-full px-4 py-1.5 text-[10px] font-bold tracking-wider uppercase transition-all ${
                   filter === f
                     ? 'bg-brand-primary text-white shadow-md'
-                    : 'bg-bg-elevated ring-border-color ring-1 opacity-60 hover:opacity-100'
+                    : 'bg-bg-elevated ring-border-color opacity-60 ring-1 hover:opacity-100'
                 }`}
               >
                 {label}

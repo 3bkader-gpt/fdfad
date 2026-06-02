@@ -62,7 +62,7 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
             type="button"
             aria-label="Decrease quantity"
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="flex h-11 w-10 items-center justify-center rounded-l-xl transition-colors hover:bg-bg-main rtl:rounded-l-none rtl:rounded-r-xl"
+            className="hover:bg-bg-main flex h-11 w-10 items-center justify-center rounded-l-xl transition-colors rtl:rounded-l-none rtl:rounded-r-xl"
           >
             <Minus className="h-3.5 w-3.5 opacity-60" />
           </button>
@@ -71,7 +71,7 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
             type="button"
             aria-label="Increase quantity"
             onClick={() => setQty((q) => Math.min(10, q + 1))}
-            className="flex h-11 w-10 items-center justify-center rounded-r-xl transition-colors hover:bg-bg-main rtl:rounded-l-xl rtl:rounded-r-none"
+            className="hover:bg-bg-main flex h-11 w-10 items-center justify-center rounded-r-xl transition-colors rtl:rounded-l-xl rtl:rounded-r-none"
           >
             <Plus className="h-3.5 w-3.5 opacity-60" />
           </button>
@@ -90,4 +90,3 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
     </div>
   );
 }
-

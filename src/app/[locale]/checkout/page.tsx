@@ -226,7 +226,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <form className="flex flex-col gap-6">
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-6">
           <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
             {t('details')}
           </h2>

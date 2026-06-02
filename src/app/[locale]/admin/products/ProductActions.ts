@@ -16,7 +16,9 @@ export async function upsertProduct(formData: FormData, id?: string) {
     slug: formData.get('slug') as string,
     description: formData.get('description') as string,
     price: parseFloat(formData.get('price') as string),
-    opacity_scale: formData.get('opacity_scale') ? parseInt(formData.get('opacity_scale') as string) : null,
+    opacity_scale: formData.get('opacity_scale')
+      ? parseInt(formData.get('opacity_scale') as string)
+      : null,
     fabric_type: (formData.get('fabric_type') as string) || null,
     made_in_egypt: formData.get('made_in_egypt') === 'true',
     is_active: formData.get('is_active') === 'true',

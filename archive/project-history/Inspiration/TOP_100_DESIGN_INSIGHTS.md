@@ -3,6 +3,7 @@
 This document summarizes the most valuable, high-impact discoveries from our deep research into modest fashion ecommerce, global luxury standards, and high-conversion mobile UX.
 
 ## I. Egyptian Market & Cultural Nuances (1-15)
+
 1.  **COD is King:** Ensure "Cash on Delivery" is the most prominent payment option; it builds immediate trust for new brands.
 2.  **Opacity Verification:** Use a specific "Opacity Rating" (1-5) or a hand-behind-fabric photo to answer the primary modest fashion question.
 3.  **WhatsApp as a Safety Net:** Use WhatsApp for support and order changes, but make the website UI so clear that "ordering via WhatsApp" is unnecessary.
@@ -20,6 +21,7 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 15. **Local Language Nuances:** Use "قطن طبيعي" (Natural Cotton) rather than just "Cotton" to emphasize quality.
 
 ## II. Trust & Social Proof (16-30)
+
 16. **Verified Reviews:** Use a "Verified Buyer" badge to combat the perception of fake reviews.
 17. **Photo Reviews Incentive:** Offer a discount for reviews with photos; these are 5x more influential than text reviews.
 18. **Founder's Note:** Include a "Message from the Founder" explaining the brand's mission for modest women.
@@ -37,6 +39,7 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 30. **No Hidden Costs:** Show the shipping fee as early as the cart drawer to avoid "Sticker Shock" at checkout.
 
 ## III. Product Presentation & Photography (31-45)
+
 31. **The 'Drape' Video:** A 5-second looping video of the model walking is mandatory for Khimars/Abayas.
 32. **Macro Fabric Shots:** Show the weave of the fabric so closely that the user can "feel" it through the screen.
 33. **Consistent Lighting:** Use a "Signature Lighting" style (e.g., soft morning sun) to make the brand recognizable.
@@ -54,6 +57,7 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 45. **Styling Advice:** "Style this with our Sand Chiffon Hijab" increases AOV.
 
 ## IV. Mobile UX & Navigation (46-60)
+
 46. **Thumb-Zone CTAs:** Keep all primary buttons in the bottom third of the screen.
 47. **Bottom Navigation Bar:** Use an app-style bottom bar for Home, Search, Cart, and Account.
 48. **Swipe to Navigate:** Enable swiping between product images rather than small arrow taps.
@@ -71,6 +75,7 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 60. **Touch-Friendly Filters:** Use "Chips" or "Pills" rather than small checkboxes.
 
 ## V. Search & Filters (61-75)
+
 61. **Filter by 'Occasion':** (e.g., Eid, University, Wedding, Prayer).
 62. **Filter by 'Material':** (e.g., Linen, Chiffon, Crepe).
 63. **Filter by 'Opacity':** Allow users to search for "100% Opaque" items.
@@ -88,6 +93,7 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 75. **Sticky Filter Summary:** Remind users which filters are active.
 
 ## VI. Checkout & Conversion (76-90)
+
 76. **Single-Page Checkout:** Reduce the number of clicks between Cart and Confirmation.
 77. **Address Auto-Complete:** Use an API to help users fill in Cairo/Giza streets.
 78. **Trust Badges in Checkout:** Reiterate "Secure Payment" and "COD" at the final step.
@@ -105,6 +111,7 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 90. **Post-Purchase Upsell:** "Since you bought this Abaya, get the matching Hijab for 20% off."
 
 ## VII. Modest Fashion Specifics (91-100)
+
 91. **The 'Complete Look' Package:** Sell sets (Abaya + Hijab + Undercap) as a single SKU.
 92. **Hair-Coverage Details:** For Khimars, explain the "headband" style (tie-back vs. elastic).
 93. **Wrinkle-Resistance Labeling:** Essential for travel-focused modest wear.
@@ -114,4 +121,4 @@ This document summarizes the most valuable, high-impact discoveries from our dee
 97. **Sizing for Layering:** Mention if the item is "True to Size" or "Oversized for Layering."
 98. **Undercap Compatibility:** "Best worn with our Cotton Undercap."
 99. **Occasion Styling Tips:** Small text snippet on PDP: "Style with gold heels for weddings."
-100. **The Brand Promise:** "Modesty without compromise" should be the final thought in every description.
+100.  **The Brand Promise:** "Modesty without compromise" should be the final thought in every description.

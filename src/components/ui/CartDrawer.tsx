@@ -45,7 +45,10 @@ export function CartDrawer() {
           {items.length > 0 ? (
             <div className="flex flex-col gap-6">
               {items.map((item) => (
-                <div key={item.product.id} className="group flex gap-4">
+                <div
+                  key={`${item.product.id}-${item.selectedSize || ''}-${item.selectedColor || ''}`}
+                  className="group flex gap-4"
+                >
                   <div className="bg-bg-elevated border-border-color relative aspect-[3/4] h-24 w-18 shrink-0 overflow-hidden rounded border">
                     {item.product.product_images?.[0] && (
                       <Image
@@ -74,7 +77,14 @@ export function CartDrawer() {
                     <div className="mt-4 flex items-center justify-between">
                       <div className="bg-bg-elevated ring-border-color flex items-center gap-4 rounded-full px-2 py-1 ring-1">
                         <button
-                          onClick={() => updateQuantity(item.product.id, -1)}
+                          onClick={() =>
+                            updateQuantity(
+                              item.product.id,
+                              -1,
+                              item.selectedSize,
+                              item.selectedColor,
+                            )
+                          }
                           className="hover:text-brand-accent text-text-primary flex h-8 w-8 items-center justify-center transition-colors"
                         >
                           <Minus className="h-4 w-4" />
@@ -83,14 +93,23 @@ export function CartDrawer() {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => updateQuantity(item.product.id, 1)}
+                          onClick={() =>
+                            updateQuantity(
+                              item.product.id,
+                              1,
+                              item.selectedSize,
+                              item.selectedColor,
+                            )
+                          }
                           className="hover:text-brand-accent text-text-primary flex h-8 w-8 items-center justify-center transition-colors"
                         >
                           <Plus className="h-4 w-4" />
                         </button>
                       </div>
                       <button
-                        onClick={() => removeItem(item.product.id)}
+                        onClick={() =>
+                          removeItem(item.product.id, item.selectedSize, item.selectedColor)
+                        }
                         className="text-[10px] font-bold tracking-widest text-red-500/60 uppercase transition-colors hover:text-red-600"
                       >
                         {t('remove')}
