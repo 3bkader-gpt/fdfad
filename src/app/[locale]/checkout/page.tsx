@@ -12,15 +12,13 @@ import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedOrderButton } from '@/components/ui/AnimatedOrderButton';
 import { Toast } from '@/components/ui/Toast';
 
-const checkoutSchema = z.object({
-  fullName: z.string().min(3, 'Full name is required'),
-  phone: z.string().regex(/^01[0125][0-9]{8}$/, 'Enter a valid Egyptian phone number'),
-  governorate: z.string().min(1, 'Please select your governorate'),
-  address: z.string().min(10, 'Please provide a detailed address'),
-  notes: z.string().optional(),
-});
-
-type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+interface CheckoutFormValues {
+  fullName: string;
+  phone: string;
+  governorate: string;
+  address: string;
+  notes?: string;
+}
 
 const GOVERNORATES_EN = [
   'Cairo',
@@ -94,6 +92,18 @@ export default function CheckoutPage() {
   const GOVERNORATES = isArabic ? GOVERNORATES_AR : GOVERNORATES_EN;
 
   const router = useRouter();
+
+  const checkoutSchema = useMemo(
+    () =>
+      z.object({
+        fullName: z.string().min(3, t('validation.fullNameMin')),
+        phone: z.string().regex(/^01[0125][0-9]{8}$/, t('validation.phoneInvalid')),
+        governorate: z.string().min(1, t('validation.governorateRequired')),
+        address: z.string().min(10, t('validation.addressMin')),
+        notes: z.string().optional(),
+      }),
+    [t],
+  );
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

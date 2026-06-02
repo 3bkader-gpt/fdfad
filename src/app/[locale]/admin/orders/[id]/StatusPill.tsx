@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { updateOrderStatus } from '../actions';
 import { Check, Loader2, ChevronRight } from 'lucide-react';
 import { OrderStatus } from '@/types/supabase';
+import { useTranslations } from 'next-intl';
 
 const STATUSES: OrderStatus[] = [
   'NEW',
@@ -33,6 +34,7 @@ export function StatusPill({
   const [status, setStatus] = useState<OrderStatus>(currentStatus);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations('Admin.status');
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -81,7 +83,7 @@ export function StatusPill({
           statusStyles[status] || 'bg-gray-50 text-gray-600 ring-gray-500/10'
         }`}
       >
-        {isUpdating ? <Loader2 className="h-3 w-3 animate-spin" /> : status}
+        {isUpdating ? <Loader2 className="h-3 w-3 animate-spin" /> : t(status)}
         <ChevronRight
           className={`h-3 w-3 opacity-40 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
         />
@@ -97,7 +99,7 @@ export function StatusPill({
                 s === status ? 'text-[#C89B7E]' : 'text-[#2C3E35]/60'
               }`}
             >
-              {s}
+              {t(s)}
               {s === status && <Check className="h-3.5 w-3.5" />}
             </button>
           ))}

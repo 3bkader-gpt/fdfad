@@ -1,6 +1,15 @@
 import { createClient } from '@/lib/supabase/server';
 import { StatusPill } from './orders/[id]/StatusPill';
-import { ShoppingBag, Clock, Package, Truck, CheckCircle2, TrendingUp } from 'lucide-react';
+import {
+  ShoppingBag,
+  Clock,
+  CheckCheck,
+  Package,
+  Truck,
+  CheckCircle2,
+  XCircle,
+  TrendingUp,
+} from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { Order } from '@/types/supabase';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -31,9 +40,11 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
   const metrics = {
     total: typedOrders.length,
     new: typedOrders.filter((o) => o.status === 'NEW').length,
+    confirmed: typedOrders.filter((o) => o.status === 'CONFIRMED').length,
     preparing: typedOrders.filter((o) => o.status === 'PREPARING').length,
     shipped: typedOrders.filter((o) => o.status === 'SHIPPED').length,
     delivered: typedOrders.filter((o) => o.status === 'DELIVERED').length,
+    cancelled: typedOrders.filter((o) => o.status === 'CANCELLED').length,
   };
 
   // Revenue this week
@@ -53,7 +64,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
       </header>
 
       {/* Metrics Grid */}
-      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-5">
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-7">
         <div className="col-span-2 md:col-span-1">
           <MetricCard
             label={t('metricTotal')}
@@ -67,6 +78,12 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           value={metrics.new}
           icon={<Clock className="h-4 w-4" />}
           color="bg-status-new-bg text-status-new-text"
+        />
+        <MetricCard
+          label={t('metricConfirmed')}
+          value={metrics.confirmed}
+          icon={<CheckCheck className="h-4 w-4" />}
+          color="bg-status-confirmed-bg text-status-confirmed-text"
         />
         <MetricCard
           label={t('metricPreparing')}
@@ -86,8 +103,14 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
           icon={<CheckCircle2 className="h-4 w-4" />}
           color="bg-status-delivered-bg text-status-delivered-text"
         />
+        <MetricCard
+          label={t('metricCancelled')}
+          value={metrics.cancelled}
+          icon={<XCircle className="h-4 w-4" />}
+          color="bg-status-cancelled-bg text-status-cancelled-text"
+        />
         {/* Revenue KPI */}
-        <div className="col-span-2 md:col-span-5">
+        <div className="col-span-2 md:col-span-4 lg:col-span-7">
           <div className="border-brand-accent/20 bg-brand-accent/5 flex items-center justify-between rounded-2xl border p-5">
             <div className="flex items-center gap-3">
               <div className="bg-brand-accent/10 text-brand-accent rounded-lg p-2">
@@ -210,13 +233,31 @@ function MetricCard({
   icon: React.ReactNode;
   color: string;
 }) {
+  const isColored = !color.includes('bg-bg-elevated');
+
   return (
     <div
-      className={`rounded-2xl p-5 shadow-sm ${color.includes('border') ? color : ''} ${!color.includes('border') ? color : ''} bg-bg-elevated border-border-color border`}
+      className={`rounded-2xl p-5 shadow-sm transition-all duration-300 ${
+        isColored
+          ? `${color} border border-white/10 dark:border-white/5`
+          : 'bg-bg-elevated border-border-color text-text-primary border'
+      }`}
     >
-      <div className={`mb-3 inline-flex rounded-lg p-2 ${color}`}>{icon}</div>
-      <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">{label}</p>
-      <p className="mt-1 text-2xl font-bold">{value}</p>
+      <div
+        className={`mb-3 inline-flex rounded-lg p-2 ${
+          isColored
+            ? 'bg-white/10 text-current dark:bg-white/5'
+            : 'bg-brand-primary/10 text-brand-primary'
+        }`}
+      >
+        {icon}
+      </div>
+      <p
+        className={`text-[10px] font-bold tracking-widest uppercase ${isColored ? 'text-current/80' : 'text-text-secondary'}`}
+      >
+        {label}
+      </p>
+      <p className="mt-1 text-2xl font-bold tracking-tight">{value}</p>
     </div>
   );
 }
