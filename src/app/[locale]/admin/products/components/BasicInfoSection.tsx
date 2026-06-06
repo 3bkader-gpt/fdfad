@@ -90,20 +90,6 @@ export function BasicInfoSection({ register, errors, categories }: BasicInfoSect
           <p className="text-[10px] opacity-40">{t('helpVisibility')}</p>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            Made in Egypt
-          </label>
-          <select
-            {...register('made_in_egypt')}
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-          >
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-          <p className="text-[10px] opacity-40">{t('helpMadeInEgypt')}</p>
-        </div>
-
         <div className="flex flex-col gap-1.5 md:col-span-2">
           <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
             Detailed Description

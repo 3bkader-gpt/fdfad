@@ -5,7 +5,7 @@ export const productSchema = z.object({
   slug: z
     .string()
     .min(3, 'Slug is required')
-    .regex(/^[a-z0-9-]+$/, 'Slug must be URL-friendly (a-z, 0-9, -)'),
+    .regex(/^[\w\u0600-\u06FF0-9-]+$/, 'Slug must be URL-friendly'),
   description: z.string().optional(),
   price: z.string().refine((v) => !isNaN(parseFloat(v)) && parseFloat(v) >= 0, 'Invalid price'),
   opacity_scale: z.string().optional(),

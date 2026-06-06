@@ -18,14 +18,19 @@ import { ProductImageItem, SizeRecommendationItem } from '@/types/product';
 import { productSchema, ProductFormValues } from './types';
 
 const slugify = (text: string) => {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-');
+  return (
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      // Support Arabic characters: \u0600-\u06FF
+      .replace(/[^\w\u0600-\u06FF-]+/g, '')
+      .replace(/--+/g, '-')
+  );
 };
+
+const DEFAULT_CARE_INSTRUCTIONS = 'غسيل على البارد - لا يحتاج للكي بدرجة حرارة عالية';
 
 const STANDARD_COLORS = [
   'Black',
@@ -48,7 +53,7 @@ export function ProductForm({
   categories?: Category[];
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const isEditing = !!initialData;
+  const [isSlugModified, setIsSlugModified] = useState(false);
   const router = useRouter();
   const t = useTranslations('Admin');
 
@@ -116,22 +121,30 @@ export function ProductForm({
           category_id: '',
           garment_length_cm: '',
           season: '',
-          care_instructions: '',
-          model_height_cm: '',
-          model_weight_kg: '',
+          care_instructions: DEFAULT_CARE_INSTRUCTIONS,
+          model_height_cm: '165',
+          model_weight_kg: '60',
           model_size_worn: '',
         },
   });
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const title = watch('title');
+  const slug = watch('slug');
 
-  // Auto-generate slug for new products
+  // Auto-generate slug for new products or when not manually modified
   useEffect(() => {
-    if (!isEditing && title) {
+    if (!isSlugModified && title) {
       setValue('slug', slugify(title), { shouldValidate: true });
     }
-  }, [title, isEditing, setValue]);
+  }, [title, isSlugModified, setValue]);
+
+  const onSlugBlur = () => {
+    if (!slug && title) {
+      setValue('slug', slugify(title), { shouldValidate: true });
+      setIsSlugModified(false);
+    }
+  };
 
   const addSize = () => {
     const trimmed = newSizeInput.trim().toUpperCase();
@@ -230,6 +243,25 @@ export function ProductForm({
 
       <div className="flex flex-col gap-10">
         <BasicInfoSection register={register} errors={errors} categories={categories} />
+
+        {/* Manual Slug Override (Optional for Admin) */}
+        <section className="bg-bg-elevated border-border-color flex flex-col gap-4 rounded-2xl border p-6 shadow-sm md:p-8">
+          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+            URL Slug (Auto-generated)
+          </label>
+          <input
+            {...register('slug')}
+            onChange={() => setIsSlugModified(true)}
+            onBlur={onSlugBlur}
+            className={`bg-bg-main text-text-primary rounded-xl px-4 py-3 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.slug ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
+          />
+          {errors.slug && <p className="text-[10px] text-red-500">{errors.slug.message}</p>}
+          <p className="text-[10px] opacity-40">
+            This is the link address for the product. It updates automatically but you can override
+            it if needed.
+          </p>
+        </section>
+
         <MediaSection images={images} onChange={setImages} />
         <SizeSelector
           sizes={sizes}
@@ -257,7 +289,7 @@ export function ProductForm({
           onUpdateRecommendation={updateRecommendationRow}
         />
 
-        <input type="hidden" {...register('slug')} />
+        <input type="hidden" {...register('made_in_egypt')} />
       </div>
 
       {/* Validation Error Summary */}
