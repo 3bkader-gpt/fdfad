@@ -31,23 +31,23 @@
   --status-cancelled-text: oklch(40% 0.12 20);
 
   /* New Theme Switch Variables - Scaled for Header */
-  --toggle-width: 64px;
-  --toggle-height: 32px;
+  --toggle-width: 58px;
+  --toggle-height: 28px;
   --bezel-padding: 3px;
   --track-width: calc(var(--toggle-width) - (var(--bezel-padding) * 2));
   --track-height: calc(var(--toggle-height) - (var(--bezel-padding) * 2));
-  --orb-size: calc(var(--track-height) - 4px);
-  --orb-offset: 2px;
-  --orb-travel: calc(var(--track-width) - var(--orb-size) - (var(--orb-offset) * 2));
+  --orb-size: var(--track-height);
+  --orb-offset: 0px;
+  --orb-travel: calc(var(--track-width) - var(--orb-size));
   --stretch-amount: 6px;
   --transition-speed: 0.6s;
 
-  --track-bg-light: #e5d9d0;
-  --track-bg-dark: #1e2b25;
-  --orb-bg-light: #c89b7e;
+  --track-bg-light: oklch(92% 0.01 60); /* Softest beige-tinted neutral */
+  --track-bg-dark: oklch(25% 0.03 160); /* Deep muted brand green */
+  --orb-bg-light: var(--brand-accent);
   --orb-bg-dark: #ffffff;
-  --orb-glow-light: rgba(200, 155, 126, 0.4);
-  --orb-glow-dark: rgba(255, 255, 255, 0.2);
+  --orb-glow-light: oklch(72% 0.08 60 / 0.3);
+  --orb-glow-dark: rgba(255, 255, 255, 0.15);
 }
 
 .dark {
