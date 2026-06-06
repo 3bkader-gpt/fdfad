@@ -126,7 +126,7 @@ export default function CheckoutPage() {
   const handleCheckout = async () => {
     // 1. Manually trigger validation before animation
     const isValid = await trigger();
-    if (!isValid) return;
+    if (!isValid) throw new Error('validation'); // Tell button: don't animate
 
     // 2. Perform submission
     try {
