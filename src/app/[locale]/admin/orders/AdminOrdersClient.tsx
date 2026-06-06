@@ -21,12 +21,16 @@ type FilterStatus =
   | 'DELIVERED'
   | 'CANCELLED';
 
-export function AdminOrdersClient({ orders, locale }: AdminOrdersClientProps) {
+import { useRealtimeOrders } from '@/hooks/useRealtimeOrders';
+
+export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrdersClientProps) {
   const router = useRouter();
   const t = useTranslations('Admin');
   const tcom = useTranslations('Common');
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterStatus>('ALL');
+
+  const { orders } = useRealtimeOrders(initialOrders);
 
   const filtered = orders.filter((o) => {
     const matchesSearch =

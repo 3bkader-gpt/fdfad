@@ -23,7 +23,12 @@
     "modelWeight": "Model Weight",
     "modelSize": "Size Worn",
     "size": "Size",
-    "sizeRecommend": "Size Recommendation"
+    "sizeRecommend": "Size Recommendation",
+    "close": "Close",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "openCart": "Open cart",
+    "view": "View"
   },
   "Nav": {
     "home": "Home",
@@ -63,7 +68,12 @@
     "fitGuide": "Fit & Model Guide",
     "shippingTitle": "Shipping & Returns",
     "relatedTitle": "You May Also Like",
-    "noRecommendations": "No size recommendations available."
+    "noRecommendations": "No size recommendations available.",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "addedToBag": "Added to Bag",
+    "zoomImage": "Zoom image",
+    "viewImage": "View image"
   },
   "Categories": {
     "title": "Collections",

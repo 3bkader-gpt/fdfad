@@ -636,7 +636,7 @@ body {
   }
 }
 
-@keyframes slide-in-right {
+@keyframes toast-slide-up-center {
   from {
     opacity: 0;
     transform: translateX(50%) translateY(20px);
@@ -651,8 +651,8 @@ body {
   animation: shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
-.animate-slide-in-right {
-  animation: slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+.animate-toast-slide-up-center {
+  animation: toast-slide-up-center 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ── Print Styles (Waybill) ─────────────────────────────── */

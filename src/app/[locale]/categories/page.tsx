@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { ChevronRight } from 'lucide-react';
@@ -12,21 +12,14 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
   const t = await getTranslations('Categories');
   const tc = await getTranslations('Common');
 
-  const { data: categoriesData, error } = await supabase
+  const supabase = await createClient();
+
+  const { data: categories, error } = await supabase
+    .schema('public')
     .from('categories')
     .select('*')
     .eq('is_active', true)
     .order('name');
-
-  const categories = categoriesData as unknown as {
-    id: string;
-    name: string;
-    slug: string;
-    name_ar: string;
-    name_en: string;
-    description_ar: string | null;
-    description_en: string | null;
-  }[];
 
   if (error) {
     return (

@@ -48,6 +48,8 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
       {/* Error message with shake */}
       {errorMsg && (
         <span
+          role="alert"
+          aria-live="polite"
           className={`rounded-lg border border-red-100 bg-red-50/50 py-1.5 text-center text-[10px] font-bold tracking-wider text-red-500 uppercase ${isShaking ? 'animate-shake' : ''}`}
         >
           {errorMsg}
@@ -60,18 +62,20 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
         <div className="border-border-color bg-bg-elevated flex items-center gap-0 rounded-xl border shadow-sm">
           <button
             type="button"
-            aria-label="Decrease quantity"
+            aria-label={t('decreaseQuantity')}
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="hover:bg-bg-main flex h-11 w-10 items-center justify-center rounded-l-xl transition-colors rtl:rounded-l-none rtl:rounded-r-xl"
+            className="hover:bg-bg-main focus-visible:ring-brand-accent flex h-11 w-10 items-center justify-center rounded-l-xl transition-colors focus-visible:z-10 focus-visible:ring-2 focus-visible:outline-none rtl:rounded-l-none rtl:rounded-r-xl"
           >
             <Minus className="h-3.5 w-3.5 opacity-60" />
           </button>
-          <span className="w-8 text-center text-sm font-bold tabular-nums">{qty}</span>
+          <span className="w-8 text-center text-sm font-bold tabular-nums" aria-live="polite">
+            {qty}
+          </span>
           <button
             type="button"
-            aria-label="Increase quantity"
+            aria-label={t('increaseQuantity')}
             onClick={() => setQty((q) => Math.min(10, q + 1))}
-            className="hover:bg-bg-main flex h-11 w-10 items-center justify-center rounded-r-xl transition-colors rtl:rounded-l-xl rtl:rounded-r-none"
+            className="hover:bg-bg-main focus-visible:ring-brand-accent flex h-11 w-10 items-center justify-center rounded-r-xl transition-colors focus-visible:z-10 focus-visible:ring-2 focus-visible:outline-none rtl:rounded-l-xl rtl:rounded-r-none"
           >
             <Plus className="h-3.5 w-3.5 opacity-60" />
           </button>
@@ -82,8 +86,9 @@ export function AddToCartButton({ product, selectedSize, selectedColor }: AddToC
           <AnimatedOrderButton
             onClick={handleAdd}
             idleLabel={t('addToCart')}
-            successLabel="Added to Bag"
-            className="shadow-brand-primary/30 w-full shadow-2xl"
+            successLabel={t('addedToBag')}
+            className="shadow-brand-primary/30 focus-visible:ring-brand-accent w-full shadow-2xl focus-visible:ring-2 focus-visible:outline-offset-2 focus-visible:outline-none"
+            data-testid="add-to-cart-button"
           />
         </div>
       </div>

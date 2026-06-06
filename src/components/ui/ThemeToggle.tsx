@@ -6,15 +6,14 @@ export function ThemeToggle() {
   const isDark = theme === 'dark';
 
   return (
-    <label
-      className="theme-switch"
-      aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-    >
+    <label className="theme-switch focus-within:ring-brand-accent rounded-full outline-none focus-within:ring-2">
+      <span className="sr-only">{isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
       <input
         type="checkbox"
         className="theme-switch__input"
         checked={isDark}
         onChange={toggleTheme}
+        aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       />
 
       <div className="theme-switch__track">

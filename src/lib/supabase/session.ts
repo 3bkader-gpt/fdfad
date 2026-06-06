@@ -36,23 +36,31 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const pathname = request.nextUrl.pathname;
+  const isAdminPath =
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/') ||
+    pathname.match(/^\/(ar|en)\/admin($|\/)/);
+  const isLoginPath =
+    pathname === '/admin/login' || pathname.match(/^\/(ar|en)\/admin\/login($|\/)/);
+
   // If unauthenticated and trying to access admin routes (except login)
-  if (
-    !user &&
-    request.nextUrl.pathname.startsWith('/admin') &&
-    request.nextUrl.pathname !== '/admin/login'
-  ) {
+  if (!user && isAdminPath && !isLoginPath) {
     const url = request.nextUrl.clone();
-    url.pathname = '/admin/login';
+    url.pathname = isArabicPath(pathname) ? '/ar/admin/login' : '/admin/login';
     return NextResponse.redirect(url);
   }
 
   // If authenticated and trying to access login page
-  if (user && request.nextUrl.pathname === '/admin/login') {
+  if (user && isLoginPath) {
     const url = request.nextUrl.clone();
-    url.pathname = '/admin';
+    url.pathname = isArabicPath(pathname) ? '/ar/admin' : '/admin';
     return NextResponse.redirect(url);
   }
 
   return supabaseResponse;
+}
+
+function isArabicPath(pathname: string) {
+  return pathname.startsWith('/ar');
 }

@@ -8,6 +8,7 @@ interface AnimatedOrderButtonProps {
   successLabel: string;
   className?: string;
   disabled?: boolean;
+  'data-testid'?: string;
 }
 
 export function AnimatedOrderButton({
@@ -16,6 +17,7 @@ export function AnimatedOrderButton({
   successLabel,
   className = '',
   disabled = false,
+  'data-testid': dataTestId,
 }: AnimatedOrderButtonProps) {
   const [state, setState] = useState<'idle' | 'driving' | 'success'>('idle');
 
@@ -45,6 +47,7 @@ export function AnimatedOrderButton({
       disabled={disabled || state !== 'idle'}
       className={`luxury-order-btn ${state === 'driving' ? 'is-driving' : ''} ${state === 'success' ? 'is-success' : ''} ${className}`}
       aria-label={state === 'success' ? successLabel : idleLabel}
+      data-testid={dataTestId}
     >
       {/* 1. Default Label */}
       <span className="luxury-order-btn__label">{state === 'idle' ? idleLabel : ''}</span>

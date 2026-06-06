@@ -242,10 +242,14 @@ export default function CheckoutPage() {
           </h2>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+            <label
+              htmlFor="fullName"
+              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
+            >
               {t('fullName')}
             </label>
             <input
+              id="fullName"
               {...register('fullName')}
               className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fullName ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
               placeholder="Arwa Mahmoud"
@@ -256,10 +260,14 @@ export default function CheckoutPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+            <label
+              htmlFor="phone"
+              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
+            >
               {t('phone')}
             </label>
             <input
+              id="phone"
               {...register('phone')}
               inputMode="tel"
               className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.phone ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
@@ -271,10 +279,14 @@ export default function CheckoutPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+            <label
+              htmlFor="governorate"
+              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
+            >
               {t('governorate')}
             </label>
             <select
+              id="governorate"
               {...register('governorate')}
               className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.governorate ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
             >
@@ -291,10 +303,14 @@ export default function CheckoutPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+            <label
+              htmlFor="address"
+              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
+            >
               {t('address')}
             </label>
             <textarea
+              id="address"
               {...register('address')}
               rows={3}
               className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.address ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
@@ -306,10 +322,14 @@ export default function CheckoutPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+            <label
+              htmlFor="notes"
+              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
+            >
               {t('notes')}
             </label>
             <input
+              id="notes"
               {...register('notes')}
               className="bg-bg-elevated ring-border-color focus:ring-brand-accent/30 rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none"
               placeholder="Special delivery instructions..."

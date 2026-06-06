@@ -3,15 +3,44 @@
 import { createClient } from '@/lib/supabase/server';
 import { Database } from '@/types/supabase';
 import { revalidatePath } from 'next/cache';
+import * as z from 'zod';
+import { SupabaseClient } from '@supabase/supabase-js';
 
-type ProductInsert = Database['public']['Tables']['products']['Insert'];
-type ProductUpdate = Database['public']['Tables']['products']['Update'];
-type ImageInsert = Database['public']['Tables']['product_images']['Insert'];
+const productSchema = z.object({
+  title: z.string().min(3, 'Title is required'),
+  slug: z
+    .string()
+    .min(3, 'Slug is required')
+    .regex(/^[a-z0-9-]+$/, 'Slug must be URL-friendly (a-z, 0-9, -)'),
+  description: z.string().optional(),
+  price: z.number().min(0, 'Price must be 0 or greater'),
+  opacity_scale: z.number().min(1).max(5).nullable(),
+  fabric_type: z.string().nullable(),
+  made_in_egypt: z.boolean(),
+  is_active: z.boolean(),
+  sizes: z.array(z.string()).default([]),
+  colors: z.array(z.string()).default([]),
+  garment_length_cm: z.number().nullable(),
+  season: z.string().nullable(),
+  care_instructions: z.string().nullable(),
+  model_height_cm: z.number().nullable(),
+  model_weight_kg: z.number().nullable(),
+  model_size_worn: z.string().nullable(),
+  size_recommendations: z
+    .array(
+      z.object({
+        size: z.string(),
+        weight_range: z.string(),
+      }),
+    )
+    .default([]),
+});
 
 export async function upsertProduct(formData: FormData, id?: string) {
-  const supabase = await createClient();
+  const supabase: SupabaseClient<Database> = await createClient();
 
-  const productData: ProductInsert = {
+  // 1. Parse and Validate
+  const rawData = {
     title: formData.get('title') as string,
     slug: formData.get('slug') as string,
     description: formData.get('description') as string,
@@ -39,90 +68,71 @@ export async function upsertProduct(formData: FormData, id?: string) {
     size_recommendations: JSON.parse((formData.get('size_recommendations') as string) || '[]'),
   };
 
+  const validation = productSchema.safeParse(rawData);
+  if (!validation.success) {
+    throw new Error(validation.error.issues.map((e) => e.message).join(', '));
+  }
+
+  const productData = validation.data;
   const categoryId = formData.get('category_id') as string;
 
   let productId = id;
 
   if (id) {
-    const { error } = await (
-      supabase.from('products') as unknown as {
-        update: (v: ProductUpdate) => {
-          eq: (k: string, v: string) => Promise<{ error: { message: string } | null }>;
-        };
-      }
-    )
-      .update(productData as ProductUpdate)
+    const { error } = await supabase
+      .schema('public')
+      .from('products')
+      .update(productData as Database['public']['Tables']['products']['Update'])
       .eq('id', id);
-
     if (error) throw new Error(error.message);
   } else {
-    const { data, error } = await (
-      supabase.from('products') as unknown as {
-        insert: (v: ProductInsert) => {
-          select: () => {
-            single: () => Promise<{
-              data: { id: string } | null;
-              error: { message: string } | null;
-            }>;
-          };
-        };
-      }
-    )
-      .insert(productData)
-      .select()
+    const { data, error } = await supabase
+      .schema('public')
+      .from('products')
+      .insert(productData as Database['public']['Tables']['products']['Insert'])
+      .select('id')
       .single();
 
     if (error || !data) throw new Error(error?.message || 'Failed to create product.');
-    productId = data.id;
+    productId = (data as { id: string }).id;
   }
 
   // Handle Category Assignment
   if (productId && categoryId) {
-    await (
-      supabase.from('product_categories') as unknown as {
-        delete: () => {
-          eq: (k: string, v: string) => Promise<{ error: { message: string } | null }>;
-        };
-      }
-    )
-      .delete()
-      .eq('product_id', productId);
+    // Delete existing mappings for this product
+    await supabase.schema('public').from('product_categories').delete().eq('product_id', productId);
 
-    await (
-      supabase.from('product_categories') as unknown as {
-        insert: (v: {
-          product_id: string;
-          category_id: string;
-        }) => Promise<{ error: { message: string } | null }>;
-      }
-    ).insert({
-      product_id: productId,
-      category_id: categoryId,
-    });
+    // Insert new mapping
+    const { error: catError } = await supabase
+      .schema('public')
+      .from('product_categories')
+      .insert({
+        product_id: productId,
+        category_id: categoryId,
+      } as Database['public']['Tables']['product_categories']['Insert']);
+    if (catError) throw new Error(catError.message);
   }
 
   // Handle Multiple Images
   const imagesJson = formData.get('images') as string;
   if (imagesJson && productId) {
     const imagesList = JSON.parse(imagesJson) as { url: string; is_cover: boolean }[];
-    const imagesTable = supabase.from('product_images') as unknown as {
-      delete: () => {
-        eq: (k: string, v: string) => Promise<{ error: { message: string } | null }>;
-      };
-      insert: (v: ImageInsert[]) => Promise<{ error: { message: string } | null }>;
-    };
 
-    await imagesTable.delete().eq('product_id', productId);
+    // Cleanup existing images record (Actual files cleanup is handled separately if needed, but here we sync the list)
+    await supabase.schema('public').from('product_images').delete().eq('product_id', productId);
 
     if (imagesList.length > 0) {
-      const inserts: ImageInsert[] = imagesList.map((img, index) => ({
+      const inserts = imagesList.map((img, index) => ({
         product_id: productId!,
         url: img.url,
         is_cover: img.is_cover,
         display_order: index,
       }));
 
-      const { error: imagesInsertError } = await imagesTable.insert(inserts);
+      const { error: imagesInsertError } = await supabase
+        .schema('public')
+        .from('product_images')
+        .insert(inserts as Database['public']['Tables']['product_images']['Insert'][]);
       if (imagesInsertError) throw new Error(imagesInsertError.message);
     }
   }
@@ -133,17 +143,18 @@ export async function upsertProduct(formData: FormData, id?: string) {
 }
 
 export async function deleteProduct(id: string) {
-  const supabase = await createClient();
+  const supabase: SupabaseClient<Database> = await createClient();
 
   // 1. Find associated images for cleanup
-  const { data: images } = (await supabase
+  const { data: images } = await supabase
+    .schema('public')
     .from('product_images')
     .select('url')
-    .eq('product_id', id)) as unknown as { data: { url: string }[] | null };
+    .eq('product_id', id);
 
   // 2. Storage cleanup
   if (images && images.length > 0) {
-    const paths = images
+    const paths = (images as { url: string }[])
       .map((img) => {
         try {
           const url = new URL(img.url);
@@ -165,15 +176,7 @@ export async function deleteProduct(id: string) {
   }
 
   // 3. Delete database record
-  const { error } = await (
-    supabase.from('products') as unknown as {
-      delete: () => {
-        eq: (k: string, v: string) => Promise<{ error: { message: string } | null }>;
-      };
-    }
-  )
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.schema('public').from('products').delete().eq('id', id);
 
   if (error) throw new Error(error.message);
 

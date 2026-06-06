@@ -31,7 +31,6 @@ export function GlobalHeader() {
 
   const dockInnerRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
-  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -82,14 +81,15 @@ export function GlobalHeader() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors"
+            aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
+            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
           <LanguageToggle />
         </div>
 
-        <Link href="/" className="absolute left-1/2 -translate-x-1/2">
+        <Link href="/" className="absolute left-1/2 -translate-x-1/2" aria-label={t('title')}>
           <h1 className="text-text-primary font-serif text-xl font-bold tracking-tight">
             {t('title')}
           </h1>
@@ -99,7 +99,8 @@ export function GlobalHeader() {
           <ThemeToggle />
           <button
             onClick={() => setIsOpen(true)}
-            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color relative flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors"
+            aria-label={t('openCart')}
+            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent relative flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
             <ShoppingBag className="text-text-primary h-5 w-5" />
             {itemCount > 0 && (
@@ -130,15 +131,11 @@ export function GlobalHeader() {
           />
 
           {/* Nav Links */}
-          {navLinks.map((link, i) => (
+          {navLinks.map((link) => (
             <Link
               key={link.key}
               href={link.href}
-              ref={(el) => {
-                // Type casting because Link passes ref to anchor
-                if (el) linkRefs.current[i] = el as unknown as HTMLAnchorElement;
-              }}
-              onMouseEnter={(e) => slidePillTo(e.currentTarget as unknown as HTMLAnchorElement)}
+              onMouseEnter={(e) => slidePillTo(e.currentTarget as HTMLAnchorElement)}
               className="text-text-secondary hover:text-text-primary relative z-10 px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors"
             >
               {tn(link.key)}
@@ -155,7 +152,8 @@ export function GlobalHeader() {
 
             <button
               onClick={() => setIsOpen(true)}
-              className="bg-bg-elevated hover:bg-brand-accent/10 border-border-color relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors"
+              aria-label={t('openCart')}
+              className="bg-bg-elevated hover:bg-brand-accent/10 border-border-color focus-visible:ring-brand-accent relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
               <ShoppingBag className="text-text-primary h-4.5 w-4.5" />
               {itemCount > 0 && (
@@ -169,7 +167,8 @@ export function GlobalHeader() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-brand-primary ml-2 flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:scale-105 active:scale-95"
+              aria-label={locale === 'ar' ? 'اطلبي الآن عبر واتساب' : 'Order now on WhatsApp'}
+              className="bg-brand-primary focus-visible:ring-brand-accent ml-2 flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-offset-2 active:scale-95"
             >
               <span>{locale === 'ar' ? 'اطلبي الآن' : 'Order Now'}</span>
             </a>

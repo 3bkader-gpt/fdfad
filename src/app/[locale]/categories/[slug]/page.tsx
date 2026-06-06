@@ -1,10 +1,10 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { Link } from '@/i18n/routing';
 import { ChevronLeft } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Product } from '@/types/supabase';
+import { Product, Database } from '@/types/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,53 +19,31 @@ export default async function CategoryDetailPage({
   const t = await getTranslations('Categories');
   const tc = await getTranslations('Common');
 
+  const supabase = await createClient();
+
   // 1. Fetch category metadata
-  const { data: categoryData, error: catError } = await supabase
+  const { data: category, error: catError } = await supabase
+    .schema('public')
     .from('categories')
     .select('*')
     .eq('slug', slug)
     .eq('is_active', true)
     .single();
 
-  if (catError || !categoryData) {
+  if (catError || !category) {
     notFound();
   }
 
-  // Double assertion to explicitly define the schema type
-  const category = categoryData as unknown as {
-    id: string;
-    name: string;
-    slug: string;
-    name_ar: string;
-    name_en: string;
-    description_ar: string | null;
-    description_en: string | null;
-  };
-
   // 2. Fetch active products for this category using an inner join
-  const { data: productsData, error: prodError } = await (
-    supabase.from('products') as unknown as {
-      select: (query: string) => {
-        eq: (
-          k: string,
-          v: string | boolean,
-        ) => {
-          eq: (
-            k: string,
-            v: string | boolean,
-          ) => {
-            order: (
-              k: string,
-              opts: { ascending: boolean },
-            ) => Promise<{ data: unknown; error: unknown }>;
-          };
-        };
-      };
-    }
-  )
+  const { data: productsData, error: prodError } = await supabase
+    .schema('public')
+    .from('products')
     .select('*, product_images(*), product_categories!inner(category_id)')
     .eq('is_active', true)
-    .eq('product_categories.category_id', category.id)
+    .eq(
+      'product_categories.category_id',
+      (category as Database['public']['Tables']['categories']['Row']).id,
+    )
     .order('created_at', { ascending: false });
 
   if (prodError) {

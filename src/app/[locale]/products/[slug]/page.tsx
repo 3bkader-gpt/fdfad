@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { Product } from '@/types/supabase';
 import { setRequestLocale } from 'next-intl/server';
@@ -13,6 +13,8 @@ export default async function ProductPage({
 }) {
   const { slug, locale } = await params;
   setRequestLocale(locale);
+
+  const supabase = await createClient();
 
   // 1. Fetch product with images and categories
   const { data: productData, error } = await supabase

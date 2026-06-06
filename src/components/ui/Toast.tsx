@@ -20,7 +20,7 @@ export function Toast({ message, type = 'error', onClose, duration = 5000 }: Toa
 
   return (
     <div
-      className={`animate-slide-in-right fixed bottom-24 left-1/2 z-[200] flex -translate-x-1/2 items-start gap-3 rounded-2xl px-5 py-4 shadow-2xl md:bottom-8 ${
+      className={`animate-toast-slide-up-center fixed bottom-24 left-1/2 z-[200] flex -translate-x-1/2 items-start gap-3 rounded-2xl px-5 py-4 shadow-2xl md:bottom-8 ${
         isError ? 'bg-red-600 text-white' : 'bg-[#4A7C59] text-white'
       }`}
       style={{ maxWidth: 'calc(100vw - 2rem)', minWidth: '280px' }}

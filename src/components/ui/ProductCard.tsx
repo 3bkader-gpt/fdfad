@@ -15,7 +15,11 @@ export function ProductCard({ product }: ProductCardProps) {
   const mainImage = product.product_images?.[0]?.url;
 
   return (
-    <Link href={`/products/${product.slug}`} className="group flex flex-col">
+    <Link
+      href={`/products/${product.slug}`}
+      className="group focus-visible:ring-brand-accent flex flex-col focus-visible:ring-2 focus-visible:outline-none"
+      aria-label={`${tc('view')} ${product.title}`}
+    >
       {/* 3:4 Image Container */}
       <div className="bg-bg-elevated border-border-color relative aspect-[3/4] overflow-hidden rounded-lg border shadow-sm">
         {mainImage ? (

@@ -5,9 +5,18 @@ import { NextRequest } from 'next/server';
 
 const handleI18nRouting = createMiddleware(routing);
 
-export async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   // 1. Update Supabase session
   const supabaseResponse = await updateSession(request);
+
+  // If updateSession returns a redirect, return it immediately
+  if (
+    supabaseResponse.status === 307 ||
+    supabaseResponse.status === 308 ||
+    supabaseResponse.headers.has('location')
+  ) {
+    return supabaseResponse;
+  }
 
   // 2. Handle i18n routing
   const response = handleI18nRouting(request);

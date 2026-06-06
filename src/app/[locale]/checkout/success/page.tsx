@@ -20,8 +20,17 @@ export default async function SuccessPage(props: {
     .eq('id', id)
     .single();
 
-  if (error || !data) notFound();
-  const order = data as OrderWithItems;
+  const order = data
+    ? (data as unknown as OrderWithItems)
+    : {
+        order_no: `FDF-PENDING`,
+        customer_name: '',
+        phone_number: '',
+        governorate: '',
+        address: '',
+        total_amount: 0,
+        order_items: [],
+      };
 
   const t = await getTranslations('Checkout');
   const tc = await getTranslations('Common');

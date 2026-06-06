@@ -23,7 +23,12 @@
     "modelWeight": "وزن الموديل",
     "modelSize": "المقاس",
     "size": "المقاس",
-    "sizeRecommend": "المقاسات المقترحة"
+    "sizeRecommend": "المقاسات المقترحة",
+    "close": "إغلاق",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "openCart": "فتح الشنطة",
+    "view": "عرض"
   },
   "Nav": {
     "home": "الرئيسية",
@@ -63,7 +68,12 @@
     "fitGuide": "دليل المقاس والموديل",
     "shippingTitle": "الشحن والاسترجاع",
     "relatedTitle": "قد يعجبكِ أيضاً",
-    "noRecommendations": "مفيش توصيات مقاسات متوفرة."
+    "noRecommendations": "مفيش توصيات مقاسات متوفرة.",
+    "decreaseQuantity": "تقليل الكمية",
+    "increaseQuantity": "زيادة الكمية",
+    "addedToBag": "تمت الإضافة",
+    "zoomImage": "تكبير الصورة",
+    "viewImage": "عرض الصورة"
   },
   "Categories": {
     "title": "الأقسام",
