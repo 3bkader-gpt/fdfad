@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { ChevronLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Product } from '@/types/supabase';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
@@ -48,18 +47,6 @@ export function ProductDetailsClient({
   // Zoom overlay state
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomScale, setZoomScale] = useState(1);
-  const [headerVisible, setHeaderVisible] = useState(true);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      setHeaderVisible(currentY <= lastScrollY.current || currentY <= 120);
-      lastScrollY.current = currentY;
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
   const handleZoomToggle = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -102,25 +89,6 @@ export function ProductDetailsClient({
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-32 transition-colors duration-300">
-      {/* 1. Floating Mobile Navigation Header */}
-      <nav
-        className={`fadfaad-dock-shell fixed inset-x-4 top-4 z-[60] flex items-center justify-between rounded-full px-4 py-2 shadow-2xl transition-all duration-500 ease-in-out md:hidden ${
-          headerVisible
-            ? 'translate-y-0 opacity-100'
-            : 'pointer-events-none -translate-y-24 opacity-0'
-        }`}
-      >
-        <Link
-          href="/"
-          className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
-        >
-          <ChevronLeft className="h-4.5 w-4.5 rtl:rotate-180" />
-        </Link>
-        <h1 className="text-text-primary absolute left-1/2 -translate-x-1/2 font-serif text-lg font-bold tracking-tight">
-          {tc('title')}
-        </h1>
-        <div className="w-10" />
-      </nav>
 
       {/* Main Container */}
       <div className="mx-auto max-w-6xl pt-24 md:pt-28">
