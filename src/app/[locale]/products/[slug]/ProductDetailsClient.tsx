@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { Product } from '@/types/supabase';
 import { Link } from '@/i18n/routing';
@@ -48,6 +48,18 @@ export function ProductDetailsClient({
   // Zoom overlay state
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomScale, setZoomScale] = useState(1);
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setHeaderVisible(currentY <= lastScrollY.current || currentY <= 120);
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
   const handleZoomToggle = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -90,54 +102,58 @@ export function ProductDetailsClient({
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-32 transition-colors duration-300">
-      {/* 1. Navigation Header */}
-      <nav className="border-border-color bg-bg-main/80 fixed top-0 left-0 z-[60] flex w-full items-center justify-between border-b px-6 py-4 backdrop-blur-md">
+      {/* 1. Floating Mobile Navigation Header */}
+      <nav
+        className={`fadfaad-dock-shell fixed inset-x-4 top-4 z-[60] flex items-center justify-between rounded-full px-4 py-2 shadow-2xl transition-all duration-500 ease-in-out md:hidden ${
+          headerVisible ? 'translate-y-0 opacity-100' : '-translate-y-24 opacity-0 pointer-events-none'
+        }`}
+      >
         <Link
           href="/"
-          className="bg-bg-elevated hover:bg-brand-accent/5 rounded-full p-2 transition-colors"
+          className="bg-bg-elevated hover:bg-brand-accent/5 border border-border-color focus-visible:ring-brand-accent flex h-10 w-10 items-center justify-center rounded-full shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
         >
-          <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
+          <ChevronLeft className="h-4.5 w-4.5 rtl:rotate-180" />
         </Link>
-        <h1 className="font-serif text-lg font-bold tracking-tight">{tc('title')}</h1>
-        <div className="w-9" />
+        <h1 className="text-text-primary font-serif text-lg font-bold tracking-tight absolute left-1/2 -translate-x-1/2">
+          {tc('title')}
+        </h1>
+        <div className="w-10" />
       </nav>
 
-      {/* 2. Breadcrumb */}
-      {categoryName && (
-        <nav
-          aria-label="Breadcrumb"
-          className="border-border-color bg-bg-main/80 fixed top-[57px] left-0 z-[55] w-full border-b px-6 py-2 backdrop-blur-sm"
-        >
-          <ol className="flex items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase opacity-50">
-            <li>
-              <Link href="/" className="transition-opacity hover:opacity-100">
-                {tc('back')}
-              </Link>
-            </li>
-            <li className="opacity-40">/</li>
-            {categorySlug && (
-              <>
-                <li>
-                  <Link
-                    href={`/categories/${categorySlug}`}
-                    className="transition-opacity hover:opacity-100"
-                  >
-                    {categoryName}
-                  </Link>
-                </li>
-                <li className="opacity-40">/</li>
-              </>
-            )}
-            <li className="text-text-primary line-clamp-1 max-w-[200px] opacity-100">
-              {product.title}
-            </li>
-          </ol>
-        </nav>
-      )}
+      {/* Main Container */}
+      <div className="mx-auto max-w-6xl pt-24 md:pt-28">
+        {/* 2. Breadcrumbs (In-flow, static layout) */}
+        {categoryName && (
+          <nav aria-label="Breadcrumb" className="mb-6 px-6 md:px-0">
+            <ol className="flex flex-wrap items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase opacity-40">
+              <li>
+                <Link href="/" className="transition-opacity hover:opacity-100">
+                  {tc('back')}
+                </Link>
+              </li>
+              <li className="opacity-40">/</li>
+              {categorySlug && (
+                <>
+                  <li>
+                    <Link
+                      href={`/categories/${categorySlug}`}
+                      className="transition-opacity hover:opacity-100"
+                    >
+                      {categoryName}
+                    </Link>
+                  </li>
+                  <li className="opacity-40">/</li>
+                </>
+              )}
+              <li className="text-text-primary line-clamp-1 max-w-[200px]">
+                {product.title}
+              </li>
+            </ol>
+          </nav>
+        )}
 
-      <div
-        className={`mx-auto grid max-w-6xl grid-cols-1 gap-8 px-0 ${categoryName ? 'pt-[105px] md:pt-36' : 'pt-[73px] md:pt-28'} md:grid-cols-2 md:px-6`}
-      >
+        {/* 3. Product Grid */}
+        <div className="grid grid-cols-1 gap-8 px-0 md:px-6 md:grid-cols-2">
         <ProductGallery
           images={images}
           productTitle={product.title}
@@ -200,6 +216,7 @@ export function ProductDetailsClient({
           <ShippingInfo />
         </section>
       </div>
+    </div>
 
       {/* Sticky Mobile Add To Bag CTA */}
       <div className="border-border-color bg-bg-main/90 fixed bottom-0 left-0 z-50 w-full border-t px-6 pt-4 pb-[calc(2.5rem+env(safe-area-inset-bottom))] backdrop-blur-lg md:hidden">

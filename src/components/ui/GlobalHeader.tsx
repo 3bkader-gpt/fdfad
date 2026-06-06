@@ -80,21 +80,25 @@ export function GlobalHeader() {
 
   return (
     <>
-      {/* 1. Mobile Header (Sticky Top) */}
-      <header className="border-border-color bg-bg-main/80 sticky top-0 z-50 flex w-full items-center justify-between border-b px-6 py-4 backdrop-blur-md md:hidden">
+      {/* 1. Mobile Header (Floating Pill at Top) */}
+      <header
+        className={`fadfaad-dock-shell fixed inset-x-4 top-4 z-50 flex items-center justify-between rounded-full px-4 py-2 transition-all duration-500 ease-in-out md:hidden ${
+          dockVisible ? 'translate-y-0 opacity-100' : '-translate-y-24 opacity-0 pointer-events-none'
+        }`}
+      >
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
-            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5" />}
           </button>
           <LanguageToggle />
         </div>
 
         <Link href="/" className="absolute left-1/2 -translate-x-1/2" aria-label={t('title')}>
-          <h1 className="text-text-primary font-serif text-xl font-bold tracking-tight">
+          <h1 className="text-text-primary font-serif text-lg font-bold tracking-tight">
             {t('title')}
           </h1>
         </Link>
@@ -104,9 +108,9 @@ export function GlobalHeader() {
           <button
             onClick={() => setIsOpen(true)}
             aria-label={t('openCart')}
-            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent relative flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
-            <ShoppingBag className="text-text-primary h-5 w-5" />
+            <ShoppingBag className="text-text-primary h-4.5 w-4.5" />
             {itemCount > 0 && (
               <span className="animate-in zoom-in bg-brand-accent absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold text-white shadow-lg">
                 {itemCount}
