@@ -40,25 +40,24 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug: identifier } = await params;
 
-  // Extract numeric ID from "123-slug" or just "123"
+  // 1. Try numeric ID
   const match = identifier.match(/^(\d+)/);
-  const id = match ? parseInt(match[1]) : null;
-
-  if (!id) {
-    // If no numeric ID, it might be a legacy slug
-    const decodedSlug = decodeURIComponent(identifier).normalize('NFC');
-    const { data: product } = await getProductBySlug(decodedSlug);
-    if (!product) return { title: 'Product Not Found' };
-    return { title: `${product.title} | Fadfaad` };
+  if (match) {
+    const id = parseInt(match[1]);
+    const { data: product } = await getProductById(id);
+    if (product) return { title: `${product.title} | Fadfaad` };
   }
 
-  const { data: product } = await getProductById(id);
-  if (!product) return { title: 'Product Not Found' };
+  // 2. Try legacy slug
+  try {
+    const decoded = decodeURIComponent(identifier).normalize('NFC');
+    const { data: product } = await getProductBySlug(decoded);
+    if (product) return { title: `${product.title} | Fadfaad` };
+  } catch {
+    // Ignore decode errors
+  }
 
-  return {
-    title: `${product.title} | Fadfaad`,
-    description: product.description || 'Fadfaad Modest Fashion',
-  };
+  return { title: 'Product Not Found' };
 }
 
 export default async function ProductPage({
@@ -69,51 +68,50 @@ export default async function ProductPage({
   const { slug: identifier, locale } = await params;
   setRequestLocale(locale);
 
-  console.log(`[ProductPage] START - identifier: "${identifier}"`);
-
-  // 1. Try to extract numeric ID
+  // 1. Check if identifier starts with a numeric ID (The new standard)
   const match = identifier.match(/^(\d+)/);
-  const productNo = match ? parseInt(match[1]) : null;
 
-  if (productNo) {
-    // ID-based lookup
+  if (match) {
+    const productNo = parseInt(match[1]);
     const { data: product, error } = await getProductById(productNo);
 
     if (error || !product) {
-      console.error(`[ProductPage] ID FETCH FAIL for ${productNo}:`, error?.message);
+      console.error(`[ProductPage] ID lookup failed for ${productNo}`);
       notFound();
     }
 
-    // Canonical URL Check: /products/123-correct-slug
-    const expectedSlug = `${product.product_no}-${product.slug}`.normalize('NFC');
-    const currentSlug = decodeURIComponent(identifier).normalize('NFC');
+    // Canonical check (ensure slug matches current title slug)
+    const canonicalIdentifier = `${product.product_no}-${product.slug}`;
+    const currentIdentifier = decodeURIComponent(identifier).normalize('NFC');
 
-    console.log(`[ProductPage] ID lookup success. Expected: "${expectedSlug}", Current: "${currentSlug}"`);
-
-    if (currentSlug !== expectedSlug) {
-      console.log(`[ProductPage] REDIRECT to canonical: ${expectedSlug}`);
-      permanentRedirect(`/products/${expectedSlug}`);
+    if (currentIdentifier !== canonicalIdentifier) {
+      permanentRedirect(`/products/${canonicalIdentifier}`);
     }
 
     return <ProductPageContent product={product as Product} locale={locale} />;
-  } else {
-    // 2. Legacy Slug-only lookup
-    const slug = decodeURIComponent(identifier).normalize('NFC');
-    console.log(`[ProductPage] LEGACY LOOKUP for slug: "${slug}"`);
+  }
 
-    const { data: product, error } = await getProductBySlug(slug);
+  // 2. Legacy fallback: lookup by slug only
+  // Try decoded and normalized variants
+  const slugsToTry: string[] = [identifier];
+  try {
+    slugsToTry.push(decodeURIComponent(identifier));
+    slugsToTry.push(decodeURIComponent(identifier).normalize('NFC'));
+  } catch {
+    // Ignore decode errors
+  }
 
-    if (!error && product) {
+  for (const s of Array.from(new Set(slugsToTry))) {
+    const { data: product } = await getProductBySlug(s);
+    if (product) {
       const target = `${product.product_no}-${product.slug}`;
-      console.log(`[ProductPage] LEGACY REDIRECT (301) to: ${target}`);
-      // Permanent redirect to the new ID-based structure
       permanentRedirect(`/products/${target}`);
     }
-
-    console.error(`[ProductPage] TOTAL FAIL for identifier: "${identifier}"`);
-    notFound();
   }
+
+  notFound();
 }
+
 async function ProductPageContent({ product, locale }: { product: Product; locale: string }) {
   const supabase = await createClient();
 
