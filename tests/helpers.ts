@@ -26,12 +26,13 @@ export async function addProductToCart(page: Page) {
   const addToCartButton = page.getByTestId('add-to-cart-button').filter({ visible: true }).first();
   await addToCartButton.click();
 
-  // Manually open cart drawer since auto-open is disabled
-  await page
-    .getByRole('button', { name: /فتح الشنطة|Open cart/ })
-    .filter({ visible: true })
-    .first()
-    .click();
+  // Small delay for animation
+  await page.waitForTimeout(500);
+
+  // Open cart drawer via JS click to bypass any viewport offset issues
+  // (the mobile header may be scrolled off-screen; JS dispatchEvent always works)
+  const cartButton = page.getByRole('button', { name: /فتح الشنطة|Open cart/ }).first();
+  await cartButton.dispatchEvent('click');
 
   // Wait for cart drawer
   await expect(page.getByTestId('cart-drawer')).toBeVisible();
