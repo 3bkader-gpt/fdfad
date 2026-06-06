@@ -192,7 +192,7 @@ export async function upsertProduct(formData: FormData, id?: string) {
     console.log('[upsertProduct] Success! Revalidating paths...');
     revalidatePath('/');
     revalidatePath('/admin/products');
-    if (productId) revalidatePath(`/products/${productData.slug}`);
+    revalidatePath('/products', 'layout'); // Revalidate all product pages
 
     return { success: true, id: productId };
   } catch (e: unknown) {

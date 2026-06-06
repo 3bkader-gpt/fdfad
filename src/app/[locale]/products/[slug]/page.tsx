@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { Product } from '@/types/supabase';
 import { setRequestLocale } from 'next-intl/server';
 import { ProductDetailsClient } from './ProductDetailsClient';
@@ -9,11 +9,21 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Product Details Page (Server Component)
- * Fetches product data on the server using the URL slug.
- * Handles Unicode/Arabic slug decoding and normalization for reliable DB lookup.
+ * Migrated to ID-based resolution for stability.
+ * Supports /products/[id]-[optional-slug]
  */
 
-async function getProduct(slug: string) {
+async function getProductById(id: number) {
+  const supabase = await createClient();
+  return await supabase
+    .schema('public')
+    .from('products')
+    .select('*, product_images(*), product_categories(*)')
+    .eq('product_no', id)
+    .single();
+}
+
+async function getProductBySlug(slug: string) {
   const supabase = await createClient();
   return await supabase
     .schema('public')
@@ -28,11 +38,21 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug: rawSlug } = await params;
-  // Ensure Unicode characters (Arabic) are decoded and normalized for lookup
-  const slug = decodeURIComponent(rawSlug).normalize('NFC');
-  const { data: product } = await getProduct(slug);
+  const { slug: identifier } = await params;
 
+  // Extract numeric ID from "123-slug" or just "123"
+  const match = identifier.match(/^(\d+)/);
+  const id = match ? parseInt(match[1]) : null;
+
+  if (!id) {
+    // If no numeric ID, it might be a legacy slug
+    const decodedSlug = decodeURIComponent(identifier).normalize('NFC');
+    const { data: product } = await getProductBySlug(decodedSlug);
+    if (!product) return { title: 'Product Not Found' };
+    return { title: `${product.title} | Fadfaad` };
+  }
+
+  const { data: product } = await getProductById(id);
   if (!product) return { title: 'Product Not Found' };
 
   return {
@@ -46,25 +66,52 @@ export default async function ProductPage({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug: rawSlug, locale } = await params;
+  const { slug: identifier, locale } = await params;
   setRequestLocale(locale);
 
-  // Decode the slug to handle Arabic characters correctly and normalize Unicode
-  const slug = decodeURIComponent(rawSlug).normalize('NFC');
+  console.log(`[ProductPage] START - identifier: "${identifier}"`);
 
-  // 1. Fetch product with images and categories
-  const { data: productData, error } = await getProduct(slug);
+  // 1. Try to extract numeric ID
+  const match = identifier.match(/^(\d+)/);
+  const productNo = match ? parseInt(match[1]) : null;
 
-  if (error || !productData) {
-    // If not found, it might be an older unnormalized slug, try raw as fallback
-    const { data: fallbackData } = await getProduct(rawSlug);
-    if (fallbackData) {
-      return <ProductPageContent product={fallbackData as Product} locale={locale} />;
+  if (productNo) {
+    // ID-based lookup
+    const { data: product, error } = await getProductById(productNo);
+
+    if (error || !product) {
+      console.error(`[ProductPage] ID FETCH FAIL for ${productNo}:`, error?.message);
+      notFound();
     }
+
+    // Canonical URL Check: /products/123-correct-slug
+    const expectedSlug = `${product.product_no}-${product.slug}`;
+    const currentSlug = decodeURIComponent(identifier);
+
+    if (currentSlug !== expectedSlug) {
+      console.log(`[ProductPage] REDIRECT to canonical: ${expectedSlug}`);
+      // 301 Permanent Redirect to canonical SEO URL
+      redirect(`/products/${expectedSlug}`);
+    }
+
+    return <ProductPageContent product={product as Product} locale={locale} />;
+  } else {
+    // 2. Legacy Slug-only lookup
+    const slug = decodeURIComponent(identifier).normalize('NFC');
+    console.log(`[ProductPage] LEGACY LOOKUP for slug: "${slug}"`);
+
+    const { data: product, error } = await getProductBySlug(slug);
+
+    if (!error && product) {
+      const target = `${product.product_no}-${product.slug}`;
+      console.log(`[ProductPage] LEGACY REDIRECT (301) to: ${target}`);
+      // Permanent redirect to the new ID-based structure
+      redirect(`/products/${target}`);
+    }
+
+    console.error(`[ProductPage] TOTAL FAIL for identifier: "${identifier}"`);
     notFound();
   }
-
-  return <ProductPageContent product={productData as Product} locale={locale} />;
 }
 
 async function ProductPageContent({ product, locale }: { product: Product; locale: string }) {

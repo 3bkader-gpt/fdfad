@@ -129,7 +129,7 @@ export function AdminProductsClient({ products, locale }: AdminProductsClientPro
                 {t('edit')}
               </Link>
               <Link
-                href={`/products/${product.slug}`}
+                href={`/products/${product.product_no}-${product.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-bg-main hover:bg-bg-elevated flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-colors hover:opacity-100"

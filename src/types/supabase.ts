@@ -102,6 +102,7 @@ export interface Database {
           model_weight_kg: number | null;
           model_size_worn: string | null;
           size_recommendations: Json;
+          product_no: number;
         };
         Insert: {
           id?: string;
@@ -124,6 +125,7 @@ export interface Database {
           model_weight_kg?: number | null;
           model_size_worn?: string | null;
           size_recommendations?: Json;
+          product_no?: number;
         };
         Update: {
           id?: string;
@@ -146,6 +148,7 @@ export interface Database {
           model_weight_kg?: number | null;
           model_size_worn?: string | null;
           size_recommendations?: Json;
+          product_no?: number;
         };
       };
       product_images: {

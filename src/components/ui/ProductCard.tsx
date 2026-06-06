@@ -16,7 +16,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link
-      href={`/products/${product.slug}`}
+      href={`/products/${product.product_no}-${product.slug}`}
       className="group focus-visible:ring-brand-accent flex flex-col focus-visible:ring-2 focus-visible:outline-none"
       aria-label={`${tc('view')} ${product.title}`}
     >
