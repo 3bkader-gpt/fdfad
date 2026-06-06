@@ -33,10 +33,10 @@ export function SocialFollow() {
   return (
     <section
       ref={sectionRef}
-      className="bg-bg-elevated/30 border-border-color border-y px-6 py-10 text-center transition-colors duration-300"
+      className="bg-bg-elevated/30 border-border-color border-y px-6 py-8 text-center transition-colors duration-300"
     >
       <div className="mx-auto max-w-xl">
-        <h2 className="social-reveal text-text-primary mb-8 font-serif text-3xl font-medium tracking-tight italic">
+        <h2 className="social-reveal text-text-primary mb-6 font-serif text-3xl font-medium tracking-tight italic">
           {t('explore')}
         </h2>
 
