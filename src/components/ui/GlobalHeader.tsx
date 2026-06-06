@@ -43,8 +43,9 @@ export function GlobalHeader() {
     const onScroll = () => {
       const currentY = window.scrollY;
       const delta = currentY - lastScrollY.current;
-      if (delta > 8) setDockVisible(false);       // scrolling down → hide
-      else if (delta < -8) setDockVisible(true);  // scrolling up → show
+      if (delta > 8)
+        setDockVisible(false); // scrolling down → hide
+      else if (delta < -8) setDockVisible(true); // scrolling up → show
       // tiny jitter < 8px → no change
       lastScrollY.current = currentY;
     };

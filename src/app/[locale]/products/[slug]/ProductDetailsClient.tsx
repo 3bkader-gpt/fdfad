@@ -89,7 +89,6 @@ export function ProductDetailsClient({
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-32 transition-colors duration-300">
-
       {/* Main Container */}
       <div className="mx-auto max-w-6xl pt-24 md:pt-28">
         {/* 2. Breadcrumbs (In-flow, static layout) */}
