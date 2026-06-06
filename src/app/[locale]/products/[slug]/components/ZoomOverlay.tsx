@@ -45,10 +45,11 @@ export function ZoomOverlay({
       role="dialog"
       aria-modal="true"
       aria-label="Image Zoom"
+      style={{ touchAction: 'none' }}
     >
       <button
         type="button"
-        className="focus-visible:ring-brand-accent absolute top-6 right-6 rounded-full bg-white/10 p-2.5 text-white shadow transition-colors hover:bg-white/20 focus-visible:ring-2 focus-visible:outline-none active:scale-95"
+        className="focus-visible:ring-brand-accent fixed top-6 right-6 z-[110] rounded-full bg-white/10 p-2.5 text-white shadow transition-colors hover:bg-white/20 focus-visible:ring-2 focus-visible:outline-none active:scale-95"
         onClick={onClose}
         aria-label="Close zoom"
         autoFocus
@@ -57,32 +58,34 @@ export function ZoomOverlay({
       </button>
 
       <div
-        className="relative aspect-[3/4] w-full max-w-2xl overflow-hidden"
+        className="relative flex h-full w-full items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div
-          className="relative h-full w-full origin-center transition-transform duration-300"
-          style={{
-            transform: `scale(${zoomScale})`,
-            transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
-          }}
-          onClick={onZoomToggle}
-          role="button"
-          tabIndex={0}
-          aria-label={zoomScale === 1 ? 'Zoom In' : 'Zoom Out'}
-          onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              onZoomToggle(e as unknown as React.MouseEvent<HTMLDivElement>);
-            }
-          }}
-        >
-          <Image
-            src={imageUrl}
-            alt={`${productTitle} zoomed view`}
-            fill
-            className="object-contain"
-            sizes="100vw"
-          />
+        <div className="relative aspect-[3/4] w-full max-w-2xl overflow-hidden">
+          <div
+            className="relative h-full w-full origin-center transition-transform duration-300"
+            style={{
+              transform: `scale(${zoomScale})`,
+              transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+            }}
+            onClick={onZoomToggle}
+            role="button"
+            tabIndex={0}
+            aria-label={zoomScale === 1 ? 'Zoom In' : 'Zoom Out'}
+            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                onZoomToggle(e as unknown as React.MouseEvent<HTMLDivElement>);
+              }
+            }}
+          >
+            <Image
+              src={imageUrl}
+              alt={`${productTitle} zoomed view`}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
         </div>
       </div>
 

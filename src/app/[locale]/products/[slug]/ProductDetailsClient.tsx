@@ -71,15 +71,25 @@ export function ProductDetailsClient({
   // Prevent scroll when zoom modal is open
   useEffect(() => {
     if (isZoomOpen) {
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+      document.body.style.touchAction = 'none'; // Prevent touch scrolling
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
+
       setTimeout(() => {
         setZoomScale(1);
       }, 0);
     }
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
     };
   }, [isZoomOpen]);
 

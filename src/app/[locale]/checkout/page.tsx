@@ -118,51 +118,56 @@ export default function CheckoutPage() {
     formState: { errors },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
+    mode: 'onChange', // Validate and clear errors on every keystroke
   });
 
   const cartTotal = useMemo(() => total(), [total]);
 
   const handleCheckout = async () => {
-    // Manually trigger validation before animation
+    // 1. Manually trigger validation before animation
     const isValid = await trigger();
     if (!isValid) return;
 
-    return new Promise<void>((resolve, reject) => {
-      handleSubmit(async (values) => {
-        try {
-          const result = await createOrder({
-            customer_name: values.fullName,
-            phone_number: values.phone,
-            governorate: values.governorate,
-            address: values.address,
-            notes: values.notes,
-            total_amount: cartTotal,
-            items: mountedItems.map((item) => ({
-              product_id: item.product.id,
-              quantity: item.quantity,
-              price_at_purchase: item.product.price,
-              selected_size: item.selectedSize || null,
-              selected_color: item.selectedColor || null,
-            })),
-          });
+    // 2. Perform submission
+    try {
+      const values = await new Promise<CheckoutFormValues>((resolve) => {
+        handleSubmit((v) => resolve(v))();
+      });
 
-          if (result.success) {
-            // Redirect to success page with order ID
-            router.push(`/checkout/success?id=${result.id}`);
-            clearCart();
-            resolve();
-          } else {
-            setSubmitError(result.error || t('errorGeneric'));
-            reject(new Error(result.error));
-          }
-        } catch (e: unknown) {
-          const error = e as Error;
-          console.error(error.message);
-          setSubmitError(error.message);
-          reject(error);
-        }
-      })();
-    });
+      const result = await createOrder({
+        customer_name: values.fullName,
+        phone_number: values.phone,
+        governorate: values.governorate,
+        address: values.address,
+        notes: values.notes,
+        total_amount: cartTotal,
+        items: mountedItems.map((item) => ({
+          product_id: item.product.id,
+          quantity: item.quantity,
+          price_at_purchase: item.product.price,
+          selected_size: item.selectedSize || null,
+          selected_color: item.selectedColor || null,
+        })),
+      });
+
+      if (result.success) {
+        // Delay slightly for animation to finish then redirect
+        clearCart();
+        router.push(`/checkout/success?id=${result.id}`);
+        return; // Success
+      } else {
+        setSubmitError(result.error || t('errorGeneric'));
+        throw new Error(result.error);
+      }
+    } catch (e: unknown) {
+      const error = e as Error;
+      console.error(error.message);
+      // If it wasn't a validation error (already handled by resolver), show toast
+      if (!Object.keys(errors).length) {
+        setSubmitError(error.message || t('errorGeneric'));
+      }
+      throw error;
+    }
   };
 
   if (!isMounted) {
