@@ -31,23 +31,23 @@
   --status-cancelled-text: oklch(40% 0.12 20);
 
   /* New Theme Switch Variables - Scaled for Header */
-  --toggle-width: 58px;
-  --toggle-height: 28px;
-  --bezel-padding: 3px;
-  --track-width: calc(var(--toggle-width) - (var(--bezel-padding) * 2));
-  --track-height: calc(var(--toggle-height) - (var(--bezel-padding) * 2));
+  --toggle-width: 52px;
+  --toggle-height: 26px;
+  --bezel-padding: 0px;
+  --track-width: var(--toggle-width);
+  --track-height: var(--toggle-height);
   --orb-size: var(--track-height);
   --orb-offset: 0px;
   --orb-travel: calc(var(--track-width) - var(--orb-size));
-  --stretch-amount: 6px;
-  --transition-speed: 0.6s;
+  --stretch-amount: 4px;
+  --transition-speed: 0.5s;
 
-  --track-bg-light: oklch(92% 0.01 60); /* Softest beige-tinted neutral */
-  --track-bg-dark: oklch(25% 0.03 160); /* Deep muted brand green */
+  --track-bg-light: oklch(92% 0.01 60);
+  --track-bg-dark: oklch(25% 0.03 160);
   --orb-bg-light: var(--brand-accent);
   --orb-bg-dark: #ffffff;
-  --orb-glow-light: oklch(72% 0.08 60 / 0.3);
-  --orb-glow-dark: rgba(255, 255, 255, 0.15);
+  --orb-glow-light: oklch(72% 0.08 60 / 0.2);
+  --orb-glow-dark: rgba(255, 255, 255, 0.1);
 }
 
 .dark {
@@ -128,11 +128,10 @@
   height: var(--toggle-height);
   cursor: pointer;
   border-radius: 999px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-color);
+  background: transparent;
+  border: none;
   transition: all var(--transition-speed) ease;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .theme-switch__input {
@@ -143,14 +142,15 @@
 
 .theme-switch__track {
   position: absolute;
-  top: var(--bezel-padding);
-  left: var(--bezel-padding);
-  width: var(--track-width);
-  height: var(--track-height);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 999px;
   background-color: var(--track-bg-light);
   overflow: hidden;
   transition: background-color var(--transition-speed) ease;
+  border: 1px solid var(--border-color);
 }
 
 .theme-switch__input:checked ~ .theme-switch__track {
@@ -159,18 +159,18 @@
 
 .theme-switch__orb {
   position: absolute;
-  top: var(--orb-offset);
-  left: var(--orb-offset);
-  width: var(--orb-size);
-  height: var(--orb-size);
+  top: -1px; /* Overlap 1px border for true flush look */
+  left: -1px;
+  width: calc(var(--orb-size) + 0px);
+  height: calc(var(--orb-size) + 0px);
   border-radius: 50%;
   background-color: var(--orb-bg-light);
   box-shadow:
-    inset -1px -1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.1),
     0 0 10px var(--orb-glow-light);
   transition:
-    transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-    width 0.4s ease,
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 0.3s ease,
     background-color var(--transition-speed) ease;
   z-index: 20;
 }
@@ -179,7 +179,7 @@
   transform: translateX(var(--orb-travel)) rotate(360deg);
   background-color: var(--orb-bg-dark);
   box-shadow:
-    inset -1px -1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.2),
     0 0 8px var(--orb-glow-dark);
 }
 

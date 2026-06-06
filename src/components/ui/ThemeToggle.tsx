@@ -6,7 +6,7 @@ export function ThemeToggle() {
   const isDark = theme === 'dark';
 
   return (
-    <label className="theme-switch focus-within:ring-brand-accent rounded-full outline-none focus-within:ring-2">
+    <label className="theme-switch focus-within:ring-brand-accent/30 rounded-full outline-none focus-within:ring-1">
       <span className="sr-only">{isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
       <input
         type="checkbox"
