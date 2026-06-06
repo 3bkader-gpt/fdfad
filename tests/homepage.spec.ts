@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Homepage', () => {
   test('should load successfully in Arabic', async ({ page }) => {
     await page.goto('/ar');
-    await expect(page.getByRole('heading', { name: 'فضفاض' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'فضفاض', exact: true })).toBeVisible();
     await expect(page.locator('#collection')).toBeVisible();
   });
 

@@ -11,6 +11,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { AnimatedOrderButton } from '@/components/ui/AnimatedOrderButton';
 import { Toast } from '@/components/ui/Toast';
+import { Input } from '@/components/ui/Input';
 
 interface CheckoutFormValues {
   fullName: string;
@@ -84,6 +85,7 @@ export default function CheckoutPage() {
   const { items, total } = useCart();
   const [mountedItems, setMountedItems] = useState<CartItem[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const t = useTranslations('Checkout');
   const tc = useTranslations('Common');
@@ -130,6 +132,9 @@ export default function CheckoutPage() {
       throw new Error('validation'); // Trigger shake in button
     }
 
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     // 2. Perform submission
     const values = getValues();
 
@@ -154,6 +159,7 @@ export default function CheckoutPage() {
         return result.id;
       } else {
         setSubmitError(result.error || t('errorGeneric'));
+        setIsSubmitting(false);
         throw new Error(result.error);
       }
     } catch (e: unknown) {
@@ -162,6 +168,7 @@ export default function CheckoutPage() {
         console.error(error.message);
         setSubmitError(error.message || t('errorGeneric'));
       }
+      setIsSubmitting(false);
       throw error;
     }
   };
@@ -242,102 +249,56 @@ export default function CheckoutPage() {
             {t('details')}
           </h2>
 
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="fullName"
-              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
-            >
-              {t('fullName')}
-            </label>
-            <input
-              id="fullName"
-              {...register('fullName')}
-              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fullName ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
-              placeholder="Arwa Mahmoud"
-            />
-            {errors.fullName && (
-              <p className="text-[10px] font-medium text-red-500">{errors.fullName.message}</p>
-            )}
-          </div>
+          <Input
+            id="fullName"
+            label={t('fullName')}
+            {...register('fullName')}
+            error={errors.fullName}
+            placeholder="Arwa Mahmoud"
+            disabled={isSubmitting}
+          />
 
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="phone"
-              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
-            >
-              {t('phone')}
-            </label>
-            <input
-              id="phone"
-              {...register('phone')}
-              inputMode="tel"
-              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.phone ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
-              placeholder="01xxxxxxxxx"
-            />
-            {errors.phone && (
-              <p className="text-[10px] font-medium text-red-500">{errors.phone.message}</p>
-            )}
-          </div>
+          <Input
+            id="phone"
+            label={t('phone')}
+            {...register('phone')}
+            error={errors.phone}
+            inputMode="tel"
+            placeholder="01xxxxxxxxx"
+            disabled={isSubmitting}
+          />
 
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="governorate"
-              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
-            >
-              {t('governorate')}
-            </label>
-            <select
-              id="governorate"
-              {...register('governorate')}
-              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.governorate ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
-            >
-              <option value="">{isArabic ? 'اختاري محافظتك' : 'Select Region'}</option>
-              {GOVERNORATES.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </select>
-            {errors.governorate && (
-              <p className="text-[10px] font-medium text-red-500">{errors.governorate.message}</p>
-            )}
-          </div>
+          <Input
+            id="governorate"
+            as="select"
+            label={t('governorate')}
+            {...register('governorate')}
+            error={errors.governorate}
+            options={GOVERNORATES}
+            disabled={isSubmitting}
+          />
 
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="address"
-              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
-            >
-              {t('address')}
-            </label>
-            <textarea
-              id="address"
-              {...register('address')}
-              rows={3}
-              className={`bg-bg-elevated rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.address ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-brand-accent/30'}`}
-              placeholder="Building #, Street name, District..."
-            />
-            {errors.address && (
-              <p className="text-[10px] font-medium text-red-500">{errors.address.message}</p>
-            )}
-          </div>
+          <Input
+            id="address"
+            as="textarea"
+            label={t('address')}
+            {...register('address')}
+            error={errors.address}
+            rows={3}
+            placeholder="Building #, Street name, District..."
+            disabled={isSubmitting}
+          />
 
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="notes"
-              className="text-[10px] font-bold tracking-widest uppercase opacity-60"
-            >
-              {t('notes')}
-            </label>
-            <input
-              id="notes"
-              {...register('notes')}
-              className="bg-bg-elevated ring-border-color focus:ring-brand-accent/30 rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none"
-              placeholder="Special delivery instructions..."
-            />
-          </div>
+          <Input
+            id="notes"
+            label={t('notes')}
+            {...register('notes')}
+            error={errors.notes}
+            placeholder="Special delivery instructions..."
+            disabled={isSubmitting}
+          />
 
-          <div className="mt-4">
+          <div className="bg-bg-main/80 sticky bottom-[calc(2.5rem+env(safe-area-inset-bottom))] z-50 -mx-6 mt-4 px-6 pt-2 pb-4 backdrop-blur-md md:static md:mx-0 md:bg-transparent md:p-0">
             <AnimatedOrderButton
               onClick={handleCheckout}
               onAnimationComplete={(id) => {
@@ -345,7 +306,7 @@ export default function CheckoutPage() {
                   router.push(`/checkout/success?id=${id}`);
                 }
               }}
-              idleLabel={t('confirmOrder', { total: cartTotal })}
+              idleLabel={isSubmitting ? t('processing') : t('confirmOrder', { total: cartTotal })}
               successLabel={t('success')}
               className="shadow-brand-primary/20 shadow-xl"
             />

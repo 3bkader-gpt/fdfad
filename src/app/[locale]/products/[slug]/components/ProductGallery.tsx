@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Maximize2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { motion } from 'framer-motion';
 
 interface ImageItem {
   url: string;
@@ -59,7 +60,12 @@ export function ProductGallery({
   return (
     <section className="flex flex-col gap-4">
       {/* Main Display Container */}
-      <div className="bg-bg-elevated border-border-color relative aspect-[3/4] w-full overflow-hidden border-b md:rounded-2xl md:border">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="bg-bg-elevated border-border-color relative aspect-[3/4] w-full overflow-hidden border-b md:rounded-2xl md:border"
+      >
         {images.length > 0 ? (
           <>
             {/* Horizontal Swipe list for mobile */}
@@ -115,13 +121,29 @@ export function ProductGallery({
             {t('awaitingVisuals')}
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Thumbnails Container */}
       {images.length > 1 && (
-        <div className="flex scrollbar-none gap-3 overflow-x-auto px-6 py-2 md:px-0" role="list">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1, delayChildren: 0.3 },
+            },
+          }}
+          initial="hidden"
+          animate="show"
+          className="flex scrollbar-none gap-3 overflow-x-auto px-6 py-2 md:px-0"
+          role="list"
+        >
           {images.map((img, i) => (
-            <button
+            <motion.button
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                show: { opacity: 1, y: 0, transition: { ease: 'easeOut', duration: 0.4 } },
+              }}
               key={img.url}
               type="button"
               onClick={() => scrollToImage(i)}
@@ -140,9 +162,9 @@ export function ProductGallery({
                 className="object-cover"
                 sizes="64px"
               />
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       )}
     </section>
   );

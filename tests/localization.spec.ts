@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Localization', () => {
   test('arabic routes work', async ({ page }) => {
     await page.goto('/ar');
-    await expect(page.getByRole('heading', { name: 'فضفاض' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'فضفاض', exact: true })).toBeVisible();
   });
 
   test('english routes work', async ({ page }) => {
@@ -20,6 +20,6 @@ test.describe('Localization', () => {
     await page.getByRole('button', { name: /التغيير إلى العربية/ }).click();
     // Arabic is default, prefix might be missing
     await expect(page).toHaveURL(/\/ar|localhost:3000\/$/);
-    await expect(page.getByRole('heading', { name: 'فضفاض' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'فضفاض', exact: true })).toBeVisible();
   });
 });

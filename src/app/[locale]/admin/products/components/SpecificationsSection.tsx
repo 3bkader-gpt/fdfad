@@ -3,6 +3,7 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { ProductFormValues } from '../types';
+import { Input } from '@/components/ui/Input';
 
 interface SpecificationsSectionProps {
   register: UseFormRegister<ProductFormValues>;
@@ -21,72 +22,63 @@ export function SpecificationsSection({ register, errors }: SpecificationsSectio
       </h3>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tp('fabric')}
-          </label>
-          <input
-            {...register('fabric_type')}
-            className={`bg-bg-main text-text-primary rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.fabric_type ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
-            placeholder="e.g. Medine Silk"
-          />
-          <p className="text-[10px] opacity-40">{t('helpFabric')}</p>
-        </div>
+        <Input
+          id="fabric_type"
+          label={tp('fabric')}
+          {...register('fabric_type')}
+          error={errors.fabric_type}
+          placeholder="e.g. Medine Silk"
+          helperText={t('helpFabric')}
+          className="bg-bg-main"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tc('garmentLength')} (cm)
-          </label>
-          <input
-            {...register('garment_length_cm')}
-            type="number"
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-            placeholder="e.g. 145"
-          />
-          <p className="text-[10px] opacity-40">{t('helpLength')}</p>
-        </div>
+        <Input
+          id="garment_length_cm"
+          label={`${tc('garmentLength')} (cm)`}
+          {...register('garment_length_cm')}
+          error={errors.garment_length_cm}
+          type="number"
+          placeholder="e.g. 145"
+          helperText={t('helpLength')}
+          className="bg-bg-main"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tc('season')}
-          </label>
-          <input
-            {...register('season')}
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-            placeholder="e.g. All Seasons, Summer"
-          />
-          <p className="text-[10px] opacity-40">{t('helpSeason')}</p>
-        </div>
+        <Input
+          id="season"
+          label={tc('season')}
+          {...register('season')}
+          error={errors.season}
+          placeholder="e.g. All Seasons, Summer"
+          helperText={t('helpSeason')}
+          className="bg-bg-main"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tc('careInstructions')}
-          </label>
-          <input
-            {...register('care_instructions')}
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-            placeholder="e.g. Machine Wash Cold"
-          />
-          <p className="text-[10px] opacity-40">{t('helpCare')}</p>
-        </div>
+        <Input
+          id="care_instructions"
+          label={tc('careInstructions')}
+          {...register('care_instructions')}
+          error={errors.care_instructions}
+          placeholder="e.g. Machine Wash Cold"
+          helperText={t('helpCare')}
+          className="bg-bg-main"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tp('opacity')} (1-5)
-          </label>
-          <select
-            {...register('opacity_scale')}
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-          >
-            <option value="">Select Opacity</option>
-            {[1, 2, 3, 4, 5].map((v) => (
-              <option key={v} value={v}>
-                {v} {v === 5 ? `(${tp('opaque')})` : ''}
-              </option>
-            ))}
-          </select>
-          <p className="text-[10px] opacity-40">{t('helpOpacity')}</p>
-        </div>
+        <Input
+          id="opacity_scale"
+          as="select"
+          label={`${tp('opacity')} (1-5)`}
+          {...register('opacity_scale')}
+          error={errors.opacity_scale}
+          helperText={t('helpOpacity')}
+          className="bg-bg-main"
+        >
+          <option value="">Select Opacity</option>
+          {[1, 2, 3, 4, 5].map((v) => (
+            <option key={v} value={v}>
+              {v} {v === 5 ? `(${tp('opaque')})` : ''}
+            </option>
+          ))}
+        </Input>
       </div>
     </section>
   );

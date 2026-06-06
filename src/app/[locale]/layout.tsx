@@ -1,3 +1,4 @@
+import { WelcomeToast } from '@/components/ui/WelcomeToast';
 import { GlobalHeader } from '@/components/ui/GlobalHeader';
 import { GlobalFooter } from '@/components/ui/GlobalFooter';
 import { Geist, Geist_Mono, Playfair_Display, Alexandria } from 'next/font/google';
@@ -6,6 +7,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -36,8 +38,6 @@ export const metadata = {
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-
-import { ThemeProvider } from '@/providers/ThemeProvider';
 
 export default async function LocaleLayout({
   children,
@@ -75,6 +75,7 @@ export default async function LocaleLayout({
             <GlobalHeader />
             {children}
             <GlobalFooter />
+            <WelcomeToast />
           </ThemeProvider>
         </NextIntlClientProvider>
         {/* impeccable-live-start */}

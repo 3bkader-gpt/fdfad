@@ -5,6 +5,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { SizeRecommendationItem } from '@/types/product';
 import { ProductFormValues } from '../types';
+import { Input } from '@/components/ui/Input';
 
 interface FitGuideSectionProps {
   register: UseFormRegister<ProductFormValues>;
@@ -33,43 +34,34 @@ export function FitGuideSection({
       </h3>
 
       <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tc('modelHeight')} (cm)
-          </label>
-          <input
-            {...register('model_height_cm')}
-            type="number"
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-            placeholder="e.g. 168"
-          />
-          <p className="text-[10px] opacity-40">{t('helpModelHeight')}</p>
-        </div>
+        <Input
+          id="model_height_cm"
+          label={`${tc('modelHeight')} (cm)`}
+          {...register('model_height_cm')}
+          type="number"
+          placeholder="e.g. 168"
+          helperText={t('helpModelHeight')}
+          className="bg-bg-main"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tc('modelWeight')} (kg)
-          </label>
-          <input
-            {...register('model_weight_kg')}
-            type="number"
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-            placeholder="e.g. 65"
-          />
-          <p className="text-[10px] opacity-40">{t('helpModelWeight')}</p>
-        </div>
+        <Input
+          id="model_weight_kg"
+          label={`${tc('modelWeight')} (kg)`}
+          {...register('model_weight_kg')}
+          type="number"
+          placeholder="e.g. 65"
+          helperText={t('helpModelWeight')}
+          className="bg-bg-main"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            {tc('modelSize')}
-          </label>
-          <input
-            {...register('model_size_worn')}
-            className="bg-bg-main text-text-primary ring-border-color rounded-xl px-4 py-3.5 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:ring-[#C89B7E]/30 focus:outline-none"
-            placeholder="e.g. 56"
-          />
-          <p className="text-[10px] opacity-40">{t('helpModelSize')}</p>
-        </div>
+        <Input
+          id="model_size_worn"
+          label={tc('modelSize')}
+          {...register('model_size_worn')}
+          placeholder="e.g. 56"
+          helperText={t('helpModelSize')}
+          className="bg-bg-main"
+        />
       </div>
 
       {/* Sizing Recommendations Table */}
