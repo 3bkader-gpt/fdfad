@@ -1,7 +1,7 @@
 'use client';
 
 import { useCart } from '@/lib/store';
-import { Menu, ShoppingBag, X } from 'lucide-react';
+import { Menu, ShoppingCart, X } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
 import { CartDrawer } from './CartDrawer';
 import { MobileMenu } from './MobileMenu';
@@ -115,7 +115,7 @@ export function GlobalHeader() {
             aria-label={t('openCart')}
             className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
-            <ShoppingBag className="text-text-primary h-4.5 w-4.5" />
+            <ShoppingCart className="text-text-primary h-4.5 w-4.5" />
             {itemCount > 0 && (
               <span className="animate-in zoom-in bg-brand-accent absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold text-white shadow-lg">
                 {itemCount}
@@ -168,7 +168,7 @@ export function GlobalHeader() {
               aria-label={t('openCart')}
               className="bg-bg-elevated hover:bg-brand-accent/10 border-border-color focus-visible:ring-brand-accent relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
-              <ShoppingBag className="text-text-primary h-4.5 w-4.5" />
+              <ShoppingCart className="text-text-primary h-4.5 w-4.5" />
               {itemCount > 0 && (
                 <span className="bg-brand-accent absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold text-white">
                   {itemCount}

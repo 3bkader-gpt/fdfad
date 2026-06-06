@@ -4,11 +4,14 @@ import { logout } from './login/actions';
 import { LogOut, Package, ShoppingBag, Tag } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
 
 import { NotificationProvider } from '@/providers/NotificationProvider';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const t = useTranslations('Admin');
+  const tc = useTranslations('Common');
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -71,11 +74,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <span className="hidden md:inline">{t('categories')}</span>
             </Link>
 
-            <div className="md:mt-auto">
+            <div className="md:mt-auto md:w-full">
+              {/* Desktop Theme/Language Toggles */}
+              <div className="md:border-border-color hidden md:mb-4 md:flex md:items-center md:gap-3 md:border-t md:px-2 md:pt-4">
+                <ThemeToggle />
+                <LanguageToggle />
+              </div>
+
               <form action={logout}>
                 <button
                   type="submit"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-950/20"
                 >
                   <LogOut className="h-5 w-5" />
                   <span className="hidden md:inline">{t('logout')}</span>
@@ -86,7 +95,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         {/* Main Content */}
-        <main className="min-w-0 flex-1 p-6 pb-24 md:pb-6">{children}</main>
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Mobile Admin Header */}
+          <header className="border-border-color bg-bg-elevated flex items-center justify-between border-b px-6 py-3 md:hidden">
+            <div className="flex flex-col">
+              <h1 className="font-serif text-lg font-bold">{tc('title')}</h1>
+              <p className="text-[8px] tracking-widest uppercase opacity-40">{t('dashboard')}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <LanguageToggle />
+            </div>
+          </header>
+
+          <main className="min-w-0 flex-1 p-6 pb-24 md:pb-6">{children}</main>
+        </div>
       </div>
     </NotificationProvider>
   );

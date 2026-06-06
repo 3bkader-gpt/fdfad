@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { X, ShoppingBag, ExternalLink } from 'lucide-react';
+import { X, ShoppingCart, ExternalLink } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { Order } from '@/types/supabase';
 
@@ -53,7 +53,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
             >
               <div className="flex items-start gap-4">
                 <div className="bg-brand-accent/10 text-brand-accent flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
-                  <ShoppingBag className="h-5 w-5" />
+                  <ShoppingCart className="h-5 w-5" />
                 </div>
 
                 <div className="flex-1">

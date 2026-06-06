@@ -1,7 +1,7 @@
 'use client';
 
 import { useCart } from '@/lib/store';
-import { X, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, Plus, Minus, ShoppingCart, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
@@ -50,7 +50,7 @@ export function CartDrawer() {
         {/* Header */}
         <header className="border-border-color flex items-center justify-between border-b px-6 py-6">
           <div className="text-text-primary flex items-center gap-3">
-            <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+            <ShoppingCart className="h-5 w-5" aria-hidden="true" />
             <h2 id="cart-title" className="font-serif text-xl font-bold tracking-tight">
               {t('title')}
             </h2>
@@ -153,7 +153,7 @@ export function CartDrawer() {
             </div>
           ) : (
             <div className="text-text-primary flex h-full flex-col items-center justify-center text-center opacity-30">
-              <ShoppingBag className="mb-4 h-12 w-12 stroke-1" aria-hidden="true" />
+              <ShoppingCart className="mb-4 h-12 w-12 stroke-1" aria-hidden="true" />
               <p className="font-serif text-lg italic">{t('empty')}</p>
               <button
                 onClick={() => setIsOpen(false)}
