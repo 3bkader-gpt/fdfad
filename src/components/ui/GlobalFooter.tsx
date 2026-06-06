@@ -12,10 +12,16 @@ export function GlobalFooter() {
   return (
     <>
       <SocialFollow />
-      <footer className="border-t border-[rgba(44,62,53,0.08)] bg-[#FFFFFF] px-6 py-10 text-center dark:border-[rgba(250,250,250,0.1)] dark:bg-[#1A1A1A]">
-        <p className="text-[9px] font-bold tracking-[0.3em] text-[#2C3E35] uppercase opacity-30 dark:text-[#FAFAFA]">
-          © 2026 FADFAAD CAIRO
-        </p>
+      <footer className="border-border-color bg-bg-main px-6 pt-16 pb-32 text-center transition-colors duration-300 md:pb-16">
+        <div className="mx-auto max-w-xs">
+          <div className="bg-brand-primary/10 mx-auto mb-8 h-px w-12" />
+          <p className="text-text-primary text-[9px] font-bold tracking-[0.4em] uppercase opacity-20">
+            © 2026 FADFAAD CAIRO
+          </p>
+          <p className="text-text-primary mt-2 text-[8px] font-medium tracking-[0.2em] uppercase opacity-10">
+            The Art of Modest Drapery
+          </p>
+        </div>
       </footer>
     </>
   );

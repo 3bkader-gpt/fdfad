@@ -127,20 +127,20 @@ export function GlobalHeader() {
 
       {/* 2. Desktop Floating Dock (Fixed Bottom) */}
       <div
-        className={`fixed inset-x-0 bottom-8 z-[60] hidden justify-center transition-all duration-500 ease-in-out md:flex ${
-          dockVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+        className={`fixed inset-x-0 bottom-10 z-[60] hidden justify-center transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] md:flex ${
+          dockVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
         }`}
       >
         <div
           ref={dockInnerRef}
-          className="fadfaad-dock-shell relative flex items-center gap-1 rounded-full px-3 py-2 shadow-2xl"
+          className="fadfaad-dock-shell relative flex items-center gap-1 rounded-full border border-white/10 bg-white/60 px-3 py-2 shadow-2xl backdrop-blur-xl dark:bg-black/60"
           onMouseLeave={hidePill}
         >
           {/* Animated Highlight Pill */}
           <div
             ref={highlightRef}
-            className="fadfaad-dock-highlight pointer-events-none invisible absolute top-1 left-0"
-            style={{ width: 0 }}
+            className="fadfaad-dock-highlight pointer-events-none invisible absolute top-1.5 left-0 rounded-full bg-black/5 dark:bg-white/10"
+            style={{ width: 0, height: 'calc(100% - 12px)' }}
           />
 
           {/* Nav Links */}
@@ -149,28 +149,28 @@ export function GlobalHeader() {
               key={link.key}
               href={link.href}
               onMouseEnter={(e) => slidePillTo(e.currentTarget as HTMLAnchorElement)}
-              className="text-text-secondary hover:text-text-primary relative z-10 px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors"
+              className="text-text-primary hover:text-text-primary relative z-10 px-6 py-2.5 text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300"
             >
               {tn(link.key)}
             </Link>
           ))}
 
-          {/* Divider */}
-          <div className="bg-border-color mx-2 h-6 w-[1px]" />
+          {/* Vertical Divider */}
+          <div className="mx-3 h-5 w-[1px] bg-current opacity-10" />
 
-          {/* Actions */}
-          <div className="flex items-center gap-2 px-2">
+          {/* Actions Cluster */}
+          <div className="flex items-center gap-1.5 px-1">
             <ThemeToggle />
             <LanguageToggle />
 
             <button
               onClick={() => setIsOpen(true)}
               aria-label={t('openCart')}
-              className="bg-bg-elevated hover:bg-brand-accent/10 border-border-color focus-visible:ring-brand-accent relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              className="bg-bg-elevated hover:bg-brand-accent/10 border-border-color focus-visible:ring-brand-accent relative flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-all duration-300 hover:scale-105 focus-visible:ring-2 focus-visible:outline-none active:scale-95"
             >
-              <ShoppingCart className="text-text-primary h-4.5 w-4.5" />
+              <ShoppingCart className="text-text-primary h-4 w-4" />
               {itemCount > 0 && (
-                <span className="bg-brand-accent absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold text-white">
+                <span className="bg-brand-accent absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-black text-white shadow-sm">
                   {itemCount}
                 </span>
               )}
@@ -180,8 +180,7 @@ export function GlobalHeader() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={locale === 'ar' ? 'اطلبي الآن عبر واتساب' : 'Order now on WhatsApp'}
-              className="bg-brand-primary focus-visible:ring-brand-accent ml-2 flex items-center gap-2 rounded-full px-6 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-offset-2 active:scale-95"
+              className="bg-brand-primary focus-visible:ring-brand-accent shadow-brand-primary/20 ml-3 flex items-center gap-2 rounded-full px-7 py-3 text-[9px] font-black tracking-[0.2em] text-white uppercase shadow-xl transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-offset-2 active:scale-95"
             >
               <span>{locale === 'ar' ? 'اطلبي الآن' : 'Order Now'}</span>
             </a>

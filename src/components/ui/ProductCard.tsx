@@ -47,21 +47,29 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Product Info */}
-      <div className="mt-3 flex flex-col gap-0.5">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="text-text-primary group-hover:text-brand-accent line-clamp-1 text-[11px] font-medium tracking-tight uppercase transition-colors">
+      <div className="mt-3.5 flex flex-col gap-1.5">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-text-primary group-hover:text-brand-accent line-clamp-1 flex-1 text-[11px] font-bold tracking-tight uppercase transition-colors">
             {product.title}
           </h3>
-          <span className="text-text-primary shrink-0 text-left font-mono text-[9px] opacity-40">
-            OPAC {product.opacity_scale}/5
-          </span>
+          <div className="bg-text-primary/5 text-text-primary group-hover:bg-brand-accent/10 group-hover:text-brand-accent flex shrink-0 items-center gap-1 rounded-full px-1.5 py-0.5 font-mono text-[8px] font-medium tracking-tighter transition-colors">
+            <span className="h-1 w-1 rounded-full bg-current opacity-40" />
+            <span>OPAC {product.opacity_scale}</span>
+          </div>
         </div>
 
-        <p className="text-text-secondary mb-1 text-[10px] italic">{product.fabric_type}</p>
-
-        <p className="text-text-primary text-sm font-semibold">
-          {product.price} {tc('egp')}
+        <p className="text-text-secondary line-clamp-1 text-[9px] leading-tight font-medium opacity-60">
+          {product.fabric_type}
         </p>
+
+        <div className="mt-1 flex items-baseline gap-1.5">
+          <span className="text-text-primary text-sm font-black tracking-tight">
+            {product.price}
+          </span>
+          <span className="text-text-secondary text-[8px] font-bold tracking-widest uppercase opacity-40">
+            {tc('egp')}
+          </span>
+        </div>
       </div>
     </Link>
   );
