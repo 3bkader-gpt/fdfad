@@ -38,12 +38,14 @@ export function GlobalHeader() {
     setIsMounted(true);
   }, []);
 
-  // Scroll visibility logic: show only near top, hide once scrolled past threshold
+  // Scroll visibility: hide on scroll-down, show on scroll-up, instant response
   useEffect(() => {
-    const SHOW_THRESHOLD = 80;
     const onScroll = () => {
       const currentY = window.scrollY;
-      setDockVisible(currentY <= SHOW_THRESHOLD);
+      const delta = currentY - lastScrollY.current;
+      if (delta > 8) setDockVisible(false);       // scrolling down → hide
+      else if (delta < -8) setDockVisible(true);  // scrolling up → show
+      // tiny jitter < 8px → no change
       lastScrollY.current = currentY;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
