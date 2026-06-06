@@ -1,10 +1,10 @@
-# Final Release Report: FADFAAD
+# Post Release Report: FADFAAD
 
-This report summarizes the successful production release and final validation of the FADFAAD project.
+This report summarizes the successful production release and final validation of the admin login layout isolation.
 
 ## Git
-- **Latest Commit SHA:** `eddf4c1e11c1ec0d31f599a9288a12a8abc58d82`
-- **Commit URL:** [https://github.com/3bkader-gpt/fdfad/commit/eddf4c1e11c1ec0d31f599a9288a12a8abc58d82](https://github.com/3bkader-gpt/fdfad/commit/eddf4c1e11c1ec0d31f599a9288a12a8abc58d82)
+- **Latest Commit SHA:** `58e5b175c21159b8a7a4e23a903967e75914dc9e`
+- **Commit URL:** [https://github.com/3bkader-gpt/fdfad/commit/58e5b175c21159b8a7a4e23a903967e75914dc9e](https://github.com/3bkader-gpt/fdfad/commit/58e5b175c21159b8a7a4e23a903967e75914dc9e)
 - **Status:** Local `main` is synchronized with `origin/main`.
 
 ## Verification Results
@@ -14,7 +14,6 @@ This report summarizes the successful production release and final validation of
 - **Playwright:** Passed (16/16 tests passed).
 
 ## Deployment Details
-- **Deployment ID:** `dpl_LKSYAp7R4KwDT2B3uAmmvopyYLfy`
 - **Deployment URL:** [https://fdfad.vercel.app](https://fdfad.vercel.app)
 - **Deployment Status:** **READY**
 
@@ -22,8 +21,6 @@ This report summarizes the successful production release and final validation of
 - **Passed checks:**
   - Arabic Homepage: `200 OK`.
   - English Homepage: `200 OK`.
-  - Admin Login: `200 OK`.
-  - Hero height adjustment (50vh) active.
-  - All navigation and UX refinements verified.
+  - Admin Login: `200 OK`. Verified that the layout is now isolated (no sidebar/storefront header) on the login portal.
 
 # Final Status: **SUCCESS**
