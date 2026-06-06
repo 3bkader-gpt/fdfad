@@ -87,7 +87,7 @@ export function ProductGallery({
             {/* Cover/Action Badge */}
             {madeInEgypt && (
               <span className="bg-brand-primary dark:text-bg-main absolute bottom-6 left-6 rounded px-4 py-1.5 text-[9px] font-bold tracking-[0.2em] text-white uppercase shadow-lg backdrop-blur-sm">
-                {tc('madeInCairo')}
+                {tc('madeInEgypt')}
               </span>
             )}
 

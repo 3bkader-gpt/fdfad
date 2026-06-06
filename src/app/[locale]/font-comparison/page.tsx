@@ -108,8 +108,8 @@ export default function FontComparisonPage() {
                 فن انسياب الأقمشة المحتشمة
               </h2>
               <p className="mb-8 text-sm leading-relaxed opacity-70">
-                نقدم لكِ مجموعة عبايات وإسدالات راقية صُممت بعناية في القاهرة، تجمع بين الأصالة
-                والخطوط العصرية لتناسب ذوقكِ الرفيع في كل مناسبة.
+                نقدم لكِ مجموعة عبايات وإسدالات راقية صُممت بعناية في مصر، تجمع بين الأصالة والخطوط
+                العصرية لتناسب ذوقكِ الرفيع في كل مناسبة.
               </p>
               <button className="rounded-full bg-[#2C3E35] px-8 py-3.5 text-xs font-bold tracking-widest text-white uppercase shadow-xl transition-transform hover:scale-105 dark:bg-[#C89B7E] dark:text-[#111111]">
                 اكتشفي التشكيلة
