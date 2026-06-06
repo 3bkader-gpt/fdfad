@@ -57,6 +57,22 @@ export function HomeAnimations({ children }: HomeAnimationsProps) {
         },
         '-=0.4',
       );
+
+      // Stagger product cards
+      const cards = collection.querySelectorAll('.group');
+      if (cards.length > 0) {
+        tl.from(
+          cards,
+          {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+          },
+          '-=0.6',
+        );
+      }
     }
   }, []);
 

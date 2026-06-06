@@ -26,7 +26,7 @@ export function ProductInfo({ title, price, fabricType }: ProductInfoProps) {
       </h2>
 
       <div className="border-border-color flex items-center justify-between border-b pb-5">
-        <p className="text-brand-primary text-2xl font-semibold tracking-tight">
+        <p className="text-brand-primary text-2xl font-bold tracking-tight">
           {price} <span className="text-sm font-normal opacity-60">{tc('egp')}</span>
         </p>
 

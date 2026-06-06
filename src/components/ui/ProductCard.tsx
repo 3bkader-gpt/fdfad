@@ -31,7 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 50vw, 33vw"
           />
         ) : (
-          <div className="text-text-primary flex h-full items-center justify-center text-[10px] tracking-widest uppercase italic opacity-20">
+          <div className="text-text-primary flex h-full items-center justify-center text-[10px] tracking-widest uppercase italic opacity-60">
             {t('awaitingVisuals')}
           </div>
         )}
@@ -63,7 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </p>
 
         <div className="mt-1 flex items-baseline gap-1.5">
-          <span className="text-text-primary text-sm font-black tracking-tight">
+          <span className="text-text-primary text-sm font-bold tracking-tight">
             {product.price}
           </span>
           <span className="text-text-secondary text-[8px] font-bold tracking-widest uppercase opacity-40">

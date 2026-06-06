@@ -156,7 +156,7 @@ export function GlobalHeader() {
           ))}
 
           {/* Vertical Divider */}
-          <div className="mx-3 h-5 w-[1px] bg-current opacity-10" />
+          <div className="mx-3 h-5 w-[1px] bg-current opacity-20" />
 
           {/* Actions Cluster */}
           <div className="flex items-center gap-1.5 px-1">

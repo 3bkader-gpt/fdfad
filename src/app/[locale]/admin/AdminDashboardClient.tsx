@@ -19,6 +19,7 @@ import { Order } from '@/types/supabase';
 import { useRealtimeOrders } from '@/hooks/useRealtimeOrders';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { deleteOrder } from './orders/actions';
+import { Toast } from '@/components/ui/Toast';
 
 interface AdminDashboardClientProps {
   initialOrders: Order[];
@@ -55,6 +56,7 @@ export function AdminDashboardClient({
   const { orders, setOrders } = useRealtimeOrders(initialOrders);
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const tcom = useTranslations('Common');
   const tAdmin = useTranslations('Admin');
   const router = useRouter();
@@ -67,10 +69,11 @@ export function AdminDashboardClient({
       if (res.success) {
         setOrders((current) => current.filter((o) => o.id !== orderToDelete));
       } else {
-        alert(res.error || 'Failed to delete order');
+        setToast({ message: res.error || 'Failed to delete order', type: 'error' });
       }
     } catch (e) {
       console.error(e);
+      setToast({ message: 'A system error occurred while deleting the order.', type: 'error' });
     } finally {
       setIsDeleting(false);
       setOrderToDelete(null);
@@ -99,6 +102,7 @@ export function AdminDashboardClient({
 
   return (
     <div className="text-text-primary flex flex-col gap-10 text-start">
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <header>
         <h2 className="font-serif text-4xl font-bold tracking-tight">{t.overview}</h2>
         <p className="mt-2 text-[10px] font-bold tracking-widest uppercase opacity-60">

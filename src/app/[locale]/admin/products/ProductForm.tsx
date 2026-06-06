@@ -3,11 +3,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { upsertProduct } from './ProductActions';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft, ChevronDown } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { useState, useEffect } from 'react';
 import { Product, Category } from '@/types/supabase';
 import { useTranslations } from 'next-intl';
+import { Toast } from '@/components/ui/Toast';
 import { BasicInfoSection } from './components/BasicInfoSection';
 import { MediaSection } from './components/MediaSection';
 import { SizeSelector } from './components/SizeSelector';
@@ -54,6 +55,7 @@ export function ProductForm({
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSlugModified, setIsSlugModified] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const router = useRouter();
   const t = useTranslations('Admin');
 
@@ -219,12 +221,12 @@ export function ProductForm({
       if (result.success) {
         router.push('/admin/products');
       } else {
-        alert(result.error);
+        setToast({ message: result.error || 'Failed to save product', type: 'error' });
         setIsSubmitting(false);
       }
     } catch (e: unknown) {
       const error = e as Error;
-      alert(`System Error: ${error.message}`);
+      setToast({ message: `System Error: ${error.message}`, type: 'error' });
       setIsSubmitting(false);
     }
   };
@@ -234,6 +236,7 @@ export function ProductForm({
       onSubmit={handleSubmit(onSubmit)}
       className="flex max-w-4xl flex-col gap-10 pb-20 text-start"
     >
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <header className="flex items-center gap-4">
         <Link
           href="/admin/products"
@@ -249,23 +252,37 @@ export function ProductForm({
       <div className="flex flex-col gap-10">
         <BasicInfoSection register={register} errors={errors} categories={categories} />
 
-        {/* Manual Slug Override (Optional for Admin) */}
-        <section className="bg-bg-elevated border-border-color flex flex-col gap-4 rounded-2xl border p-6 shadow-sm md:p-8">
-          <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
-            URL Slug (Auto-generated)
-          </label>
-          <input
-            {...register('slug')}
-            onChange={() => setIsSlugModified(true)}
-            onBlur={onSlugBlur}
-            className={`bg-bg-main text-text-primary rounded-xl px-4 py-3 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.slug ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
-          />
-          {errors.slug && <p className="text-[10px] text-red-500">{errors.slug.message}</p>}
-          <p className="text-[10px] opacity-40">
-            This is the link address for the product. It updates automatically but you can override
-            it if needed.
-          </p>
-        </section>
+        {/* Manual Slug Override (Optional for Admin) - Now Collapsible */}
+        <details className="bg-bg-elevated border-border-color group rounded-2xl border transition-all">
+          <summary className="flex cursor-pointer list-none items-center justify-between p-6 md:p-8">
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+                {t('seoSec')}
+              </span>
+              <p className="text-[10px] opacity-40">Manage URL slug and meta visibility.</p>
+            </div>
+            <ChevronDown className="h-4 w-4 opacity-40 transition-transform group-open:rotate-180" />
+          </summary>
+
+          <div className="border-border-color border-t p-6 pt-8 md:p-8">
+            <div className="flex flex-col gap-4">
+              <label className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+                URL Slug (Auto-generated)
+              </label>
+              <input
+                {...register('slug')}
+                onChange={() => setIsSlugModified(true)}
+                onBlur={onSlugBlur}
+                className={`bg-bg-main text-text-primary rounded-xl px-4 py-3 text-sm shadow-sm ring-1 transition-all focus:ring-2 focus:outline-none ${errors.slug ? 'ring-red-200 focus:ring-red-100' : 'ring-border-color focus:ring-[#C89B7E]/30'}`}
+              />
+              {errors.slug && <p className="text-[10px] text-red-500">{errors.slug.message}</p>}
+              <p className="text-[10px] opacity-40">
+                This is the link address for the product. It updates automatically but you can
+                override it if needed.
+              </p>
+            </div>
+          </div>
+        </details>
 
         <MediaSection images={images} onChange={setImages} />
         <SizeSelector
