@@ -85,12 +85,13 @@ export default async function ProductPage({
     }
 
     // Canonical URL Check: /products/123-correct-slug
-    const expectedSlug = `${product.product_no}-${product.slug}`;
-    const currentSlug = decodeURIComponent(identifier);
+    const expectedSlug = `${product.product_no}-${product.slug}`.normalize('NFC');
+    const currentSlug = decodeURIComponent(identifier).normalize('NFC');
+
+    console.log(`[ProductPage] ID lookup success. Expected: "${expectedSlug}", Current: "${currentSlug}"`);
 
     if (currentSlug !== expectedSlug) {
       console.log(`[ProductPage] REDIRECT to canonical: ${expectedSlug}`);
-      // 301 Permanent Redirect to canonical SEO URL
       permanentRedirect(`/products/${expectedSlug}`);
     }
 
