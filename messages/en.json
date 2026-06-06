@@ -197,6 +197,8 @@
     "deleteProductConfirm": "Are you sure you want to permanently delete this product? This action cannot be undone.",
     "deleteCategoryTitle": "Delete Category",
     "deleteCategoryConfirm": "Are you sure you want to permanently delete this category? All linked products will be unassigned and this action cannot be undone.",
+    "deleteOrderTitle": "Delete Order",
+    "deleteOrderConfirm": "Are you sure you want to permanently delete this order? This action cannot be undone.",
     "helpTitle": "Write the piece name exactly as it should appear to customers on the site.",
     "helpPrice": "Enter the price in Egyptian Pounds (EGP).",
     "helpFabric": "Write the fabric/textile type here (e.g. Saudi Crepe).",

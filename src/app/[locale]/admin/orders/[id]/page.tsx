@@ -6,6 +6,7 @@ import { Link } from '@/i18n/routing';
 import { OrderWithItems } from '@/types/supabase';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { PrintWaybillButton } from './PrintWaybillButton';
+import { DeleteOrderButton } from './DeleteOrderButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -205,6 +206,7 @@ export default async function OrderDetailsPage({
                 {t('colStatus')}
               </p>
               <PrintWaybillButton label={t('printWaybill')} />
+              <DeleteOrderButton orderId={order.id} />
             </div>
           </div>
         </div>

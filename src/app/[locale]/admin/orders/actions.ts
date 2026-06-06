@@ -30,3 +30,18 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
   revalidatePath(`/admin/orders/${orderId}`);
   return { success: true };
 }
+
+export async function deleteOrder(orderId: string) {
+  const supabase: SupabaseClient<Database> = await createClient();
+
+  const { error } = await supabase.schema('public').from('orders').delete().eq('id', orderId);
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/orders');
+  revalidatePath(`/admin/orders/${orderId}`);
+  return { success: true };
+}

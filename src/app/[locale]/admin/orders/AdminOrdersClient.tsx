@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, ArrowLeft } from 'lucide-react';
+import { Search, ArrowLeft, Trash2 } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Order } from '@/types/supabase';
 import { StatusPill } from './[id]/StatusPill';
 import { useTranslations } from 'next-intl';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
+import { deleteOrder } from './actions';
 
 interface AdminOrdersClientProps {
   orders: Order[];
@@ -31,6 +33,24 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
   const [filter, setFilter] = useState<FilterStatus>('ALL');
 
   const { orders } = useRealtimeOrders(initialOrders);
+  const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!orderToDelete) return;
+    setIsDeleting(true);
+    try {
+      const res = await deleteOrder(orderToDelete);
+      if (!res.success) {
+        alert(res.error || 'Failed to delete order');
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsDeleting(false);
+      setOrderToDelete(null);
+    }
+  };
 
   const filtered = orders.filter((o) => {
     const matchesSearch =
@@ -124,6 +144,9 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
               <th className="px-6 py-4 text-start text-[10px] font-bold tracking-widest uppercase opacity-40">
                 {t('colStatus')}
               </th>
+              <th className="px-6 py-4 text-end text-[10px] font-bold tracking-widest uppercase opacity-40">
+                {/* Actions */}
+              </th>
             </tr>
           </thead>
           <tbody className="divide-border-color divide-y whitespace-nowrap">
@@ -173,6 +196,16 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
                 <td className="px-6 py-5" onClick={(e) => e.stopPropagation()}>
                   <StatusPill orderId={order.id} currentStatus={order.status} />
                 </td>
+                <td className="px-6 py-5 text-end" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    type="button"
+                    onClick={() => setOrderToDelete(order.id)}
+                    className="rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 hover:text-red-800 dark:text-red-400 dark:hover:bg-red-950/20 dark:hover:text-red-300"
+                    title={tcom('delete')}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -181,6 +214,18 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
           <div className="py-20 text-center text-sm italic opacity-30">{t('noOrders')}</div>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={!!orderToDelete}
+        onClose={() => setOrderToDelete(null)}
+        onConfirm={handleDelete}
+        title={t('deleteOrderTitle')}
+        message={t('deleteOrderConfirm')}
+        confirmText={tcom('delete')}
+        cancelText={tcom('cancel')}
+        type="danger"
+        isPending={isDeleting}
+      />
     </div>
   );
 }
