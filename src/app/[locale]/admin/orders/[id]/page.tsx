@@ -138,15 +138,17 @@ export default async function OrderDetailsPage({
                     {t('clientNotes')}
                   </h3>
                 </div>
-                <p className="text-start text-sm leading-relaxed italic opacity-70">{order.notes}</p>
+                <p className="text-start text-sm leading-relaxed italic opacity-70">
+                  {order.notes}
+                </p>
               </div>
             )}
           </div>
 
           {/* Right Column: Order Items & Payment */}
           <div className="flex flex-col gap-8 text-start">
-            <div className="bg-brand-primary shadow-brand-primary/10 rounded-2xl p-8 text-start text-white dark:text-bg-main shadow-xl">
-              <div className="mb-8 flex items-center gap-3 border-b border-white/10 dark:border-bg-main/15 pb-4 text-start">
+            <div className="bg-brand-primary shadow-brand-primary/10 dark:text-bg-main rounded-2xl p-8 text-start text-white shadow-xl">
+              <div className="dark:border-bg-main/15 mb-8 flex items-center gap-3 border-b border-white/10 pb-4 text-start">
                 <ShoppingBag className="h-4 w-4 opacity-40" />
                 <h3 className="text-start text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
                   {t('curationManifest')}
@@ -166,7 +168,9 @@ export default async function OrderDetailsPage({
                       {(item.selected_size || item.selected_color) && (
                         <p className="text-start text-[9px] opacity-60">
                           {item.selected_size && (
-                            <span className="text-brand-accent dark:text-[#4A7C59] font-bold">{item.selected_size}</span>
+                            <span className="text-brand-accent font-bold dark:text-[#4A7C59]">
+                              {item.selected_size}
+                            </span>
                           )}
                           {item.selected_size && item.selected_color && ' · '}
                           {item.selected_color && <span>{item.selected_color}</span>}
@@ -180,7 +184,7 @@ export default async function OrderDetailsPage({
                 ))}
               </div>
 
-              <div className="mt-10 flex items-center justify-between border-t border-white/10 dark:border-bg-main/15 pt-6">
+              <div className="dark:border-bg-main/15 mt-10 flex items-center justify-between border-t border-white/10 pt-6">
                 <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
                   {t('orderTotal')}
                 </span>
@@ -189,7 +193,7 @@ export default async function OrderDetailsPage({
                 </span>
               </div>
 
-              <div className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-white/5 dark:bg-bg-main/10 py-2 text-[9px] font-bold tracking-widest uppercase">
+              <div className="dark:bg-bg-main/10 mt-6 flex items-center justify-center gap-2 rounded-lg bg-white/5 py-2 text-[9px] font-bold tracking-widest uppercase">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#4A7C59]" />
                 {t('cashOnDelivery')}
               </div>
@@ -209,20 +213,22 @@ export default async function OrderDetailsPage({
       {/* Print View (Waybill / Invoice) */}
       <div
         dir={locale === 'ar' ? 'rtl' : 'ltr'}
-        className={`hidden print:block print-only-container text-black bg-white antialiased text-[11px] leading-normal w-full max-w-[800px] mx-auto p-4 ${
+        className={`print-only-container mx-auto hidden w-full max-w-[800px] bg-white p-4 text-[11px] leading-normal text-black antialiased print:block ${
           locale === 'ar' ? 'font-cairo' : 'font-sans'
         }`}
       >
         {/* Header Section */}
-        <div className="border-b-2 border-black pb-4 mb-4 flex justify-between items-start">
+        <div className="mb-4 flex items-start justify-between border-b-2 border-black pb-4">
           <div className="text-start">
-            <h1 className="font-serif text-2xl font-bold tracking-tight text-black mb-1">فضفاض | FADFAAD</h1>
-            <p className="text-[9px] uppercase tracking-widest opacity-60">
+            <h1 className="mb-1 font-serif text-2xl font-bold tracking-tight text-black">
+              فضفاض | FADFAAD
+            </h1>
+            <p className="text-[9px] tracking-widest uppercase opacity-60">
               {locale === 'ar' ? 'بوليسة شحن / فاتورة' : 'WAYBILL / PACKING SLIP'}
             </p>
           </div>
           <div className="text-end">
-            <div className="border border-black px-3 py-1 font-bold text-sm inline-block rounded mb-1">
+            <div className="mb-1 inline-block rounded border border-black px-3 py-1 text-sm font-bold">
               {order.order_no}
             </div>
             <p className="text-[9px] opacity-60">
@@ -233,37 +239,47 @@ export default async function OrderDetailsPage({
         </div>
 
         {/* Shipping Grid */}
-        <div className="grid grid-cols-2 gap-4 mb-6 border-b border-black/10 pb-4">
+        <div className="mb-6 grid grid-cols-2 gap-4 border-b border-black/10 pb-4">
           {/* Customer Credentials Column */}
-          <div className="border-r border-black/10 pr-4 rtl:border-r-0 rtl:border-l rtl:pr-0 rtl:pl-4 text-start">
-            <h3 className="font-bold text-[9px] uppercase tracking-wider opacity-60 mb-2 border-b pb-1 text-start">
+          <div className="border-r border-black/10 pr-4 text-start rtl:border-r-0 rtl:border-l rtl:pr-0 rtl:pl-4">
+            <h3 className="mb-2 border-b pb-1 text-start text-[9px] font-bold tracking-wider uppercase opacity-60">
               {t('customerCredentials')}
             </h3>
             <div className="space-y-1.5 text-start">
               <div>
-                <span className="opacity-50 text-[9px] block uppercase text-start">{t('colCustomer')}</span>
-                <span className="font-bold text-xs text-start">{order.customer_name}</span>
+                <span className="block text-start text-[9px] uppercase opacity-50">
+                  {t('colCustomer')}
+                </span>
+                <span className="text-start text-xs font-bold">{order.customer_name}</span>
               </div>
               <div>
-                <span className="opacity-50 text-[9px] block uppercase text-start">{t('customerPhone')}</span>
-                <span className="font-bold text-xs text-start">{order.phone_number}</span>
+                <span className="block text-start text-[9px] uppercase opacity-50">
+                  {t('customerPhone')}
+                </span>
+                <span className="text-start text-xs font-bold">{order.phone_number}</span>
               </div>
             </div>
           </div>
 
           {/* Delivery Address Column */}
           <div className="text-start">
-            <h3 className="font-bold text-[9px] uppercase tracking-wider opacity-60 mb-2 border-b pb-1 text-start">
+            <h3 className="mb-2 border-b pb-1 text-start text-[9px] font-bold tracking-wider uppercase opacity-60">
               {t('deliveryAddress')}
             </h3>
             <div className="space-y-1.5 text-start">
               <div>
-                <span className="opacity-50 text-[9px] block uppercase text-start">{t('governorate')}</span>
-                <span className="font-bold text-xs text-start">{order.governorate}</span>
+                <span className="block text-start text-[9px] uppercase opacity-50">
+                  {t('governorate')}
+                </span>
+                <span className="text-start text-xs font-bold">{order.governorate}</span>
               </div>
               <div>
-                <span className="opacity-50 text-[9px] block uppercase text-start">{t('address')}</span>
-                <span className="font-medium text-xs block leading-tight text-start">{order.address}</span>
+                <span className="block text-start text-[9px] uppercase opacity-50">
+                  {t('address')}
+                </span>
+                <span className="block text-start text-xs leading-tight font-medium">
+                  {order.address}
+                </span>
               </div>
             </div>
           </div>
@@ -271,44 +287,48 @@ export default async function OrderDetailsPage({
 
         {/* Notes (Only printed if present) */}
         {order.notes && (
-          <div className="mb-6 bg-black/5 border border-black/10 rounded p-3 text-start">
-            <h4 className="font-bold text-[9px] uppercase tracking-wider opacity-60 mb-1 text-start">
+          <div className="mb-6 rounded border border-black/10 bg-black/5 p-3 text-start">
+            <h4 className="mb-1 text-start text-[9px] font-bold tracking-wider uppercase opacity-60">
               {t('clientNotes')}
             </h4>
-            <p className="italic text-xs leading-relaxed text-start">{order.notes}</p>
+            <p className="text-start text-xs leading-relaxed italic">{order.notes}</p>
           </div>
         )}
 
         {/* Curation Manifest (Products Table) */}
         <div className="mb-6 text-start">
-          <h3 className="font-bold text-[9px] uppercase tracking-wider opacity-60 mb-2 border-b pb-1 text-start">
+          <h3 className="mb-2 border-b pb-1 text-start text-[9px] font-bold tracking-wider uppercase opacity-60">
             {t('curationManifest')}
           </h3>
-          <table className="w-full text-start border-collapse">
+          <table className="w-full border-collapse text-start">
             <thead>
-              <tr className="border-b border-black text-[9px] opacity-60 uppercase font-bold text-start">
-                <th className="py-1.5 text-start font-bold">{locale === 'ar' ? 'المنتج' : 'Item'}</th>
-                <th className="py-1.5 text-center font-bold">{locale === 'ar' ? 'المقاس' : 'Size'}</th>
-                <th className="py-1.5 text-center font-bold">{locale === 'ar' ? 'اللون' : 'Color'}</th>
-                <th className="py-1.5 text-center font-bold">{locale === 'ar' ? 'الكمية' : 'Qty'}</th>
+              <tr className="border-b border-black text-start text-[9px] font-bold uppercase opacity-60">
+                <th className="py-1.5 text-start font-bold">
+                  {locale === 'ar' ? 'المنتج' : 'Item'}
+                </th>
+                <th className="py-1.5 text-center font-bold">
+                  {locale === 'ar' ? 'المقاس' : 'Size'}
+                </th>
+                <th className="py-1.5 text-center font-bold">
+                  {locale === 'ar' ? 'اللون' : 'Color'}
+                </th>
+                <th className="py-1.5 text-center font-bold">
+                  {locale === 'ar' ? 'الكمية' : 'Qty'}
+                </th>
                 <th className="py-1.5 text-end font-bold">{locale === 'ar' ? 'السعر' : 'Price'}</th>
               </tr>
             </thead>
             <tbody>
               {order.order_items.map((item) => (
                 <tr key={item.id} className="border-b border-black/5 text-xs">
-                  <td className="py-2 text-start font-medium align-middle">
+                  <td className="py-2 text-start align-middle font-medium">
                     {item.products?.title || 'Unknown Product'}
                   </td>
                   <td className="py-2 text-center align-middle font-bold">
                     {item.selected_size || '-'}
                   </td>
-                  <td className="py-2 text-center align-middle">
-                    {item.selected_color || '-'}
-                  </td>
-                  <td className="py-2 text-center align-middle">
-                    {item.quantity}
-                  </td>
+                  <td className="py-2 text-center align-middle">{item.selected_color || '-'}</td>
+                  <td className="py-2 text-center align-middle">{item.quantity}</td>
                   <td className="py-2 text-end align-middle font-bold">
                     {item.price_at_purchase * item.quantity} {tc('egp')}
                   </td>
@@ -319,13 +339,13 @@ export default async function OrderDetailsPage({
         </div>
 
         {/* Totals Section */}
-        <div className="flex justify-between items-center border-t-2 border-black pt-4 mt-4">
-          <div className="bg-black text-white px-3 py-1.5 rounded font-bold uppercase tracking-widest text-[9px] inline-flex items-center gap-1.5">
+        <div className="mt-4 flex items-center justify-between border-t-2 border-black pt-4">
+          <div className="inline-flex items-center gap-1.5 rounded bg-black px-3 py-1.5 text-[9px] font-bold tracking-widest text-white uppercase">
             <span className="h-1.5 w-1.5 rounded-full bg-[#4A7C59]" />
             {t('cashOnDelivery')}
           </div>
           <div className="text-end">
-            <span className="text-[9px] font-bold tracking-wider uppercase opacity-60 block">
+            <span className="block text-[9px] font-bold tracking-wider uppercase opacity-60">
               {t('orderTotal')}
             </span>
             <span className="text-xl font-bold tracking-tight text-black">
@@ -335,7 +355,7 @@ export default async function OrderDetailsPage({
         </div>
 
         {/* Footer Brand Statement */}
-        <div className="border-t border-black/10 pt-6 mt-12 text-center text-[9px] opacity-40 uppercase tracking-widest">
+        <div className="mt-12 border-t border-black/10 pt-6 text-center text-[9px] tracking-widest uppercase opacity-40">
           <p className="mb-1">
             {locale === 'ar' ? 'فضفاض القاهرة - صنع في مصر' : 'FADFAAD CAIRO - MADE IN EGYPT'}
           </p>

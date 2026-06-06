@@ -63,7 +63,14 @@ export function AnimatedOrderButton({
             xmlns="http://www.w3.org/2000/svg"
           >
             {/* Cargo box - Evergreen Theme */}
-            <rect x="2" y="6" width="38" height="24" rx="2" className="fill-brand-primary dark:fill-bg-main" />
+            <rect
+              x="2"
+              y="6"
+              width="38"
+              height="24"
+              rx="2"
+              className="fill-brand-primary dark:fill-bg-main"
+            />
             <rect
               x="2"
               y="6"
@@ -72,7 +79,7 @@ export function AnimatedOrderButton({
               rx="2"
               stroke="currentColor"
               strokeWidth="0.5"
-              className="text-white/20 dark:text-bg-main/20"
+              className="dark:text-bg-main/20 text-white/20"
             />
             <line
               x1="28"
@@ -82,7 +89,7 @@ export function AnimatedOrderButton({
               stroke="currentColor"
               strokeWidth="0.5"
               strokeDasharray="2 2"
-              className="text-white dark:text-bg-main"
+              className="dark:text-bg-main text-white"
               opacity="0.3"
             />
             {/* Package - Sand Theme */}
@@ -95,17 +102,34 @@ export function AnimatedOrderButton({
               className="fill-brand-accent"
               opacity="0.6"
             />
-            <line x1="15" y1="11" x2="15" y2="24" stroke="currentColor" strokeWidth="0.5" className="text-white dark:text-bg-main" opacity="0.4" />
+            <line
+              x1="15"
+              y1="11"
+              x2="15"
+              y2="24"
+              stroke="currentColor"
+              strokeWidth="0.5"
+              className="dark:text-bg-main text-white"
+              opacity="0.4"
+            />
             {/* Cab */}
-            <path d="M40 10 L54 10 L62 18 L62 30 L40 30 Z" className="fill-brand-primary dark:fill-bg-main" />
+            <path
+              d="M40 10 L54 10 L62 18 L62 30 L40 30 Z"
+              className="fill-brand-primary dark:fill-bg-main"
+            />
             <path
               d="M40 10 L54 10 L62 18 L62 30 L40 30 Z"
               stroke="currentColor"
               strokeWidth="0.5"
-              className="text-white/20 dark:text-bg-main/20"
+              className="dark:text-bg-main/20 text-white/20"
               opacity="0.2"
             />
-            <path d="M43 12 L53 12 L60 18 L43 18 Z" fill="currentColor" className="text-white dark:text-bg-main" opacity="0.2" />
+            <path
+              d="M43 12 L53 12 L60 18 L43 18 Z"
+              fill="currentColor"
+              className="dark:text-bg-main text-white"
+              opacity="0.2"
+            />
             <rect x="2" y="28" width="64" height="4" rx="1" fill="#1A1A1A" />
             {/* Wheels */}
             <g className="luxury-wheel" style={{ transformOrigin: '16px 33px' }}>
@@ -125,7 +149,7 @@ export function AnimatedOrderButton({
                 y2="37.5"
                 stroke="currentColor"
                 strokeWidth="0.5"
-                className="text-white dark:text-bg-main"
+                className="dark:text-bg-main text-white"
                 opacity="0.2"
               />
               <line
@@ -135,7 +159,7 @@ export function AnimatedOrderButton({
                 y2="33"
                 stroke="currentColor"
                 strokeWidth="0.5"
-                className="text-white dark:text-bg-main"
+                className="dark:text-bg-main text-white"
                 opacity="0.2"
               />
             </g>
@@ -156,7 +180,7 @@ export function AnimatedOrderButton({
                 y2="37.5"
                 stroke="currentColor"
                 strokeWidth="0.5"
-                className="text-white dark:text-bg-main"
+                className="dark:text-bg-main text-white"
                 opacity="0.2"
               />
               <line
@@ -166,7 +190,7 @@ export function AnimatedOrderButton({
                 y2="33"
                 stroke="currentColor"
                 strokeWidth="0.5"
-                className="text-white dark:text-bg-main"
+                className="dark:text-bg-main text-white"
                 opacity="0.2"
               />
             </g>

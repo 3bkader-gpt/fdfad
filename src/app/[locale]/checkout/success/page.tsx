@@ -14,7 +14,7 @@ export default async function SuccessPage(props: {
   if (!id) notFound();
 
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('orders')
     .select('*, order_items(*, products(*))')
     .eq('id', id)

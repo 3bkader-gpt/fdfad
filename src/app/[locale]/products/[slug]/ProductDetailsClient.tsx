@@ -105,16 +105,18 @@ export function ProductDetailsClient({
       {/* 1. Floating Mobile Navigation Header */}
       <nav
         className={`fadfaad-dock-shell fixed inset-x-4 top-4 z-[60] flex items-center justify-between rounded-full px-4 py-2 shadow-2xl transition-all duration-500 ease-in-out md:hidden ${
-          headerVisible ? 'translate-y-0 opacity-100' : '-translate-y-24 opacity-0 pointer-events-none'
+          headerVisible
+            ? 'translate-y-0 opacity-100'
+            : 'pointer-events-none -translate-y-24 opacity-0'
         }`}
       >
         <Link
           href="/"
-          className="bg-bg-elevated hover:bg-brand-accent/5 border border-border-color focus-visible:ring-brand-accent flex h-10 w-10 items-center justify-center rounded-full shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
+          className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
         >
           <ChevronLeft className="h-4.5 w-4.5 rtl:rotate-180" />
         </Link>
-        <h1 className="text-text-primary font-serif text-lg font-bold tracking-tight absolute left-1/2 -translate-x-1/2">
+        <h1 className="text-text-primary absolute left-1/2 -translate-x-1/2 font-serif text-lg font-bold tracking-tight">
           {tc('title')}
         </h1>
         <div className="w-10" />
@@ -145,78 +147,76 @@ export function ProductDetailsClient({
                   <li className="opacity-40">/</li>
                 </>
               )}
-              <li className="text-text-primary line-clamp-1 max-w-[200px]">
-                {product.title}
-              </li>
+              <li className="text-text-primary line-clamp-1 max-w-[200px]">{product.title}</li>
             </ol>
           </nav>
         )}
 
         {/* 3. Product Grid */}
-        <div className="grid grid-cols-1 gap-8 px-0 md:px-6 md:grid-cols-2">
-        <ProductGallery
-          images={images}
-          productTitle={product.title}
-          madeInEgypt={product.made_in_egypt}
-          onZoomOpen={onZoomOpen}
-        />
-
-        {/* Product Details & Purchase Section */}
-        <section className="flex flex-col gap-8 px-6 md:px-0">
-          <ProductInfo
-            title={product.title}
-            price={product.price}
-            fabricType={product.fabric_type}
+        <div className="grid grid-cols-1 gap-8 px-0 md:grid-cols-2 md:px-6">
+          <ProductGallery
+            images={images}
+            productTitle={product.title}
+            madeInEgypt={product.made_in_egypt}
+            onZoomOpen={onZoomOpen}
           />
 
-          <VariantSelector
-            sizes={product.sizes || []}
-            colors={product.colors || []}
-            selectedSize={selectedSize}
-            selectedColor={selectedColor}
-            onSizeSelect={(size) => {
-              setSelectedSize(size);
-              setSizeError(false);
-            }}
-            onColorSelect={(color) => {
-              setSelectedColor(color);
-              setColorError(false);
-            }}
-            sizeError={sizeError}
-            colorError={colorError}
-          />
+          {/* Product Details & Purchase Section */}
+          <section className="flex flex-col gap-8 px-6 md:px-0">
+            <ProductInfo
+              title={product.title}
+              price={product.price}
+              fabricType={product.fabric_type}
+            />
 
-          <FitGuide
-            modelHeightCm={product.model_height_cm}
-            modelWeightKg={product.model_weight_kg}
-            modelSizeWorn={product.model_size_worn}
-            recommendations={recommendations}
-          />
+            <VariantSelector
+              sizes={product.sizes || []}
+              colors={product.colors || []}
+              selectedSize={selectedSize}
+              selectedColor={selectedColor}
+              onSizeSelect={(size) => {
+                setSelectedSize(size);
+                setSizeError(false);
+              }}
+              onColorSelect={(color) => {
+                setSelectedColor(color);
+                setColorError(false);
+              }}
+              sizeError={sizeError}
+              colorError={colorError}
+            />
 
-          <ProductSpecifications
-            fabricType={product.fabric_type}
-            garmentLengthCm={product.garment_length_cm}
-            season={product.season}
-            careInstructions={product.care_instructions}
-            opacityScale={product.opacity_scale}
-          />
+            <FitGuide
+              modelHeightCm={product.model_height_cm}
+              modelWeightKg={product.model_weight_kg}
+              modelSizeWorn={product.model_size_worn}
+              recommendations={recommendations}
+            />
 
-          {/* Description */}
-          {product.description && (
-            <div className="border-border-color border-t pt-6">
-              <h4 className="mb-3 text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
-                {t('details')}
-              </h4>
-              <p className="text-sm leading-relaxed text-pretty whitespace-pre-line opacity-70">
-                {product.description}
-              </p>
-            </div>
-          )}
+            <ProductSpecifications
+              fabricType={product.fabric_type}
+              garmentLengthCm={product.garment_length_cm}
+              season={product.season}
+              careInstructions={product.care_instructions}
+              opacityScale={product.opacity_scale}
+            />
 
-          <ShippingInfo />
-        </section>
+            {/* Description */}
+            {product.description && (
+              <div className="border-border-color border-t pt-6">
+                <h4 className="mb-3 text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
+                  {t('details')}
+                </h4>
+                <p className="text-sm leading-relaxed text-pretty whitespace-pre-line opacity-70">
+                  {product.description}
+                </p>
+              </div>
+            )}
+
+            <ShippingInfo />
+          </section>
+        </div>
       </div>
-    </div>
 
       {/* Sticky Mobile Add To Bag CTA */}
       <div className="border-border-color bg-bg-main/90 fixed bottom-0 left-0 z-50 w-full border-t px-6 pt-4 pb-[calc(2.5rem+env(safe-area-inset-bottom))] backdrop-blur-lg md:hidden">

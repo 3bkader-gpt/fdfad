@@ -176,7 +176,7 @@ export default function CheckoutPage() {
         <p className="mt-2 text-sm opacity-60">Add some curated items before checking out.</p>
         <Link
           href="/"
-          className="bg-brand-primary mt-8 rounded-full px-8 py-3 text-[10px] font-bold tracking-widest text-white dark:text-bg-main uppercase transition-all hover:scale-105"
+          className="bg-brand-primary dark:text-bg-main mt-8 rounded-full px-8 py-3 text-[10px] font-bold tracking-widest text-white uppercase transition-all hover:scale-105"
         >
           {tc('back')}
         </Link>

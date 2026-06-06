@@ -33,9 +33,6 @@ export function GlobalHeader() {
   const dockInnerRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
-  // Don't show header on admin pages
-  if (pathname.startsWith('/admin')) return null;
-
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
@@ -78,12 +75,17 @@ export function GlobalHeader() {
 
   const itemCount = isMounted ? items.reduce((acc, item) => acc + item.quantity, 0) : 0;
 
+  // Don't show header on admin pages
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <>
       {/* 1. Mobile Header (Floating Pill at Top) */}
       <header
         className={`fadfaad-dock-shell fixed inset-x-4 top-4 z-50 flex items-center justify-between rounded-full px-4 py-2 transition-all duration-500 ease-in-out md:hidden ${
-          dockVisible ? 'translate-y-0 opacity-100' : '-translate-y-24 opacity-0 pointer-events-none'
+          dockVisible
+            ? 'translate-y-0 opacity-100'
+            : 'pointer-events-none -translate-y-24 opacity-0'
         }`}
       >
         <div className="flex items-center gap-2">
