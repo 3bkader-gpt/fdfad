@@ -10,52 +10,42 @@ export function useRealtimeOrders(initialOrders: Order[]) {
   const { showOrderNotification } = useNotifications();
 
   useEffect(() => {
+    console.log('Initializing Supabase Realtime channel subscription...');
     const channel = supabase
       .channel('public-orders-realtime')
       .on(
         'postgres_changes',
         {
-          event: 'INSERT',
+          event: '*',
           schema: 'public',
           table: 'orders',
         },
         (payload) => {
-          const newOrder = payload.new as Order;
-          setOrders((current) => {
-            // Prevent duplicates
-            if (current.some((o) => o.id === newOrder.id)) return current;
-            return [newOrder, ...current];
-          });
-          showOrderNotification(newOrder);
+          console.log('Realtime postgres_change event received:', payload);
+          if (payload.eventType === 'INSERT') {
+            const newOrder = payload.new as Order;
+            setOrders((current) => {
+              if (current.some((o) => o.id === newOrder.id)) return current;
+              return [newOrder, ...current];
+            });
+            showOrderNotification(newOrder);
+          } else if (payload.eventType === 'UPDATE') {
+            const updatedOrder = payload.new as Order;
+            setOrders((current) =>
+              current.map((o) => (o.id === updatedOrder.id ? updatedOrder : o)),
+            );
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = payload.old.id;
+            setOrders((current) => current.filter((o) => o.id !== deletedId));
+          }
         },
       )
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'orders',
-        },
-        (payload) => {
-          const updatedOrder = payload.new as Order;
-          setOrders((current) => current.map((o) => (o.id === updatedOrder.id ? updatedOrder : o)));
-        },
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'DELETE',
-          schema: 'public',
-          table: 'orders',
-        },
-        (payload) => {
-          const deletedId = payload.old.id;
-          setOrders((current) => current.filter((o) => o.id !== deletedId));
-        },
-      )
-      .subscribe();
+      .subscribe((status) => {
+        console.log(`Supabase Realtime subscription status: ${status}`);
+      });
 
     return () => {
+      console.log('Unsubscribing from Supabase Realtime channel...');
       supabase.removeChannel(channel);
     };
   }, [showOrderNotification]);
