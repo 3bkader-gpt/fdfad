@@ -2,7 +2,7 @@
 
 import { useCart } from '@/lib/store';
 import { Menu, ShoppingBag, X } from 'lucide-react';
-import { Link } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/routing';
 import { CartDrawer } from './CartDrawer';
 import { MobileMenu } from './MobileMenu';
 import { useEffect, useState, useRef, useCallback } from 'react';
@@ -21,6 +21,7 @@ const navLinks = [
 ] as const;
 
 export function GlobalHeader() {
+  const pathname = usePathname();
   const { setIsOpen, setIsMenuOpen, isMenuOpen, items } = useCart();
   const [isMounted, setIsMounted] = useState(false);
   const [dockVisible, setDockVisible] = useState(true);
@@ -31,6 +32,9 @@ export function GlobalHeader() {
 
   const dockInnerRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
+
+  // Don't show header on admin pages
+  if (pathname.startsWith('/admin')) return null;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
