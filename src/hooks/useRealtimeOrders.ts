@@ -44,9 +44,45 @@ export function useRealtimeOrders(initialOrders: Order[]) {
         console.log(`Supabase Realtime subscription status: ${status}`);
       });
 
+    // Polling fallback: check for new/deleted orders every 10 seconds
+    const interval = setInterval(async () => {
+      try {
+        const { data, error } = await supabase
+          .from('orders')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Realtime polling fallback error:', error);
+          return;
+        }
+
+        if (data) {
+          setOrders((current) => {
+            // Find new orders that we don't have in current state
+            const newOrders = (data as Order[]).filter(
+              (o) => !current.some((existing) => existing.id === o.id),
+            );
+
+            // If we have existing orders and found new ones, trigger notifications
+            if (current.length > 0 && newOrders.length > 0) {
+              newOrders.forEach((o) => {
+                showOrderNotification(o);
+              });
+            }
+
+            return data as Order[];
+          });
+        }
+      } catch (e) {
+        console.error('Polling error:', e);
+      }
+    }, 10000);
+
     return () => {
-      console.log('Unsubscribing from Supabase Realtime channel...');
+      console.log('Unsubscribing from Supabase Realtime channel and clearing poll interval...');
       supabase.removeChannel(channel);
+      clearInterval(interval);
     };
   }, [showOrderNotification]);
 
