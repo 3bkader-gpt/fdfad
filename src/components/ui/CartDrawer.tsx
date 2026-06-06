@@ -30,7 +30,7 @@ export function CartDrawer() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex justify-end"
+      className="fixed inset-0 z-[100] flex justify-end rtl:justify-start"
       role="dialog"
       aria-modal="true"
       aria-labelledby="cart-title"

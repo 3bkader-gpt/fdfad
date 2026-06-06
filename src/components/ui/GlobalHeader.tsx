@@ -126,7 +126,7 @@ export function GlobalHeader() {
           {/* Animated Highlight Pill */}
           <div
             ref={highlightRef}
-            className="fadfaad-dock-highlight pointer-events-none invisible absolute top-1"
+            className="fadfaad-dock-highlight pointer-events-none invisible absolute top-1 left-0"
             style={{ width: 0 }}
           />
 
