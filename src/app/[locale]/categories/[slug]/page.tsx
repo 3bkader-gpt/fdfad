@@ -5,30 +5,74 @@ import { Link } from '@/i18n/routing';
 import { ChevronLeft } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Product, Database } from '@/types/supabase';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CategoryDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string; locale: string }>;
-}) {
-  const { slug, locale } = await params;
-  setRequestLocale(locale);
+/**
+ * Category Detail Page (Server Component)
+ * Fetches products for a specific category using the URL slug.
+ * Handles Unicode/Arabic slug decoding and normalization.
+ */
 
-  const t = await getTranslations('Categories');
-  const tc = await getTranslations('Common');
-
+async function getCategory(slug: string) {
   const supabase = await createClient();
-
-  // 1. Fetch category metadata
-  const { data: category, error: catError } = await supabase
+  return await supabase
     .schema('public')
     .from('categories')
     .select('*')
     .eq('slug', slug)
     .eq('is_active', true)
     .single();
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}): Promise<Metadata> {
+  const { slug: rawSlug, locale } = await params;
+  const slug = decodeURIComponent(rawSlug).normalize('NFC');
+  const { data: category } = await getCategory(slug);
+
+  if (!category) return { title: 'Category Not Found' };
+
+  const name = (locale === 'ar' ? category.name_ar : category.name_en) || category.name;
+  return {
+    title: `${name} | Fadfaad`,
+    description:
+      (locale === 'ar' ? category.description_ar : category.description_en) ||
+      'Explore our collection',
+  };
+}
+
+export default async function CategoryDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}) {
+  const { slug: rawSlug, locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations('Categories');
+  const tc = await getTranslations('Common');
+
+  // Decode and normalize slug
+  const slug = decodeURIComponent(rawSlug).normalize('NFC');
+
+  const supabase = await createClient();
+
+  // 1. Fetch category metadata
+  let { data: category, error: catError } = await getCategory(slug);
+
+  // Fallback to raw slug if decoded fails
+  if ((catError || !category) && slug !== rawSlug) {
+    const fallback = await getCategory(rawSlug);
+    if (fallback.data) {
+      category = fallback.data;
+      catError = null;
+    }
+  }
 
   if (catError || !category) {
     notFound();

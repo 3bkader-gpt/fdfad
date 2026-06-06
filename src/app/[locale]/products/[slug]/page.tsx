@@ -3,32 +3,72 @@ import { notFound } from 'next/navigation';
 import { Product } from '@/types/supabase';
 import { setRequestLocale } from 'next-intl/server';
 import { ProductDetailsClient } from './ProductDetailsClient';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+/**
+ * Product Details Page (Server Component)
+ * Fetches product data on the server using the URL slug.
+ * Handles Unicode/Arabic slug decoding and normalization for reliable DB lookup.
+ */
+
+async function getProduct(slug: string) {
+  const supabase = await createClient();
+  return await supabase
+    .schema('public')
+    .from('products')
+    .select('*, product_images(*), product_categories(*)')
+    .eq('slug', slug)
+    .single();
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}): Promise<Metadata> {
+  const { slug: rawSlug } = await params;
+  // Ensure Unicode characters (Arabic) are decoded and normalized for lookup
+  const slug = decodeURIComponent(rawSlug).normalize('NFC');
+  const { data: product } = await getProduct(slug);
+
+  if (!product) return { title: 'Product Not Found' };
+
+  return {
+    title: `${product.title} | Fadfaad`,
+    description: product.description || 'Fadfaad Modest Fashion',
+  };
+}
 
 export default async function ProductPage({
   params,
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug, locale } = await params;
+  const { slug: rawSlug, locale } = await params;
   setRequestLocale(locale);
 
-  const supabase = await createClient();
+  // Decode the slug to handle Arabic characters correctly and normalize Unicode
+  const slug = decodeURIComponent(rawSlug).normalize('NFC');
 
   // 1. Fetch product with images and categories
-  const { data: productData, error } = await supabase
-    .schema('public')
-    .from('products')
-    .select('*, product_images(*), product_categories(*)')
-    .eq('slug', slug)
-    .single();
+  const { data: productData, error } = await getProduct(slug);
 
   if (error || !productData) {
+    // If not found, it might be an older unnormalized slug, try raw as fallback
+    const { data: fallbackData } = await getProduct(rawSlug);
+    if (fallbackData) {
+      return <ProductPageContent product={fallbackData as Product} locale={locale} />;
+    }
     notFound();
   }
 
-  const product = productData as Product;
+  return <ProductPageContent product={productData as Product} locale={locale} />;
+}
+
+async function ProductPageContent({ product, locale }: { product: Product; locale: string }) {
+  const supabase = await createClient();
 
   // 2. Fetch category name for breadcrumb
   const categoryId = product.product_categories?.[0]?.category_id;
