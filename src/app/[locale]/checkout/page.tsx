@@ -113,27 +113,27 @@ export default function CheckoutPage() {
 
   const {
     register,
-    handleSubmit,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
-    mode: 'onChange', // Validate and clear errors on every keystroke
+    mode: 'onChange', // Clear errors as user types
   });
 
   const cartTotal = useMemo(() => total(), [total]);
 
   const handleCheckout = async () => {
-    // 1. Manually trigger validation before animation
+    // 1. Trigger validation
     const isValid = await trigger();
-    if (!isValid) throw new Error('validation'); // Tell button: don't animate
+    if (!isValid) {
+      throw new Error('validation'); // Trigger shake in button
+    }
 
     // 2. Perform submission
-    try {
-      const values = await new Promise<CheckoutFormValues>((resolve) => {
-        handleSubmit((v) => resolve(v))();
-      });
+    const values = getValues();
 
+    try {
       const result = await createOrder({
         customer_name: values.fullName,
         phone_number: values.phone,
@@ -151,19 +151,17 @@ export default function CheckoutPage() {
       });
 
       if (result.success) {
-        // Delay slightly for animation to finish then redirect
         clearCart();
+        // Redirect immediately to the success page
         router.push(`/checkout/success?id=${result.id}`);
-        return; // Success
       } else {
         setSubmitError(result.error || t('errorGeneric'));
         throw new Error(result.error);
       }
     } catch (e: unknown) {
       const error = e as Error;
-      console.error(error.message);
-      // If it wasn't a validation error (already handled by resolver), show toast
-      if (!Object.keys(errors).length) {
+      if (error.message !== 'validation') {
+        console.error(error.message);
         setSubmitError(error.message || t('errorGeneric'));
       }
       throw error;

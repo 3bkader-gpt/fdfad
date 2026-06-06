@@ -19,24 +19,25 @@ export function AnimatedOrderButton({
   disabled = false,
   'data-testid': dataTestId,
 }: AnimatedOrderButtonProps) {
-  const [state, setState] = useState<'idle' | 'driving' | 'success'>('idle');
+  const [state, setState] = useState<'idle' | 'driving' | 'success' | 'shake'>('idle');
 
   const handleClick = async () => {
     if (state !== 'idle' || disabled) return;
 
     try {
-      // Trigger business logic
       await onClick();
-
-      // Start animation
       setState('driving');
-
-      // Simulate/Wait for delivery animation (matching the CSS duration)
       setTimeout(() => {
         setState('success');
       }, 2000);
-    } catch {
-      // Do not animate on error
+    } catch (e: unknown) {
+      const err = e as Error;
+      if (err?.message === 'validation') {
+        // Shake to signal invalid fields
+        setState('shake');
+        setTimeout(() => setState('idle'), 600);
+      }
+      // other errors: stay idle silently
     }
   };
 
@@ -44,8 +45,8 @@ export function AnimatedOrderButton({
     <button
       type="button"
       onClick={handleClick}
-      disabled={disabled || state !== 'idle'}
-      className={`luxury-order-btn ${state === 'driving' ? 'is-driving' : ''} ${state === 'success' ? 'is-success' : ''} ${className}`}
+      disabled={disabled || state === 'driving' || state === 'success'}
+      className={`luxury-order-btn ${state === 'driving' ? 'is-driving' : ''} ${state === 'success' ? 'is-success' : ''} ${state === 'shake' ? 'animate-[shake_0.5s_ease-in-out]' : ''} ${className}`}
       aria-label={state === 'success' ? successLabel : idleLabel}
       data-testid={dataTestId}
     >
