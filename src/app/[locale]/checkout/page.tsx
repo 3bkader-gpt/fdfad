@@ -81,7 +81,7 @@ const GOVERNORATES_AR = [
 ].sort((a, b) => a.localeCompare(b, 'ar'));
 
 export default function CheckoutPage() {
-  const { items, total, clearCart } = useCart();
+  const { items, total } = useCart();
   const [mountedItems, setMountedItems] = useState<CartItem[]>([]);
   const [isMounted, setIsMounted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -151,9 +151,7 @@ export default function CheckoutPage() {
       });
 
       if (result.success) {
-        clearCart();
-        // Redirect immediately to the success page
-        router.push(`/checkout/success?id=${result.id}`);
+        return result.id;
       } else {
         setSubmitError(result.error || t('errorGeneric'));
         throw new Error(result.error);
@@ -342,6 +340,11 @@ export default function CheckoutPage() {
           <div className="mt-4">
             <AnimatedOrderButton
               onClick={handleCheckout}
+              onAnimationComplete={(id) => {
+                if (id) {
+                  router.push(`/checkout/success?id=${id}`);
+                }
+              }}
               idleLabel={t('confirmOrder', { total: cartTotal })}
               successLabel={t('success')}
               className="shadow-brand-primary/20 shadow-xl"

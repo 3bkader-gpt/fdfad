@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import { WHATSAPP_URL } from '@/data/site';
 import { notFound } from 'next/navigation';
 import { OrderWithItems } from '@/types/supabase';
+import { ClearCart } from '@/components/ui/ClearCart';
 
 export default async function SuccessPage(props: {
   params: Promise<{ locale: string }>;
@@ -87,6 +88,7 @@ ${order.total_amount} جنيه
 
   return (
     <main className="min-h-screen bg-[#FAFAFA] text-[#2C3E35]">
+      <ClearCart />
       <div className="mx-auto flex max-w-md flex-col items-center px-6 pt-12 text-center">
         <div className="animate-in zoom-in mb-8 rounded-full bg-green-50 p-6 duration-500">
           <CheckCircle2 className="h-16 w-12 text-[#4A7C59]" />

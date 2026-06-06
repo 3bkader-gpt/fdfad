@@ -3,7 +3,8 @@
 import { useState } from 'react';
 
 interface AnimatedOrderButtonProps {
-  onClick: () => Promise<void> | void;
+  onClick: () => Promise<string | void> | string | void;
+  onAnimationComplete?: (result?: string) => void;
   idleLabel: string;
   successLabel: string;
   className?: string;
@@ -13,6 +14,7 @@ interface AnimatedOrderButtonProps {
 
 export function AnimatedOrderButton({
   onClick,
+  onAnimationComplete,
   idleLabel,
   successLabel,
   className = '',
@@ -25,10 +27,15 @@ export function AnimatedOrderButton({
     if (state !== 'idle' || disabled) return;
 
     try {
-      await onClick();
+      const result = await onClick();
       setState('driving');
       setTimeout(() => {
         setState('success');
+        if (onAnimationComplete) {
+          setTimeout(() => {
+            onAnimationComplete(typeof result === 'string' ? result : undefined);
+          }, 1200);
+        }
       }, 2000);
     } catch (e: unknown) {
       const err = e as Error;
