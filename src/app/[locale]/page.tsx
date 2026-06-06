@@ -53,7 +53,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="mt-12">
               <Link
                 href="#collection"
-                className="bg-brand-primary shadow-brand-primary/20 rounded-full px-10 py-4 text-[10px] font-bold tracking-widest text-white uppercase shadow-2xl transition-all hover:scale-105 active:scale-95"
+                className="bg-brand-primary shadow-brand-primary/20 rounded-full px-10 py-4 text-[10px] font-bold tracking-widest text-white dark:text-bg-main uppercase shadow-2xl transition-all hover:scale-105 active:scale-95"
               >
                 {t('cta')}
               </Link>

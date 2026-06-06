@@ -45,7 +45,7 @@ export function SizeSelector({
         <button
           type="button"
           onClick={onAddSize}
-          className="bg-brand-primary rounded-xl px-5 py-3 text-xs font-bold text-white uppercase transition-all hover:opacity-90"
+          className="bg-brand-primary rounded-xl px-5 py-3 text-xs font-bold text-white dark:text-bg-main uppercase transition-all hover:opacity-90"
         >
           {t('addSize')}
         </button>

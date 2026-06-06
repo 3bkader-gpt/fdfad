@@ -143,8 +143,8 @@ export default async function OrderDetailsPage({
 
         {/* Right Column: Order Items & Payment */}
         <div className="flex flex-col gap-8 text-start">
-          <div className="bg-brand-primary shadow-brand-primary/10 rounded-2xl p-8 text-start text-white shadow-xl">
-            <div className="mb-8 flex items-center gap-3 border-b border-white/10 pb-4 text-start">
+          <div className="bg-brand-primary shadow-brand-primary/10 rounded-2xl p-8 text-start text-white dark:text-bg-main shadow-xl">
+            <div className="mb-8 flex items-center gap-3 border-b border-white/10 dark:border-bg-main/15 pb-4 text-start">
               <ShoppingBag className="h-4 w-4 opacity-40" />
               <h3 className="text-start text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">
                 {t('curationManifest')}
@@ -164,7 +164,7 @@ export default async function OrderDetailsPage({
                     {(item.selected_size || item.selected_color) && (
                       <p className="text-start text-[9px] opacity-60">
                         {item.selected_size && (
-                          <span className="text-brand-accent font-bold">{item.selected_size}</span>
+                          <span className="text-brand-accent dark:text-[#4A7C59] font-bold">{item.selected_size}</span>
                         )}
                         {item.selected_size && item.selected_color && ' · '}
                         {item.selected_color && <span>{item.selected_color}</span>}
@@ -178,7 +178,7 @@ export default async function OrderDetailsPage({
               ))}
             </div>
 
-            <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6">
+            <div className="mt-10 flex items-center justify-between border-t border-white/10 dark:border-bg-main/15 pt-6">
               <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
                 {t('orderTotal')}
               </span>
@@ -187,7 +187,7 @@ export default async function OrderDetailsPage({
               </span>
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-white/5 py-2 text-[9px] font-bold tracking-widest uppercase">
+            <div className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-white/5 dark:bg-bg-main/10 py-2 text-[9px] font-bold tracking-widest uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-[#4A7C59]" />
               {t('cashOnDelivery')}
             </div>

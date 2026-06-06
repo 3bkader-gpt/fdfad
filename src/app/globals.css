@@ -302,6 +302,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.dark .luxury-order-btn:not(.is-success) {
+  color: var(--bg-main);
+}
+
 .luxury-order-btn:hover:not(.is-driving):not(.is-success) {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(44, 62, 53, 0.25);
