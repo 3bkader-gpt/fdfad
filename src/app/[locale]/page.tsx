@@ -41,13 +41,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10" />
 
           <div className="relative z-10 flex flex-col items-center">
-            <span className="text-text-primary mb-4 text-center text-[9px] font-bold tracking-[0.4em] uppercase opacity-40">
+            <span className="text-text-primary mb-4 text-center text-[9px] font-bold tracking-[0.4em] uppercase opacity-60">
               {t('est')}
             </span>
-            <h1 className="text-text-primary font-serif text-6xl font-bold tracking-tighter sm:text-7xl">
-              {tc('title')}
-            </h1>
-            <p className="text-text-primary mx-auto mt-6 max-w-xs text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">
+            <Link href="/">
+              <h1 className="text-text-primary font-serif text-6xl font-bold tracking-tighter sm:text-7xl">
+                {tc('title')}
+              </h1>
+            </Link>
+            <p className="text-text-primary mx-auto mt-6 max-w-xs text-[10px] font-bold tracking-[0.3em] uppercase opacity-80">
               {tc('subtitle')}
             </p>
             <div className="mt-12">
