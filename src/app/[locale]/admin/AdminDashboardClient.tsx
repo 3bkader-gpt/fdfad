@@ -52,7 +52,7 @@ export function AdminDashboardClient({
   locale,
   translations: t,
 }: AdminDashboardClientProps) {
-  const { orders } = useRealtimeOrders(initialOrders);
+  const { orders, setOrders } = useRealtimeOrders(initialOrders);
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const tcom = useTranslations('Common');
@@ -64,7 +64,9 @@ export function AdminDashboardClient({
     setIsDeleting(true);
     try {
       const res = await deleteOrder(orderToDelete);
-      if (!res.success) {
+      if (res.success) {
+        setOrders((current) => current.filter((o) => o.id !== orderToDelete));
+      } else {
         alert(res.error || 'Failed to delete order');
       }
     } catch (e) {

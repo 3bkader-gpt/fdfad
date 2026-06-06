@@ -32,7 +32,7 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterStatus>('ALL');
 
-  const { orders } = useRealtimeOrders(initialOrders);
+  const { orders, setOrders } = useRealtimeOrders(initialOrders);
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -41,7 +41,9 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
     setIsDeleting(true);
     try {
       const res = await deleteOrder(orderToDelete);
-      if (!res.success) {
+      if (res.success) {
+        setOrders((current) => current.filter((o) => o.id !== orderToDelete));
+      } else {
         alert(res.error || 'Failed to delete order');
       }
     } catch (e) {
