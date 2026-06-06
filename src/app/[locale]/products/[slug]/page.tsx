@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { notFound, redirect } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { Product } from '@/types/supabase';
 import { setRequestLocale } from 'next-intl/server';
 import { ProductDetailsClient } from './ProductDetailsClient';
@@ -91,7 +91,7 @@ export default async function ProductPage({
     if (currentSlug !== expectedSlug) {
       console.log(`[ProductPage] REDIRECT to canonical: ${expectedSlug}`);
       // 301 Permanent Redirect to canonical SEO URL
-      redirect(`/products/${expectedSlug}`);
+      permanentRedirect(`/products/${expectedSlug}`);
     }
 
     return <ProductPageContent product={product as Product} locale={locale} />;
@@ -106,14 +106,13 @@ export default async function ProductPage({
       const target = `${product.product_no}-${product.slug}`;
       console.log(`[ProductPage] LEGACY REDIRECT (301) to: ${target}`);
       // Permanent redirect to the new ID-based structure
-      redirect(`/products/${target}`);
+      permanentRedirect(`/products/${target}`);
     }
 
     console.error(`[ProductPage] TOTAL FAIL for identifier: "${identifier}"`);
     notFound();
   }
 }
-
 async function ProductPageContent({ product, locale }: { product: Product; locale: string }) {
   const supabase = await createClient();
 
