@@ -18,6 +18,7 @@ export default async function EditProductPage({
 
   // Fetch product with images and current category associations
   const { data: productData, error: productError } = await supabase
+    .schema('public')
     .from('products')
     .select('*, product_images(*), product_categories(category_id)')
     .eq('id', id)
@@ -29,6 +30,7 @@ export default async function EditProductPage({
 
   // Fetch all active categories for the dropdown
   const { data: categories } = await supabase
+    .schema('public')
     .from('categories')
     .select('*')
     .eq('is_active', true)

@@ -8,6 +8,7 @@ export default async function NewProductPage({ params }: { params: Promise<{ loc
 
   const supabase = await createClient();
   const { data: categories } = await supabase
+    .schema('public')
     .from('categories')
     .select('*')
     .eq('is_active', true)

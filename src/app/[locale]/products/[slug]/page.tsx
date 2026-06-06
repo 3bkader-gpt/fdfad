@@ -18,6 +18,7 @@ export default async function ProductPage({
 
   // 1. Fetch product with images and categories
   const { data: productData, error } = await supabase
+    .schema('public')
     .from('products')
     .select('*, product_images(*), product_categories(*)')
     .eq('slug', slug)
@@ -36,6 +37,7 @@ export default async function ProductPage({
 
   if (categoryId) {
     const { data: catData } = await supabase
+      .schema('public')
       .from('categories')
       .select('name_ar, name_en, slug')
       .eq('id', categoryId)
@@ -53,6 +55,7 @@ export default async function ProductPage({
 
   if (categoryId) {
     const { data: relatedData } = await supabase
+      .schema('public')
       .from('products')
       .select('*, product_images(*), product_categories!inner(*)')
       .eq('product_categories.category_id', categoryId)

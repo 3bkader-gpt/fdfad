@@ -215,11 +215,16 @@ export function ProductForm({
     formData.append('images', JSON.stringify(images));
 
     try {
-      await upsertProduct(formData, initialData?.id);
-      router.push('/admin/products');
+      const result = await upsertProduct(formData, initialData?.id);
+      if (result.success) {
+        router.push('/admin/products');
+      } else {
+        alert(result.error);
+        setIsSubmitting(false);
+      }
     } catch (e: unknown) {
       const error = e as Error;
-      alert(error.message);
+      alert(`System Error: ${error.message}`);
       setIsSubmitting(false);
     }
   };
