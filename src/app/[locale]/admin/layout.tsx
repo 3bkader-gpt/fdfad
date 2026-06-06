@@ -18,6 +18,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return pathname.startsWith(href);
   };
 
+  const isLoginPage = pathname.endsWith('/admin/login');
+
+  if (isLoginPage) {
+    return <NotificationProvider>{children}</NotificationProvider>;
+  }
+
   return (
     <NotificationProvider>
       <div className="bg-bg-main text-text-primary flex min-h-screen transition-colors duration-300">
