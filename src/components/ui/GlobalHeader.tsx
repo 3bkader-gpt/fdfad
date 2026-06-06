@@ -93,7 +93,10 @@ export function GlobalHeader() {
       >
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsMenuOpen(!isMenuOpen);
+            }}
             aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
             className="bg-bg-elevated hover:bg-brand-accent/5 border-border-color focus-visible:ring-brand-accent flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
@@ -133,13 +136,13 @@ export function GlobalHeader() {
       >
         <div
           ref={dockInnerRef}
-          className="fadfaad-dock-shell relative flex items-center gap-1 rounded-full border border-white/10 bg-white/60 px-3 py-2 shadow-2xl backdrop-blur-xl dark:bg-black/60"
+          className="fadfaad-dock-shell border-border-color bg-bg-elevated/80 relative flex items-center gap-1 rounded-full border px-3 py-2 shadow-2xl backdrop-blur-xl"
           onMouseLeave={hidePill}
         >
           {/* Animated Highlight Pill */}
           <div
             ref={highlightRef}
-            className="fadfaad-dock-highlight pointer-events-none invisible absolute top-1.5 left-0 rounded-full bg-black/5 dark:bg-white/10"
+            className="fadfaad-dock-highlight bg-brand-accent/10 pointer-events-none invisible absolute top-1.5 left-0 rounded-full dark:bg-white/10"
             style={{ width: 0, height: 'calc(100% - 12px)' }}
           />
 
@@ -149,14 +152,14 @@ export function GlobalHeader() {
               key={link.key}
               href={link.href}
               onMouseEnter={(e) => slidePillTo(e.currentTarget as HTMLAnchorElement)}
-              className="text-text-primary hover:text-text-primary relative z-10 px-6 py-2.5 text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300"
+              className="text-text-primary hover:text-brand-accent relative z-10 px-6 py-2.5 text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300"
             >
               {tn(link.key)}
             </Link>
           ))}
 
           {/* Vertical Divider */}
-          <div className="mx-3 h-5 w-[1px] bg-current opacity-20" />
+          <div className="mx-3 h-5 w-[1px] bg-current opacity-25" />
 
           {/* Actions Cluster */}
           <div className="flex items-center gap-1.5 px-1">

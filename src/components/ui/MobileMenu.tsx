@@ -56,11 +56,11 @@ export function MobileMenu() {
 
           {/* Drawer */}
           <motion.div
-            initial={{ x: '-100%' }}
+            initial={{ x: document.dir === 'rtl' ? '100%' : '-100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
+            exit={{ x: document.dir === 'rtl' ? '100%' : '-100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="bg-bg-main relative flex h-full w-[85%] max-w-sm flex-col shadow-2xl rtl:mr-0 rtl:ml-auto rtl:translate-x-full"
+            className="bg-bg-main relative flex h-full w-[85%] max-w-sm flex-col shadow-2xl rtl:mr-0 rtl:ml-auto"
           >
             {/* Header */}
             <header className="border-border-color flex items-center justify-between border-b px-6 py-6">

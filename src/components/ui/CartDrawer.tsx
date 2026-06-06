@@ -53,14 +53,10 @@ export function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="bg-bg-main rtl:[&]:!initial-x-[-100%] rtl:[&]:!animate-x-0 rtl:[&]:!exit-x-[-100%] relative flex h-full w-full max-w-md flex-col shadow-2xl rtl:origin-left"
+            className="bg-bg-main relative flex h-full w-full max-w-md flex-col shadow-2xl"
             data-testid="cart-drawer"
-            style={{
-              // Fallback for RTL Framer Motion
-              transform: document.dir === 'rtl' ? 'scaleX(-1)' : 'none',
-            }}
           >
-            <div className="flex h-full w-full flex-col rtl:scale-x-[-1]">
+            <div className="flex h-full w-full flex-col">
               {/* Header */}
               <header className="border-border-color flex items-center justify-between border-b px-6 py-6">
                 <div className="text-text-primary flex items-center gap-3">

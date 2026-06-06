@@ -31,7 +31,7 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-32 transition-colors duration-300">
-      <header className="px-6 py-20 text-center">
+      <header className="px-6 pt-32 pb-16 text-center md:pt-20">
         <h1 className="mb-4 font-serif text-4xl font-bold tracking-tight">{t('title')}</h1>
         <p className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-60">
           {t('subtitle')}

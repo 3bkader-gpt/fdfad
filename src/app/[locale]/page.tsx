@@ -37,7 +37,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <HomeAnimations>
       <main className="bg-bg-main text-text-primary min-h-screen transition-colors duration-300">
         {/* 1. Hero Section */}
-        <section className="relative flex min-h-[50vh] flex-col items-center justify-center overflow-hidden bg-[#E5D9D0] px-6 py-16 text-center dark:bg-[#1A1A1A]">
+        <section className="relative flex min-h-[50vh] flex-col items-center justify-center overflow-hidden bg-[#E5D9D0] px-6 pt-32 pb-16 text-center dark:bg-[#1A1A1A]">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10" />
 
           <div className="relative z-10 flex flex-col items-center">

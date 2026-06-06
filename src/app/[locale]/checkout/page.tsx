@@ -197,7 +197,7 @@ export default function CheckoutPage() {
       {submitError && (
         <Toast message={submitError} type="error" onClose={() => setSubmitError(null)} />
       )}
-      <nav className="border-border-color bg-bg-elevated flex items-center justify-between border-b px-6 py-4">
+      <nav className="border-border-color bg-bg-elevated flex items-center justify-between border-b px-6 pt-24 pb-4 md:pt-4">
         <Link href="/" className="bg-bg-main rounded-full p-2 transition-colors hover:bg-zinc-100">
           <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
         </Link>
