@@ -60,7 +60,7 @@ export default async function CategoryDetailPage({
 
   return (
     <main className="bg-bg-main text-text-primary min-h-screen pb-32 transition-colors duration-300">
-      <header className="border-border-color bg-bg-elevated relative overflow-hidden border-b px-6 py-16 text-center">
+      <header className="border-border-color bg-bg-elevated relative overflow-hidden border-b px-6 pb-12 pt-24 text-center md:py-16">
         <Link
           href="/categories"
           className="bg-bg-main hover:bg-brand-accent/5 border-border-color absolute top-8 left-6 z-10 rounded-full border p-2 shadow-sm transition-colors"

@@ -38,12 +38,12 @@ export function GlobalHeader() {
     setIsMounted(true);
   }, []);
 
-  // Scroll visibility logic for Desktop Dock
+  // Scroll visibility logic: show only near top, hide once scrolled past threshold
   useEffect(() => {
+    const SHOW_THRESHOLD = 80;
     const onScroll = () => {
       const currentY = window.scrollY;
-      // Show dock when scrolling up or at the top
-      setDockVisible(currentY <= lastScrollY.current || currentY <= 120);
+      setDockVisible(currentY <= SHOW_THRESHOLD);
       lastScrollY.current = currentY;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
