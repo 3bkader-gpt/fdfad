@@ -78,9 +78,6 @@ export default async function LocaleLayout({
             <WelcomeToast />
           </ThemeProvider>
         </NextIntlClientProvider>
-        {/* impeccable-live-start */}
-        <script src="http://localhost:8400/live.js" async></script>
-        {/* impeccable-live-end */}
       </body>
     </html>
   );

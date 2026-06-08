@@ -1,5 +1,3 @@
-'use client';
-
 import { ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 

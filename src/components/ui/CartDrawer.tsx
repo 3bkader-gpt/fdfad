@@ -20,10 +20,12 @@ export function CartDrawer() {
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     }
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [isOpen, setIsOpen]);
 
@@ -115,6 +117,7 @@ export function CartDrawer() {
                               alt={item.product.title}
                               fill
                               className="object-cover"
+                              sizes="80px"
                             />
                           )}
                         </div>

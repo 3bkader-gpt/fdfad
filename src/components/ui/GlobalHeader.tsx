@@ -38,16 +38,25 @@ export function GlobalHeader() {
     setIsMounted(true);
   }, []);
 
-  // Scroll visibility: hide on scroll-down, show on scroll-up, instant response
+  // Scroll visibility: hide on scroll-down, show on scroll-up, optimized with requestAnimationFrame
   useEffect(() => {
+    let ticking = false;
     const onScroll = () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastScrollY.current;
-      if (delta > 8)
-        setDockVisible(false); // scrolling down → hide
-      else if (delta < -8) setDockVisible(true); // scrolling up → show
-      // tiny jitter < 8px → no change
-      lastScrollY.current = currentY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentY = window.scrollY;
+          const delta = currentY - lastScrollY.current;
+          if (delta > 8) {
+            setDockVisible(false);
+            lastScrollY.current = currentY;
+          } else if (delta < -8) {
+            setDockVisible(true);
+            lastScrollY.current = currentY;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
