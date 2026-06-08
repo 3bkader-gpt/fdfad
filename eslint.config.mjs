@@ -14,6 +14,13 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    // Ignore agent skill directories
+    '.agents/**',
+    '.claude/**',
+    '.cursor/**',
+    '.gemini/**',
+    '.kiro/**',
+    '.impeccable/**',
   ]),
 ]);
 
