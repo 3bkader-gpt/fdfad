@@ -1,10 +1,9 @@
-import { createClient } from '@/lib/supabase/server';
-import { ProductCard } from '@/components/ui/ProductCard';
 import { TrustBar } from '@/components/ui/TrustBar';
-import { Product } from '@/types/supabase';
 import { Link } from '@/i18n/routing';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { HomeAnimations } from './HomeAnimations';
+import { ProductGrid } from './ProductGrid';
+import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,23 +14,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const t = await getTranslations('Hero');
   const tp = await getTranslations('Products');
   const tc = await getTranslations('Common');
-
-  const supabase = await createClient();
-
-  const { data: products, error } = await supabase
-    .schema('public')
-    .from('products')
-    .select('*, product_images(*)')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    return (
-      <div className="bg-bg-main text-text-primary flex min-h-[70vh] flex-col items-center justify-center p-8">
-        <h1 className="text-center font-serif text-2xl font-bold text-pretty">{tc('error')}</h1>
-      </div>
-    );
-  }
 
   return (
     <HomeAnimations>
@@ -73,19 +55,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="bg-brand-accent mx-auto mt-3 h-[1px] w-12" />
           </header>
 
-          {products && products.length > 0 ? (
-            <div className="grid grid-cols-2 gap-x-5 gap-y-16 text-start">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product as Product} />
-              ))}
-            </div>
-          ) : (
-            <div className="py-24 text-center opacity-40">
-              <p className="text-text-primary text-center font-serif text-lg italic">
-                {tp('empty')}
-              </p>
-            </div>
-          )}
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-2 gap-x-5 gap-y-16 text-start">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="bg-bg-elevated aspect-[3/4] w-full rounded-lg" />
+                    <div className="mt-3.5 h-3 w-2/3 rounded bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="mt-1.5 h-2 w-1/2 rounded bg-zinc-200 dark:bg-zinc-800" />
+                  </div>
+                ))}
+              </div>
+            }
+          >
+            <ProductGrid />
+          </Suspense>
         </section>
       </main>
     </HomeAnimations>

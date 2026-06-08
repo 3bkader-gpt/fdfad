@@ -1,16 +1,23 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useCart } from '@/lib/store';
 import { Menu, ShoppingCart, X } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
-import { CartDrawer } from './CartDrawer';
-import { MobileMenu } from './MobileMenu';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { WHATSAPP_URL } from '@/data/site';
 import gsap from 'gsap';
+
+const CartDrawer = dynamic(() => import('./CartDrawer').then((mod) => mod.CartDrawer), {
+  ssr: false,
+});
+
+const MobileMenu = dynamic(() => import('./MobileMenu').then((mod) => mod.MobileMenu), {
+  ssr: false,
+});
 
 const navLinks = [
   { key: 'home', href: '/' },

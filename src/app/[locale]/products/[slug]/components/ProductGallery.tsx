@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Maximize2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -32,7 +32,13 @@ export function ProductGallery({
     images.findIndex((img) => img.is_cover) !== -1 ? images.findIndex((img) => img.is_cover) : 0;
 
   const [activeImgIndex, setActiveImgIndex] = useState(mainImageIndex);
+  const [isMounted, setIsMounted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMounted(true);
+  }, []);
 
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -61,7 +67,7 @@ export function ProductGallery({
     <section className="flex flex-col gap-4">
       {/* Main Display Container */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="bg-bg-elevated border-border-color relative aspect-[3/4] w-full overflow-hidden border-b md:rounded-2xl md:border"

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 interface HomeAnimationsProps {
@@ -9,8 +9,16 @@ interface HomeAnimationsProps {
 
 export function HomeAnimations({ children }: HomeAnimationsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
     const title = containerRef.current?.querySelector('h1');
     const subtitle = containerRef.current?.querySelector('p');
     const collection = containerRef.current?.querySelector('#collection');
@@ -74,7 +82,11 @@ export function HomeAnimations({ children }: HomeAnimationsProps) {
         );
       }
     }
-  }, []);
+  }, [isMounted]);
 
-  return <div ref={containerRef}>{children}</div>;
+  return (
+    <div ref={containerRef} className={!isMounted ? 'opacity-0' : ''}>
+      {children}
+    </div>
+  );
 }
