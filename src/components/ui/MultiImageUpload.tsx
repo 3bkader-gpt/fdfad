@@ -151,7 +151,26 @@ export function MultiImageUpload({ value = [], onChange }: MultiImageUploadProps
                 : 'border-border-color bg-bg-elevated'
             }`}
           >
-            <Image src={img.url} alt={`Preview ${index}`} fill className="object-cover" />
+            <Image
+              src={img.url}
+              alt={`Preview ${index}`}
+              fill
+              className="object-cover"
+              sizes="120px"
+            />
+
+            {/* Always Visible Remove Button (Top Right) */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeImage(index);
+              }}
+              className="absolute top-1.5 right-1.5 z-30 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white shadow-lg transition-transform hover:scale-110 active:scale-95"
+              title="Remove Image"
+            >
+              <X className="h-3 w-3" strokeWidth={3} />
+            </button>
 
             {/* Badges */}
             {img.is_cover && (
@@ -176,14 +195,7 @@ export function MultiImageUpload({ value = [], onChange }: MultiImageUploadProps
                 >
                   <Star className={`h-3.5 w-3.5 ${img.is_cover ? 'fill-white' : ''}`} />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="rounded-full bg-red-500/90 p-1.5 text-white shadow backdrop-blur-sm transition-transform hover:bg-red-500 active:scale-95"
-                  title="Remove Image"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
+                <div className="w-8" />
               </div>
 
               {/* Reordering Chevrons */}

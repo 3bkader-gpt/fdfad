@@ -36,55 +36,20 @@ export default async function SuccessPage(props: {
   const t = await getTranslations('Checkout');
   const tc = await getTranslations('Common');
 
-  const message = `🛍️ طلب جديد من فضفاض
+  const message = `📦 *طلب جديد من فضفاض* | #${order.order_no}
+👤 *العميل:* ${order.customer_name}
+📞 *الموبايل:* ${order.phone_number}
+📍 *العنوان:* ${order.governorate}, ${order.address}
 
-رقم الطلب:
-${order.order_no}
-
-👤 بيانات العميل
-
-الاسم:
-${order.customer_name}
-
-رقم الهاتف:
-${order.phone_number}
-
-المحافظة:
-${order.governorate}
-
-العنوان:
-${order.address}
-
-🧕 المنتجات
-
+🛍️ *المنتجات:*
 ${order.order_items
   .map(
-    (item, index) => `${index + 1}.
-
-${item.products?.title || 'Unknown'}
-
-اللون:
-${item.selected_color || '-'}
-
-المقاس:
-${item.selected_size || '-'}
-
-الكمية:
-${item.quantity}
-
-السعر:
-${item.price_at_purchase * item.quantity} جنيه
-
----
-`,
+    (item) =>
+      `${item.quantity}x ${item.products?.title || 'Unknown'} (${item.selected_color || '-'} - مقاس: ${item.selected_size || '-'}) = ${item.price_at_purchase * item.quantity} EGP`,
   )
   .join('\n')}
 
-💰 الإجمالي:
-
-${order.total_amount} جنيه
-
-🕒 تم إنشاء الطلب من موقع فضفاض`;
+💰 *الإجمالي:* ${order.total_amount} EGP`;
 
   return (
     <main className="min-h-screen bg-[#FAFAFA] text-[#2C3E35]">
@@ -132,7 +97,7 @@ ${order.total_amount} جنيه
             className="flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] py-5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all active:scale-95"
           >
             <MessageCircle className="h-4 w-4" />
-            فتح واتساب
+            اضغط لتأكيد الأوردر
           </a>
           <Link
             href="/"

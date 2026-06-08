@@ -40,8 +40,26 @@ export async function deleteOrder(orderId: string) {
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/admin');
   revalidatePath('/admin/orders');
   revalidatePath(`/admin/orders/${orderId}`);
+  return { success: true };
+}
+
+export async function deleteAllOrders() {
+  const supabase: SupabaseClient<Database> = await createClient();
+
+  // Deleting all rows by targeting everything that doesn't match a nil UUID
+  const { error } = await supabase
+    .schema('public')
+    .from('orders')
+    .delete()
+    .neq('id', '00000000-0000-0000-0000-000000000000');
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/orders');
   return { success: true };
 }

@@ -7,7 +7,7 @@ import { Order } from '@/types/supabase';
 import { StatusPill } from './[id]/StatusPill';
 import { useTranslations } from 'next-intl';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
-import { deleteOrder } from './actions';
+import { deleteOrder, deleteAllOrders } from './actions';
 
 interface AdminOrdersClientProps {
   orders: Order[];
@@ -35,6 +35,7 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
   const { orders, setOrders } = useRealtimeOrders(initialOrders);
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
 
   const handleDelete = async () => {
     if (!orderToDelete) return;
@@ -51,6 +52,30 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
     } finally {
       setIsDeleting(false);
       setOrderToDelete(null);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (
+      !window.confirm(
+        'Are you absolutely sure you want to delete ALL orders? This cannot be undone.',
+      )
+    ) {
+      return;
+    }
+
+    setIsDeletingAll(true);
+    try {
+      const res = await deleteAllOrders();
+      if (res.success) {
+        setOrders([]);
+      } else {
+        console.error(res.error || 'Failed to delete all orders');
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsDeletingAll(false);
     }
   };
 
@@ -89,6 +114,17 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
             {t('overviewSub')}
           </p>
         </div>
+
+        {orders.length > 0 && (
+          <button
+            type="button"
+            disabled={isDeletingAll}
+            onClick={handleDeleteAll}
+            className="rounded-xl bg-red-600 px-6 py-3 text-[10px] font-bold tracking-widest text-white uppercase shadow-lg shadow-red-600/20 transition-all hover:bg-red-700 active:scale-95 disabled:opacity-50"
+          >
+            {isDeletingAll ? 'Deleting...' : 'مسح كل الطلبات'}
+          </button>
+        )}
       </header>
 
       {/* Search + Filter Bar */}
