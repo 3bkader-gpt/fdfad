@@ -44,7 +44,7 @@ export function AdminOrdersClient({ orders: initialOrders, locale }: AdminOrders
       if (res.success) {
         setOrders((current) => current.filter((o) => o.id !== orderToDelete));
       } else {
-        alert(res.error || 'Failed to delete order');
+        console.error(res.error || 'Failed to delete order');
       }
     } catch (e) {
       console.error(e);

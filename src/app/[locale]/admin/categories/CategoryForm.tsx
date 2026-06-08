@@ -68,7 +68,7 @@ export function CategoryForm({
       onSuccess();
     } catch (e: unknown) {
       const error = e as Error;
-      alert(error.message);
+      console.error(error.message);
       setIsSubmitting(false);
     }
   };

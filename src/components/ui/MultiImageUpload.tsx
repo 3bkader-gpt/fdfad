@@ -27,7 +27,7 @@ export function MultiImageUpload({ value = [], onChange }: MultiImageUploadProps
 
     // Limit to 10 images total
     if (value.length + files.length > 10) {
-      alert('You can only upload up to 10 images per product.');
+      console.error('You can only upload up to 10 images per product.');
       return;
     }
 

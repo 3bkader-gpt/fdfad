@@ -41,7 +41,7 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
       onChange(publicUrl);
     } catch (e: unknown) {
       const error = e as Error;
-      alert('Upload failed: ' + error.message);
+      console.error('Upload failed: ' + error.message);
     } finally {
       setIsUpdating(false);
     }

@@ -10,7 +10,6 @@ export function useRealtimeOrders(initialOrders: Order[]) {
   const { showOrderNotification } = useNotifications();
 
   useEffect(() => {
-    console.log('Initializing Supabase Realtime channel subscription...');
     const channel = supabase
       .channel('public-orders-realtime')
       .on(
@@ -21,7 +20,6 @@ export function useRealtimeOrders(initialOrders: Order[]) {
           table: 'orders',
         },
         (payload) => {
-          console.log('Realtime postgres_change event received:', payload);
           if (payload.eventType === 'INSERT') {
             const newOrder = payload.new as Order;
             setOrders((current) => {
@@ -40,9 +38,7 @@ export function useRealtimeOrders(initialOrders: Order[]) {
           }
         },
       )
-      .subscribe((status) => {
-        console.log(`Supabase Realtime subscription status: ${status}`);
-      });
+      .subscribe();
 
     // Polling fallback: check for new/deleted orders every 10 seconds
     const interval = setInterval(async () => {
@@ -80,7 +76,6 @@ export function useRealtimeOrders(initialOrders: Order[]) {
     }, 10000);
 
     return () => {
-      console.log('Unsubscribing from Supabase Realtime channel and clearing poll interval...');
       supabase.removeChannel(channel);
       clearInterval(interval);
     };

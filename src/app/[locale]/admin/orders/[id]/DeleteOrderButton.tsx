@@ -21,7 +21,7 @@ export function DeleteOrderButton({ orderId }: { orderId: string }) {
       if (res.success) {
         router.push('/admin');
       } else {
-        alert(res.error || 'Failed to delete order');
+        console.error(res.error || 'Failed to delete order');
       }
     } catch (e) {
       console.error(e);

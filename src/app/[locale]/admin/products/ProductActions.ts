@@ -13,8 +13,6 @@ import { ProductImageItem } from '@/types/product';
  */
 
 export async function upsertProduct(formData: FormData, id?: string) {
-  console.log(`[upsertProduct] ${id ? 'Updating' : 'Creating'} product...`);
-
   try {
     const supabase: SupabaseClient<Database> = await createClient();
 
@@ -109,7 +107,6 @@ export async function upsertProduct(formData: FormData, id?: string) {
 
     // 3. Save Product
     if (id) {
-      console.log(`[upsertProduct] Updating existing product ${id}`);
       const { error } = await supabase
         .schema('public')
         .from('products')
@@ -120,7 +117,6 @@ export async function upsertProduct(formData: FormData, id?: string) {
         throw new Error(`Database Update Error: ${error.message}`);
       }
     } else {
-      console.log('[upsertProduct] Inserting new product');
       const { data, error } = await supabase
         .schema('public')
         .from('products')
@@ -136,12 +132,10 @@ export async function upsertProduct(formData: FormData, id?: string) {
         throw new Error(`Database Insert Error: ${error?.message || 'Failed to create product.'}`);
       }
       productId = (data as { id: string }).id;
-      console.log('[upsertProduct] New product created with ID:', productId);
     }
 
     // 4. Handle Category Assignment
     if (productId && categoryId) {
-      console.log(`[upsertProduct] Syncing category ${categoryId} for product ${productId}`);
       await supabase
         .schema('public')
         .from('product_categories')
@@ -165,7 +159,6 @@ export async function upsertProduct(formData: FormData, id?: string) {
     // 5. Handle Multiple Images
     const imagesJson = formData.get('images') as string;
     if (imagesJson && productId) {
-      console.log('[upsertProduct] Syncing images...');
       const imagesList = parseJson('images');
 
       await supabase.schema('public').from('product_images').delete().eq('product_id', productId);
@@ -189,7 +182,6 @@ export async function upsertProduct(formData: FormData, id?: string) {
       }
     }
 
-    console.log('[upsertProduct] Success! Revalidating paths...');
     revalidatePath('/');
     revalidatePath('/admin/products');
     revalidatePath('/products', 'layout'); // Revalidate all product pages
@@ -203,8 +195,6 @@ export async function upsertProduct(formData: FormData, id?: string) {
 }
 
 export async function deleteProduct(id: string) {
-  console.log(`[deleteProduct] Deleting product ${id}...`);
-
   try {
     const supabase: SupabaseClient<Database> = await createClient();
 
@@ -234,7 +224,6 @@ export async function deleteProduct(id: string) {
         .filter((p): p is string => !!p);
 
       if (paths.length > 0) {
-        console.log(`[deleteProduct] Removing ${paths.length} images from storage`);
         await supabase.storage.from('product-images').remove(paths);
       }
     }
@@ -247,7 +236,6 @@ export async function deleteProduct(id: string) {
       throw new Error(error.message);
     }
 
-    console.log('[deleteProduct] Success!');
     revalidatePath('/');
     revalidatePath('/admin/products');
     return { success: true };

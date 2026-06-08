@@ -58,7 +58,7 @@ export function StatusPill({
     if (result.success) {
       setStatus(newStatus);
     } else {
-      alert(result.error);
+      console.error(result.error);
     }
     setIsUpdating(false);
     setIsOpen(false);
