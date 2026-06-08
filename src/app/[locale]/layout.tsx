@@ -66,9 +66,11 @@ export default async function LocaleLayout({
       lang={locale}
       dir={direction}
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${alexandria.variable}`}
+      suppressHydrationWarning
     >
       <body
         className={`flex min-h-full flex-col antialiased ${locale === 'ar' ? 'font-cairo' : 'font-sans'}`}
+        suppressHydrationWarning
       >
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ThemeProvider>

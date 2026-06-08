@@ -60,9 +60,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <div className="grid grid-cols-2 gap-x-5 gap-y-16 text-start">
                 {[...Array(4)].map((_, i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="bg-bg-elevated aspect-[3/4] w-full rounded-lg" />
-                    <div className="mt-3.5 h-3 w-2/3 rounded bg-zinc-200 dark:bg-zinc-800" />
-                    <div className="mt-1.5 h-2 w-1/2 rounded bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="bg-bg-elevated border-border-color aspect-[3/4] w-full rounded-lg border shadow-sm" />
+                    <div className="bg-text-secondary/20 mt-3.5 h-3 w-2/3 rounded" />
+                    <div className="bg-text-secondary/10 mt-1.5 h-2 w-1/2 rounded" />
                   </div>
                 ))}
               </div>
